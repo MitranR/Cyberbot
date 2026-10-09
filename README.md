@@ -63,7 +63,7 @@ To power your AI agents with ultra-fast LLMs and Whisper model inference, follow
 - **What it provides:** Free access to `Llama 3.3 70B` (Text & Bot Agent) and `Whisper Large v3` (Voice Transcription).
 - **Steps:**
   1. Visit [console.groq.com](https://console.groq.com) and create a free account.
-  2. Go to **API Keys** &rarr; Click **Create API Key**.
+  2. Go to **API Keys** → Click **Create API Key**.
   3. Copy your key (starts with `gsk_...`).
   4. Paste into `.env` as `GROQ_API_KEY=gsk_...`.
 
@@ -71,7 +71,7 @@ To power your AI agents with ultra-fast LLMs and Whisper model inference, follow
 - **What it provides:** Free access to open-source speech transformers and NLP models.
 - **Steps:**
   1. Visit [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens).
-  2. Create a free account &rarr; Click **New Token** (User Role: Read).
+  2. Create a free account → Click **New Token** (User Role: Read).
   3. Copy your token (starts with `hf_...`).
   4. Paste into `.env` as `HUGGINGFACE_API_KEY=hf_...`.
 
@@ -79,7 +79,7 @@ To power your AI agents with ultra-fast LLMs and Whisper model inference, follow
 - **What it provides:** Free access to `Gemini 1.5 Flash` / `Gemini 2.0 Flash` for threat reasoning.
 - **Steps:**
   1. Visit [aistudio.google.com](https://aistudio.google.com).
-  2. Click **Get API Key** &rarr; Create Key in a new project.
+  2. Click **Get API Key** → Create Key in a new project.
   3. Copy key and paste into `.env` as `GEMINI_API_KEY=AIza...`.
 
 ---
@@ -119,9 +119,9 @@ FORCE_SIMULATION_MODE=False
                        |    (src/agents/orchestrator.py)   |
                        +-------+---------+---------+-------+
                                |         |         |
-         +---------------------+         |         +---------------------+
-         |                               |                               |
-         v                               v                               v
+       +-----------------------+         |         +-----------------------+
+       |                               |                               |
+       v                               v                               v
 +------------------+           +-------------------+           +-------------------+
 | Text Scam Agent  |           | Speech & Voice    |           | Cyber Shield Bot  |
 | (text_agent.py)  |           | Spoof Agent       |           | (bot_agent.py)    |
