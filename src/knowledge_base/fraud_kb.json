@@ -1,0 +1,86 @@
+[
+  {
+    "id": "digital_arrest_scam",
+    "category": "Authority Impersonation & Digital Arrest",
+    "keywords": ["digital arrest", "police", "customs", "cbi", "ed", "fake warrant", "video call", "skype", "cyber police", "illegal package", "passport seized", "narcotics"],
+    "title": "Digital Arrest & Fake Police/Customs Threat",
+    "description": "Scammers impersonate police officers, CBI, ED, or Customs officials over video calls (Skype/WhatsApp) claiming an illegal package or warrant is linked to your Aadhaar/passport, forcing victims into 'digital arrest'.",
+    "immediate_actions": [
+      "🚨 Hang up immediately! Real law enforcement agencies (Police, CBI, Customs, ED) NEVER issue warrants or conduct trials over video calls.",
+      "📞 Verify credentials independently by calling your local police station or official government landlines.",
+      "🚫 Do NOT transfer money into 'verification' or 'escrow' accounts demanded by fake officers.",
+      "📝 Report the caller number, video screenshots, and UPI IDs on https://cybercrime.gov.in or call 1930."
+    ],
+    "source": "Official National Cyber Crime Reporting Portal (1930) & MHA Cyber Dost Advisory"
+  },
+  {
+    "id": "shared_otp_pin_fraud",
+    "category": "Banking & Payment Fraud",
+    "keywords": ["otp", "pin", "shared code", "bank password", "cvv", "card number", "upi pin", "netbanking", "bank verification"],
+    "title": "Banking Credentials / OTP / PIN Compromise",
+    "description": "Scammers trick victims into revealing OTPs, UPI PINs, passwords, or CVV under the guise of KYC updates, bank account unblocking, or card activation.",
+    "immediate_actions": [
+      "🚨 Contact your bank's emergency fraud helpline IMMEDIATELY to block credit/debit cards and disable net banking.",
+      "📱 Change passwords for net banking, UPI apps (PhonePe, GPay, Paytm), and email accounts.",
+      "⏱️ Act within the 'Golden Hour' (first 1-2 hours) and call 1930 to file a financial cyber fraud report for account freezing.",
+      "🔒 Never share OTPs or PINs. Legitimate bank officials will NEVER ask for your OTP or PIN."
+    ],
+    "source": "Reserve Bank of India (RBI) Cyber Security Guidelines & National Cybercrime Helpline 1930"
+  },
+  {
+    "id": "clicked_suspicious_link_malware",
+    "category": "Phishing & Malware",
+    "keywords": ["clicked link", "suspicious url", "apk file", "malware", "bank update link", "reward link", "sms link", "whatsapp link", "lottery link"],
+    "title": "Phishing Link & Malicious APK Installation",
+    "description": "Victims click deceptive links in SMS, WhatsApp, or email that lead to fake login pages or download malicious Android APKs designed to steal SMS OTPs and credentials.",
+    "immediate_actions": [
+      "🌐 Disconnect Wi-Fi and mobile data immediately to stop active data exfiltration.",
+      "🔑 Change passwords for all sensitive accounts (email, banking) from a SEPARATE, clean device.",
+      "📱 Inspect installed apps for recent unknown APKs (e.g. AnyDesk, QuickSupport, fake banking apps) and uninstall them.",
+      "🛡️ Clear browser cache, cookies, and perform a full antivirus device scan."
+    ],
+    "source": "CERT-In Cyber Security Advisory & Cyber Crime Safety Protocol"
+  },
+  {
+    "id": "financial_loss_transfer_recovery",
+    "category": "Financial Fraud Recovery",
+    "keywords": ["money lost", "transferred money", "fraudulent transaction", "sent money", "scammed money", "refund", "chargeback", "cyber fraud loss"],
+    "title": "Financial Loss & Fraudulent Transfer Recovery Protocol",
+    "description": "Victim has already sent money to a scammer via UPI, IMPS, NEFT, or card payment.",
+    "immediate_actions": [
+      "🚨 Dial National Cybercrime Helpline 1930 immediately! Reporting within the 'Golden Hour' allows police to freeze destination bank accounts before scammers cash out.",
+      "📞 Contact your bank's fraud reporting desk to request a payment reversal / chargeback under RBI fraudulent transaction protocols.",
+      "📄 Preserve all evidence: transaction reference numbers, UTR IDs, screenshots of chats, call logs, and receipts.",
+      "🚔 File a formal online complaint at https://cybercrime.gov.in and register an FIR at the nearest Cyber Crime Cell."
+    ],
+    "source": "RBI Circular on Customer Protection in Unauthorised Electronic Banking Transactions & Helpline 1930"
+  },
+  {
+    "id": "ai_voice_cloning_deepfake",
+    "category": "Voice & Impersonation Fraud",
+    "keywords": ["voice clone", "cloned voice", "ai voice", "fake call family", "relative accident", "kidnapping scam", "borrowed phone", "urgent money friend"],
+    "title": "AI Voice Cloning & Family Emergency Impersonation",
+    "description": "Scammers use AI deepfake voice cloning to replicate the voice of a relative, friend, or child claiming an emergency (accident, arrest, distress) and demanding immediate money transfers.",
+    "immediate_actions": [
+      "📞 Hang up and call your family member or friend directly on their known, regular mobile number.",
+      "👥 Set up a private 'family safe word' that scammers cannot know to verify identity in emergency calls.",
+      "🚫 Never transfer funds to unknown UPI IDs or third-party bank accounts provided over an unexpected call.",
+      "⚠️ Block the incoming number and alert family members about target impersonation."
+    ],
+    "source": "Cyber Fraud Defense Task Force & AI Deepfake Safety Advisory"
+  },
+  {
+    "id": "job_task_crypto_fraud",
+    "category": "Investment & Task Scams",
+    "keywords": ["part time job", "telegram task", "youtube like job", "crypto investment", "trading profit", "prepaid task", "telegram group", "work from home scam"],
+    "title": "Part-Time Task & Fake Crypto Investment Scam",
+    "description": "Victims are lured via WhatsApp/Telegram with promises of easy income for liking YouTube videos or reviewing hotels, then coerced into depositing large sums for high-return 'prepaid tasks' or fake crypto trading.",
+    "immediate_actions": [
+      "🚨 Stop transferring any further money! Scammers will make endless excuses demanding 'tax' or 'unlock fees' to release profits.",
+      "🚫 Exit suspicious Telegram channels and block numbers offering unsolicited work-from-home tasks.",
+      "📄 Export and save all Telegram chat histories, wallet addresses, bank receipts, and transaction records.",
+      "📝 Report the fraudulent investment portal and banking details on https://cybercrime.gov.in or call 1930."
+    ],
+    "source": "MHA Cyber Dost Advisory on Telegram & Investment Scams"
+  }
+]
