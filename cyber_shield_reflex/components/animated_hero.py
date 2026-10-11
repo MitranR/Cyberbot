@@ -152,27 +152,27 @@ def animated_cyberbot_insignia() -> rx.Component:
     Centerpiece SVG Cyberbot animated insignia matching the glowing helmet from the banner.
     Surrounded by rotating holographic HUD rings and glowing neon visors.
     """
-    return rx.box(
+    return rx.center(
         rx.html(
             """
-            <div style="position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <div style="position: relative; width: 170px; height: 170px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
                 <!-- Glowing Halo Background -->
-                <div class="pulse-halo-effect" style="position: absolute; width: 190px; height: 190px; border-radius: 50%; background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(29, 78, 216, 0.2) 60%, transparent 100%); filter: blur(12px);"></div>
+                <div class="pulse-halo-effect" style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(29, 78, 216, 0.2) 60%, transparent 100%); filter: blur(12px);"></div>
                 
                 <!-- Rotating Hologram Ring 1 -->
-                <svg class="holo-ring" width="210" height="210" viewBox="0 0 210 210" fill="none" style="position: absolute;">
+                <svg class="holo-ring" width="164" height="164" viewBox="0 0 210 210" fill="none" style="position: absolute;">
                     <circle cx="105" cy="105" r="98" stroke="rgba(56, 189, 248, 0.35)" stroke-width="1.5" stroke-dasharray="14 10" />
                     <circle cx="105" cy="105" r="88" stroke="rgba(29, 78, 216, 0.3)" stroke-width="1" stroke-dasharray="6 14" />
                 </svg>
 
                 <!-- Rotating Hologram Ring 2 (Counter) -->
-                <svg class="holo-ring-reverse" width="230" height="230" viewBox="0 0 230 230" fill="none" style="position: absolute;">
+                <svg class="holo-ring-reverse" width="180" height="180" viewBox="0 0 230 230" fill="none" style="position: absolute;">
                     <circle cx="115" cy="115" r="108" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" stroke-dasharray="24 16" />
                 </svg>
 
                 <!-- Floating Cyberbot Mask -->
                 <div class="hero-float-container" style="position: relative; z-index: 2;">
-                    <svg width="120" height="130" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="90" height="98" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <!-- Outer Helmet Armor -->
                         <path d="M50 8C30 8 18 24 18 48C18 68 32 94 50 104C68 94 82 68 82 48C82 24 70 8 50 8Z" 
                               fill="#071226" stroke="#38BDF8" stroke-width="3.5" stroke-linejoin="round"/>
@@ -198,10 +198,11 @@ def animated_cyberbot_insignia() -> rx.Component:
             </div>
             """
         ),
-        display="flex",
-        justify="center",
-        align="center",
         width="100%",
+        display="flex",
+        justify_content="center",
+        align_items="center",
+        margin_y="2px",
     )
 
 
@@ -242,7 +243,7 @@ def animated_hero() -> rx.Component:
                     ),
                     rx.text(
                         "AI FRAUD DEFENSE SYSTEM ACTIVE • REAL-TIME PROTECTION",
-                        font_size="12px",
+                        font_size={"initial": "11px", "sm": "12px"},
                         font_weight="700",
                         letter_spacing="0.1em",
                         color="#38BDF8",
@@ -250,14 +251,14 @@ def animated_hero() -> rx.Component:
                     ),
                     padding_x="14px",
                     padding_y="6px",
-                    background="rgba(15, 23, 42, 0.8)",
+                    background="rgba(15, 23, 42, 0.85)",
                     border="1px solid rgba(56, 189, 248, 0.35)",
                     border_radius="20px",
                     backdrop_filter="blur(10px)",
                     box_shadow="0 4px 16px rgba(0, 0, 0, 0.5)",
                     align="center",
                     spacing="2",
-                    margin_bottom="12px",
+                    margin_bottom="6px",
                 ),
 
                 # Animated Glowing Insignia
@@ -267,7 +268,7 @@ def animated_hero() -> rx.Component:
                 rx.vstack(
                     rx.heading(
                         "CYBERBOT",
-                        font_size={"initial": "36px", "sm": "48px", "md": "56px"},
+                        font_size={"initial": "34px", "sm": "46px", "md": "54px"},
                         font_weight="900",
                         letter_spacing="0.08em",
                         font_family="'Space Grotesk', sans-serif",
@@ -276,11 +277,11 @@ def animated_hero() -> rx.Component:
                         color="transparent",
                         text_shadow="0 0 30px rgba(56, 189, 248, 0.4)",
                         line_height="1.05",
-                        margin_top="10px",
+                        margin_top="4px",
                     ),
                     rx.text(
                         "AI-POWERED CYBERSECURITY ASSISTANT & FRAUD DEFENSE ENGINE",
-                        font_size={"initial": "12px", "sm": "14px", "md": "15px"},
+                        font_size={"initial": "12px", "sm": "13px", "md": "14px"},
                         font_weight="700",
                         letter_spacing="0.12em",
                         color="#E2E8F0",
@@ -289,14 +290,14 @@ def animated_hero() -> rx.Component:
                     ),
                     rx.text(
                         "Next-generation defense safeguarding citizens against synthetic deepfake voice clones, phishing SMS, and extortion threats.",
-                        font_size={"initial": "14px", "sm": "16px"},
+                        font_size={"initial": "13px", "sm": "15px"},
                         color="#94A3B8",
                         font_family="'Outfit', sans-serif",
-                        max_width="680px",
+                        max_width="660px",
                         text_align="center",
-                        margin_top="6px",
+                        margin_top="4px",
                     ),
-                    spacing="2",
+                    spacing="1",
                     align="center",
                     width="100%",
                 ),
@@ -313,13 +314,13 @@ def animated_hero() -> rx.Component:
                             ),
                             background="linear-gradient(90deg, #1D4ED8 0%, #0284C7 100%)",
                             color="#FFFFFF",
-                            font_size="15px",
-                            padding_x="24px",
-                            padding_y="14px",
+                            font_size="14px",
+                            padding_x="22px",
+                            padding_y="12px",
                             border_radius="10px",
-                            box_shadow="0 6px 24px rgba(2, 132, 199, 0.45)",
+                            box_shadow="0 6px 20px rgba(2, 132, 199, 0.45)",
                             cursor="pointer",
-                            _hover={"transform": "translateY(-2px)", "box_shadow": "0 8px 30px rgba(56, 189, 248, 0.6)"},
+                            _hover={"transform": "translateY(-2px)", "box_shadow": "0 8px 28px rgba(56, 189, 248, 0.6)"},
                             transition="all 0.2s ease-in-out",
                         ),
                         href="/scan",
@@ -336,9 +337,9 @@ def animated_hero() -> rx.Component:
                             background="rgba(15, 23, 42, 0.8)",
                             border="1px solid rgba(56, 189, 248, 0.4)",
                             color="#FFFFFF",
-                            font_size="15px",
-                            padding_x="24px",
-                            padding_y="14px",
+                            font_size="14px",
+                            padding_x="22px",
+                            padding_y="12px",
                             border_radius="10px",
                             backdrop_filter="blur(10px)",
                             cursor="pointer",
@@ -358,9 +359,9 @@ def animated_hero() -> rx.Component:
                         background="#0B132B",
                         border="1px solid #1E3A8A",
                         color="#38BDF8",
-                        font_size="15px",
-                        padding_x="22px",
-                        padding_y="14px",
+                        font_size="14px",
+                        padding_x="20px",
+                        padding_y="12px",
                         border_radius="10px",
                         cursor="pointer",
                         on_click=State.toggle_bot,  # type: ignore
@@ -370,14 +371,14 @@ def animated_hero() -> rx.Component:
                     wrap="wrap",
                     justify="center",
                     spacing="3",
-                    margin_top="18px",
+                    margin_top="14px",
                 ),
 
                 # Live Security Telemetry Cards
                 rx.grid(
                     rx.box(
                         rx.hstack(
-                            rx.icon("audio_waveform", size=20, color="#38BDF8"),
+                            rx.icon("audio_waveform", size=18, color="#38BDF8"),
                             rx.vstack(
                                 rx.text("Acoustic Spoof Detection", font_size="12px", font_weight="700", color="#FFFFFF"),
                                 rx.text("98.4% Synthetic Voice Accuracy", font_size="11px", color="#94A3B8"),
@@ -387,7 +388,7 @@ def animated_hero() -> rx.Component:
                             spacing="3",
                             align="center",
                         ),
-                        padding="14px 18px",
+                        padding="12px 16px",
                         background="rgba(15, 23, 42, 0.75)",
                         border="1px solid rgba(56, 189, 248, 0.2)",
                         border_radius="10px",
@@ -395,7 +396,7 @@ def animated_hero() -> rx.Component:
                     ),
                     rx.box(
                         rx.hstack(
-                            rx.icon("file-search", size=20, color="#38BDF8"),
+                            rx.icon("file-search", size=18, color="#38BDF8"),
                             rx.vstack(
                                 rx.text("Llama 3.3 Threat Engine", font_size="12px", font_weight="700", color="#FFFFFF"),
                                 rx.text("TF-IDF + Zero-Shot Reasoning", font_size="11px", color="#94A3B8"),
@@ -405,7 +406,7 @@ def animated_hero() -> rx.Component:
                             spacing="3",
                             align="center",
                         ),
-                        padding="14px 18px",
+                        padding="12px 16px",
                         background="rgba(15, 23, 42, 0.75)",
                         border="1px solid rgba(56, 189, 248, 0.2)",
                         border_radius="10px",
@@ -413,7 +414,7 @@ def animated_hero() -> rx.Component:
                     ),
                     rx.box(
                         rx.hstack(
-                            rx.icon("phone-call", size=20, color="#38BDF8"),
+                            rx.icon("phone-call", size=18, color="#38BDF8"),
                             rx.vstack(
                                 rx.text("National Cyber Helpline", font_size="12px", font_weight="700", color="#FFFFFF"),
                                 rx.text("Toll-Free 1930 Direct Guidance", font_size="11px", color="#94A3B8"),
@@ -423,21 +424,21 @@ def animated_hero() -> rx.Component:
                             spacing="3",
                             align="center",
                         ),
-                        padding="14px 18px",
+                        padding="12px 16px",
                         background="rgba(15, 23, 42, 0.75)",
                         border="1px solid rgba(56, 189, 248, 0.2)",
                         border_radius="10px",
                         backdrop_filter="blur(8px)",
                     ),
                     columns=rx.breakpoints(initial="1", sm="2", md="3"),
-                    spacing="4",
+                    spacing="3",
                     width="100%",
                     max_width="880px",
-                    margin_top="32px",
+                    margin_top="22px",
                 ),
                 align="center",
                 width="100%",
-                padding_y={"initial": "40px", "md": "60px"},
+                padding_y={"initial": "24px", "md": "32px"},
             ),
             position="relative",
             z_index="5",
@@ -445,12 +446,19 @@ def animated_hero() -> rx.Component:
             max_width="1200px",
             margin_x="auto",
             padding_x={"initial": "16px", "md": "32px"},
+            display="flex",
+            justify_content="center",
+            align_items="center",
         ),
         position="relative",
         overflow="hidden",
         width="100%",
-        min_height={"initial": "520px", "md": "620px"},
-        background="radial-gradient(circle at 50% 25%, #0B1E38 0%, #050B17 60%, #030712 100%)",
+        min_height={"initial": "auto", "md": "calc(100vh - 176px)"},
+        display="flex",
+        flex_direction="column",
+        justify_content="center",
+        align_items="center",
+        background="radial-gradient(circle at 50% 32%, #0B1E38 0%, #050B17 60%, #030712 100%)",
         border_bottom="1px solid #1E293B",
         box_shadow="0 10px 40px rgba(0, 0, 0, 0.8)",
     )
