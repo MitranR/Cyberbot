@@ -24,24 +24,7 @@ def animated_video_background() -> rx.Component:
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 35%, rgba(11, 30, 56, 0.38) 0%, rgba(5, 11, 23, 0.75) 60%, rgba(3, 7, 18, 0.94) 100%); pointer-events: none;"></div>
         </div>
 
-        <!-- Sleek Floating Video Sound Controller -->
-        <button
-            id="videoSoundToggleBtn"
-            onclick="window.toggleHomeBgAudio()"
-            style="position: absolute; bottom: 18px; left: 24px; z-index: 20; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.35); color: #38BDF8; border-radius: 20px; padding: 7px 14px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; backdrop-filter: blur(10px); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6); transition: all 0.2s ease-in-out;"
-            title="Toggle video music/sound"
-        >
-            <span id="soundIcon">🔊</span>
-            <span id="soundLabel">Music: ON</span>
-        </button>
-
         <style>
-        #videoSoundToggleBtn:hover {
-            transform: translateY(-2px);
-            background: rgba(30, 41, 59, 0.95);
-            border-color: #38BDF8;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
-        }
         @keyframes floatHero {
             0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.4)); }
             50% { transform: translateY(-8px) scale(1.02); filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.7)); }
@@ -72,71 +55,35 @@ def animated_video_background() -> rx.Component:
         (function() {
             function initBgVideo() {
                 const vid = document.getElementById('cyberHomeBgVideo');
-                const btn = document.getElementById('videoSoundToggleBtn');
-                const soundIcon = document.getElementById('soundIcon');
-                const soundLabel = document.getElementById('soundLabel');
                 if (!vid) return setTimeout(initBgVideo, 100);
 
                 vid.volume = 0.55;
-                window.userMutedBgVideo = false;
-
-                function updateUi(isMuted) {
-                    if (!soundIcon || !soundLabel || !btn) return;
-                    if (isMuted) {
-                        soundIcon.textContent = '🔇';
-                        soundLabel.textContent = 'Music: Muted';
-                        btn.style.borderColor = 'rgba(148, 163, 184, 0.4)';
-                        btn.style.color = '#94A3B8';
-                    } else {
-                        soundIcon.textContent = '🔊';
-                        soundLabel.textContent = 'Music: ON';
-                        btn.style.borderColor = 'rgba(56, 189, 248, 0.6)';
-                        btn.style.color = '#38BDF8';
-                    }
-                }
-
-                window.toggleHomeBgAudio = function() {
-                    if (!vid) return;
-                    if (vid.muted) {
-                        vid.muted = false;
-                        window.userMutedBgVideo = false;
-                        vid.volume = 0.55;
-                        vid.play().catch(e => console.log('Playback error:', e));
-                        updateUi(false);
-                    } else {
-                        vid.muted = true;
-                        window.userMutedBgVideo = true;
-                        updateUi(true);
-                    }
-                };
 
                 // Attempt playback with audio
                 vid.muted = false;
                 const playPromise = vid.play();
                 if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        updateUi(false);
-                    }).catch(() => {
+                    playPromise.catch(() => {
                         // Browser policy blocked unmuted autoplay; fallback to muted so video plays immediately
                         vid.muted = true;
                         vid.play().catch(e => console.log('Muted play error:', e));
-                        updateUi(true);
                     });
                 }
 
                 // Auto-unmute on first click/interaction if browser blocked initial autoplay with sound
                 function unlockAudioOnInteraction() {
-                    if (vid && vid.muted && !window.userMutedBgVideo) {
+                    if (vid && vid.muted) {
                         vid.muted = false;
                         vid.volume = 0.55;
                         vid.play().catch(e => console.log('Unlock audio error:', e));
-                        updateUi(false);
                     }
                     document.removeEventListener('click', unlockAudioOnInteraction);
                     document.removeEventListener('keydown', unlockAudioOnInteraction);
+                    document.removeEventListener('touchstart', unlockAudioOnInteraction);
                 }
                 document.addEventListener('click', unlockAudioOnInteraction, { once: true });
                 document.addEventListener('keydown', unlockAudioOnInteraction, { once: true });
+                document.addEventListener('touchstart', unlockAudioOnInteraction, { once: true });
             }
 
             if (document.readyState === 'loading') {
