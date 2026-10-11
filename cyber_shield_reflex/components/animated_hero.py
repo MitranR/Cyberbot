@@ -2,122 +2,57 @@ import reflex as rx
 from cyber_shield_reflex.state import State
 
 
-def animated_cyber_canvas() -> rx.Component:
+def animated_video_background() -> rx.Component:
     """
-    Renders dynamic HTML5 Canvas particle network & animated radar scan line.
-    Pure client-side animation running at 60fps with zero external dependencies.
+    Renders the background MP4 video centered perfectly in the background in a mild,
+    cinematic manner with gentle ambient lighting, sound/music playback, and an audio controller.
     """
     return rx.html(
         """
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1;">
-            <canvas id="cyberNetworkCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
-            <div class="radar-scanline"></div>
+            <!-- Perfectly Centered Ambient Background Video -->
+            <video
+                id="cyberHomeBgVideo"
+                src="/home_background.mp4"
+                loop
+                playsinline
+                preload="auto"
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: 100%; height: 100%; object-fit: cover; object-position: center center; opacity: 0.35; filter: contrast(1.1) brightness(0.92); pointer-events: none;"
+            ></video>
+            
+            <!-- Mild Ambient Dark Vignette Overlay for Crisp Text & Hologram Contrast -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 35%, rgba(11, 30, 56, 0.38) 0%, rgba(5, 11, 23, 0.75) 60%, rgba(3, 7, 18, 0.94) 100%); pointer-events: none;"></div>
         </div>
-        <script>
-        (function() {
-            function initCanvas() {
-                const canvas = document.getElementById('cyberNetworkCanvas');
-                if (!canvas) return setTimeout(initCanvas, 100);
-                const ctx = canvas.getContext('2d');
-                let width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
-                let height = canvas.height = canvas.parentElement.offsetHeight || 550;
 
-                window.addEventListener('resize', () => {
-                    if (!canvas.parentElement) return;
-                    width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
-                    height = canvas.height = canvas.parentElement.offsetHeight || 550;
-                });
+        <!-- Sleek Floating Video Sound Controller -->
+        <button
+            id="videoSoundToggleBtn"
+            onclick="window.toggleHomeBgAudio()"
+            style="position: absolute; bottom: 18px; left: 24px; z-index: 20; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.35); color: #38BDF8; border-radius: 20px; padding: 7px 14px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; backdrop-filter: blur(10px); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6); transition: all 0.2s ease-in-out;"
+            title="Toggle video music/sound"
+        >
+            <span id="soundIcon">🔊</span>
+            <span id="soundLabel">Music: ON</span>
+        </button>
 
-                const particleCount = Math.min(Math.floor(width / 22), 55);
-                const particles = [];
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height,
-                        vx: (Math.random() - 0.5) * 0.8,
-                        vy: (Math.random() - 0.5) * 0.8,
-                        radius: Math.random() * 2 + 1,
-                        color: Math.random() > 0.4 ? '#38BDF8' : '#1D4ED8'
-                    });
-                }
-
-                function draw() {
-                    ctx.clearRect(0, 0, width, height);
-
-                    // Draw connecting nodes
-                    for (let i = 0; i < particles.length; i++) {
-                        for (let j = i + 1; j < particles.length; j++) {
-                            const dx = particles[i].x - particles[j].x;
-                            const dy = particles[i].y - particles[j].y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            if (dist < 110) {
-                                ctx.strokeStyle = `rgba(56, 189, 248, ${0.25 * (1 - dist / 110)})`;
-                                ctx.lineWidth = 0.8;
-                                ctx.beginPath();
-                                ctx.moveTo(particles[i].x, particles[i].y);
-                                ctx.lineTo(particles[j].x, particles[j].y);
-                                ctx.stroke();
-                            }
-                        }
-                    }
-
-                    // Draw particles
-                    for (let p of particles) {
-                        ctx.fillStyle = p.color;
-                        ctx.shadowBlur = 8;
-                        ctx.shadowColor = '#38BDF8';
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                        ctx.fill();
-                        ctx.shadowBlur = 0;
-
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        if (p.x < 0 || p.x > width) p.vx *= -1;
-                        if (p.y < 0 || p.y > height) p.vy *= -1;
-                    }
-                    requestAnimationFrame(draw);
-                }
-                draw();
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initCanvas);
-            } else {
-                initCanvas();
-            }
-        })();
-        </script>
         <style>
-        @keyframes radarSweep {
-            0% { transform: translateY(-100%); opacity: 0.1; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(1000%); opacity: 0.1; }
-        }
-        .radar-scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.2) 20%, rgba(56, 189, 248, 0.9) 50%, rgba(56, 189, 248, 0.2) 80%, transparent 100%);
-            box-shadow: 0 0 16px #38BDF8;
-            animation: radarSweep 6s ease-in-out infinite;
+        #videoSoundToggleBtn:hover {
+            transform: translateY(-2px);
+            background: rgba(30, 41, 59, 0.95);
+            border-color: #38BDF8;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
         }
         @keyframes floatHero {
             0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.4)); }
-            50% { transform: translateY(-10px) scale(1.02); filter: drop-shadow(0 0 40px rgba(56, 189, 248, 0.7)); }
+            50% { transform: translateY(-8px) scale(1.02); filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.7)); }
         }
         @keyframes pulseHalo {
             0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.15); opacity: 0.7; }
+            50% { transform: scale(1.12); opacity: 0.65; }
         }
         @keyframes rotateHolo {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-        @keyframes typingCursor {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
         }
         .hero-float-container {
             animation: floatHero 4s ease-in-out infinite;
@@ -131,18 +66,86 @@ def animated_cyber_canvas() -> rx.Component:
         .pulse-halo-effect {
             animation: pulseHalo 3s ease-in-out infinite;
         }
-        .code-pill {
-            font-family: 'IBM Plex Mono', monospace;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 11px;
-            color: #38BDF8;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        }
         </style>
+
+        <script>
+        (function() {
+            function initBgVideo() {
+                const vid = document.getElementById('cyberHomeBgVideo');
+                const btn = document.getElementById('videoSoundToggleBtn');
+                const soundIcon = document.getElementById('soundIcon');
+                const soundLabel = document.getElementById('soundLabel');
+                if (!vid) return setTimeout(initBgVideo, 100);
+
+                vid.volume = 0.55;
+                window.userMutedBgVideo = false;
+
+                function updateUi(isMuted) {
+                    if (!soundIcon || !soundLabel || !btn) return;
+                    if (isMuted) {
+                        soundIcon.textContent = '🔇';
+                        soundLabel.textContent = 'Music: Muted';
+                        btn.style.borderColor = 'rgba(148, 163, 184, 0.4)';
+                        btn.style.color = '#94A3B8';
+                    } else {
+                        soundIcon.textContent = '🔊';
+                        soundLabel.textContent = 'Music: ON';
+                        btn.style.borderColor = 'rgba(56, 189, 248, 0.6)';
+                        btn.style.color = '#38BDF8';
+                    }
+                }
+
+                window.toggleHomeBgAudio = function() {
+                    if (!vid) return;
+                    if (vid.muted) {
+                        vid.muted = false;
+                        window.userMutedBgVideo = false;
+                        vid.volume = 0.55;
+                        vid.play().catch(e => console.log('Playback error:', e));
+                        updateUi(false);
+                    } else {
+                        vid.muted = true;
+                        window.userMutedBgVideo = true;
+                        updateUi(true);
+                    }
+                };
+
+                // Attempt playback with audio
+                vid.muted = false;
+                const playPromise = vid.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        updateUi(false);
+                    }).catch(() => {
+                        // Browser policy blocked unmuted autoplay; fallback to muted so video plays immediately
+                        vid.muted = true;
+                        vid.play().catch(e => console.log('Muted play error:', e));
+                        updateUi(true);
+                    });
+                }
+
+                // Auto-unmute on first click/interaction if browser blocked initial autoplay with sound
+                function unlockAudioOnInteraction() {
+                    if (vid && vid.muted && !window.userMutedBgVideo) {
+                        vid.muted = false;
+                        vid.volume = 0.55;
+                        vid.play().catch(e => console.log('Unlock audio error:', e));
+                        updateUi(false);
+                    }
+                    document.removeEventListener('click', unlockAudioOnInteraction);
+                    document.removeEventListener('keydown', unlockAudioOnInteraction);
+                }
+                document.addEventListener('click', unlockAudioOnInteraction, { once: true });
+                document.addEventListener('keydown', unlockAudioOnInteraction, { once: true });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initBgVideo);
+            } else {
+                initBgVideo();
+            }
+        })();
+        </script>
         """
     )
 
@@ -209,22 +212,23 @@ def animated_cyberbot_insignia() -> rx.Component:
 def animated_hero() -> rx.Component:
     """
     High-impact animated cybersecurity motion hero section for Cyber Fraud Shield (Cyberbot).
-    Features live canvas nodes, pulsing neon helmet insignia, cyber telemetry pills, and dynamic actions.
+    Features background MP4 video playback with sound, pulsing neon helmet insignia,
+    and centered cyber telemetry actions.
     """
     return rx.box(
-        # Background Canvas & Radar
-        animated_cyber_canvas(),
+        # Centered Background MP4 Video with mild ambient overlay & sound toggle
+        animated_video_background(),
         
-        # Grid overlay texture
+        # Subtle Cyber Grid Overlay Texture
         rx.box(
             position="absolute",
             top="0",
             left="0",
             width="100%",
             height="100%",
-            background_image="radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px)",
+            background_image="radial-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px)",
             background_size="32px 32px",
-            opacity="0.65",
+            opacity="0.45",
             pointer_events="none",
             z_index="2",
         ),
