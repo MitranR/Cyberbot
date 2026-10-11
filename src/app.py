@@ -250,7 +250,20 @@ with tab_bot:
         if st.button("💸 Money Transferred Scam", use_container_width=True):
             quick_prompt = "I transferred money to a scammer, how do I recover funds?"
 
-    st.markdown("---")
+    # Language Selector for AI Bot
+    bot_lang_choice = st.radio(
+        "🌐 Choose Assistant Language:",
+        ["🇬🇧 English", "🇮🇳 Tamil (தமிழ்)", "🇩🇪 German (Deutsch)", "🇯🇵 Japanese (日本語)"],
+        horizontal=True,
+        key="st_bot_lang_choice",
+    )
+    lang_map = {
+        "🇬🇧 English": "English",
+        "🇮🇳 Tamil (தமிழ்)": "Tamil",
+        "🇩🇪 German (Deutsch)": "German",
+        "🇯🇵 Japanese (日本語)": "Japanese",
+    }
+    selected_language = lang_map.get(bot_lang_choice, "English")
 
     # Render Chat History
     chat_container = st.container()
@@ -272,7 +285,11 @@ with tab_bot:
         # Generate Bot Response using CyberShieldBotAgent
         with st.chat_message("assistant"):
             with st.spinner("Cyber Shield Bot is analyzing threat parameters..."):
-                response_text = orchestrator.bot_agent.respond(active_prompt, st.session_state.chat_history)
+                response_text = orchestrator.bot_agent.respond(
+                    active_prompt,
+                    st.session_state.chat_history,
+                    language=selected_language,
+                )
                 st.markdown(response_text)
                 st.session_state.chat_history.append({"role": "assistant", "content": response_text})
 

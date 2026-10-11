@@ -7,8 +7,8 @@ config = rx.Config(
     plugins=[
         rx.plugins.RadixThemesPlugin(
             theme=rx.theme(
-                appearance="light",
-                accent_color="teal",
+                appearance="dark",
+                accent_color="blue",
                 radius="medium",
             )
         )

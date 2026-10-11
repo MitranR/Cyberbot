@@ -70,20 +70,20 @@ FAQS_DATA = [
 
 
 def render_faq_item(q_a: tuple) -> rx.Component:
-    """Renders a single FAQ accordion item."""
+    """Renders a single FAQ accordion item (Dark Theme)."""
     question, answer = q_a
     return rx.accordion.item(
         header=rx.text(
             question,
             font_size="15px",
             font_weight="600",
-            color="#0F172A",
+            color="#FFFFFF",
             font_family="'Outfit', sans-serif",
         ),
         content=rx.text(
             answer,
             font_size="14px",
-            color="#475569",
+            color="#CBD5E1",
             font_family="'Outfit', sans-serif",
             line_height="1.6",
         ),
@@ -92,16 +92,15 @@ def render_faq_item(q_a: tuple) -> rx.Component:
 
 def faq() -> rx.Component:
     """
-    16 Official Government FAQs Accordion Component.
-    Stretches edge-to-edge 100% full width across the screen.
+    16 Official Government FAQs Accordion Component (Dark Theme - Black, Dark Blue, White).
     """
     return rx.box(
         rx.box(
             rx.vstack(
                 rx.vstack(
-                    rx.text("FREQUENTLY ASKED QUESTIONS", font_size="11px", font_weight="700", color="#0284C7", font_family="'IBM Plex Mono', monospace", letter_spacing="0.1em"),
-                    rx.heading("Official Cyber Crime Reporting Guidance & FAQs", font_size="28px", font_weight="800", color="#0F172A", font_family="'Space Grotesk', sans-serif"),
-                    rx.text("Authoritative answers to common questions regarding cybercrime reporting, evidence handling, and legal action.", font_size="15px", color="#475569", font_family="'Outfit', sans-serif"),
+                    rx.text("FREQUENTLY ASKED QUESTIONS", font_size="11px", font_weight="700", color="#38BDF8", font_family="'IBM Plex Mono', monospace", letter_spacing="0.1em"),
+                    rx.heading("Official Cyber Crime Reporting Guidance & FAQs", font_size="28px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
+                    rx.text("Authoritative answers to common questions regarding cybercrime reporting, evidence handling, and legal action.", font_size="15px", color="#94A3B8", font_family="'Outfit', sans-serif"),
                     spacing="1",
                     align="center",
                     text_align="center",
@@ -123,7 +122,7 @@ def faq() -> rx.Component:
             padding_x={"initial": "16px", "md": "48px"},
         ),
         width="100%",
-        background="#FFFFFF",
-        border_top="1px solid #E2E8F0",
+        background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
+        border_top="1px solid #1E293B",
         id="faq-section",
     )

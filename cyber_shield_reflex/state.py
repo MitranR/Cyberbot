@@ -3,12 +3,14 @@ import reflex as rx
 from typing import Dict, Any, List
 from src.agents.speech_agent import SpeechAnalysisAgent
 from src.agents.text_agent import TextScamDetectorAgent
+from src.agents.bot_agent import CyberShieldBotAgent
 from src.database.db_manager import DatabaseManager
 
 # Initialize backend agents
 db_mgr = DatabaseManager()
 speech_agent = SpeechAnalysisAgent(db_manager=db_mgr)
 text_agent = TextScamDetectorAgent(db_manager=db_mgr)
+cyber_bot = CyberShieldBotAgent(db_manager=db_mgr)
 
 
 class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descriptor type error
@@ -58,38 +60,147 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     def toggle_disclaimer_modal(self):
         self.disclaimer_modal_open = not self.disclaimer_modal_open
 
-    # Floating AI Bot Popup State
+    # Multilingual AI Bot State (Voice In, Voice Out, Problem Solver)
     bot_open: bool = False
     bot_input: str = ""
+    bot_language: str = "English"  # "English", "Tamil", "German", "Japanese"
+    bot_language_display: str = "🇬🇧 English"
+    selected_complaint_topic: str = ""
+    auto_read_aloud: bool = False
+    speak_text: str = ""
+    speech_rate: float = 1.0
     bot_messages: List[Dict[str, str]] = [
         {
             "sender": "bot",
-            "text": "Hello! I am Cyber Fraud Shield AI. Ask me about voice clone detection, suspicious calls, or reporting fraud."
+            "text": "Hello! I am Cyberbot AI. I can solve cyber problems, answer security questions, and converse with you using voice in English, Tamil, German, or Japanese."
         }
     ]
 
     def toggle_bot(self):
         self.bot_open = not self.bot_open
 
+    def toggle_auto_read(self):
+        self.auto_read_aloud = not self.auto_read_aloud
+
+    def clear_bot_chat(self):
+        welcomes = {
+            "Tamil": "வணக்கம்! உரையாடல் அழிக்கப்பட்டது. புதிய கேள்வியை கேளுங்கள்.",
+            "German": "Hallo! Der Chat wurde zurückgesetzt. Wie kann ich Ihnen helfen?",
+            "Japanese": "こんにちは！チャットがリセットされました。ご質問をどうぞ。",
+            "English": "Chat cleared. Ask me any cyber question or query!",
+        }
+        self.bot_messages = [{"sender": "bot", "text": welcomes.get(self.bot_language, welcomes["English"])}]
+
     def set_bot_input(self, val: str):
         self.bot_input = val
 
-    def send_bot_message(self):
-        msg = self.bot_input.strip()
-        if not msg:
+    def set_bot_language(self, lang: str):
+        self.bot_language = lang
+        lang_display_map = {
+            "Tamil": "🇮🇳 தமிழ் (Tamil)",
+            "German": "🇩🇪 Deutsch (German)",
+            "Japanese": "🇯🇵 日本語 (Japanese)",
+            "English": "🇬🇧 English",
+        }
+        self.bot_language_display = lang_display_map.get(lang, "🇬🇧 English")
+        lang_welcomes = {
+            "Tamil": "வணக்கம்! மொழி தமிழில் அமைக்கப்பட்டுள்ளது. உங்கள் கேள்வியை தட்டச்சு செய்யவும் அல்லது மைக்ரோஃபோன் மூலம் பேசவும்.",
+            "German": "Hallo! Die Sprache wurde auf Deutsch umgestellt. Wie kann ich Ihnen heute helfen?",
+            "Japanese": "こんにちは！言語が日本語に設定されました。セキュリティのご質問やご相談をどうぞ。",
+            "English": "Language set to English. Ask me any cybersecurity query or use the microphone to talk!",
+        }
+        greeting = lang_welcomes.get(lang, f"Language switched to {lang}.")
+        self.bot_messages.append({"sender": "bot", "text": greeting})
+        self.speak_text = greeting
+        if self.auto_read_aloud:
+            return self.speak_bot_text(greeting)
+
+    def change_language_select(self, val: str):
+        """Dropdown handler for switching language."""
+        self.bot_language_display = val
+        if "Tamil" in val or "தமிழ்" in val:
+            lang = "Tamil"
+        elif "German" in val or "Deutsch" in val:
+            lang = "German"
+        elif "Japanese" in val or "日本語" in val:
+            lang = "Japanese"
+        else:
+            lang = "English"
+        
+        self.set_bot_language(lang)
+        return rx.call_script(f"window.currentBotLang = '{lang}';")
+
+    def handle_complaint_select(self, val: str):
+        """Dropdown handler for instant complaints / threat scenarios."""
+        if not val or not val.strip() or val.startswith("⚡"):
             return
         
-        self.bot_messages.append({"sender": "user", "text": msg})
+        prompt_map = {
+            "🚨 1930 Helpline - Report Fraud": "How do I report fraud to national helpline 1930 within the golden hour?",
+            "🛑 Digital Arrest - Fake Police": "What should I do if someone calls threatening a digital arrest from police or CBI?",
+            "🎙️ Voice Clone - Deepfake Call": "How do I protect against and handle an AI voice cloning scam call?",
+            "💳 Bank OTP & KYC Scam": "I accidentally shared my bank OTP with an unknown caller! How do I block my account?",
+            "💼 Telegram Task Scheme": "I was scammed by a work from home Telegram like-video prepaid task scheme!",
+            "🔞 Sextortion - Video Blackmail": "Someone recorded an explicit video call and is blackmailing to leak it to my contacts!",
+            "📱 SIM Swap - Lost Signal": "My phone suddenly lost network signal and shows no service! How do I stop a SIM swap?",
+            "📦 FedEx Customs Parcel Hold": "I got a call claiming customs seized a FedEx courier with contraband in my name!",
+            "📲 Malicious APK & AnyDesk": "I was tricked into installing an APK and AnyDesk on my phone! How do I secure it?",
+            "🔓 Hacked Account Recovery": "How do I recover my hacked Instagram and WhatsApp accounts?",
+            "🔐 Strong Password & 2FA": "How to create an uncrackable password and secure my accounts with 2FA?",
+            "💻 Python Security Script": "Write a python script to check password strength and entropy",
+        }
+        query = prompt_map.get(val, val)
+        self.selected_complaint_topic = ""
+        return self._process_bot_message(query)
+
+    def _process_bot_message(self, msg: str):
+        cleaned = msg.strip() if msg else ""
+        if not cleaned:
+            return
+        
+        self.bot_messages.append({"sender": "user", "text": cleaned})
         self.bot_input = ""
         
-        # Query backend text agent
-        res = text_agent.analyze(msg)
-        scam_type = res.get("scam_type", "Standard Query")
-        threat = res.get("threat_level", "Info")
-        advice = res.get("actionable_advice", "Always verify unexpected callers before providing sensitive info.")
+        # Format conversation history
+        history = []
+        for m in self.bot_messages[-6:]:
+            role = "user" if m.get("sender") == "user" else "assistant"
+            history.append({"role": role, "content": m.get("text", "")})
         
-        reply = f"🤖 AI Shield Analysis:\nThreat: {scam_type} ({threat})\nRecommendation: {advice}"
+        # Invoke enhanced multilingual CyberShieldBotAgent
+        reply = cyber_bot.respond(cleaned, chat_history=history, language=self.bot_language)
         self.bot_messages.append({"sender": "bot", "text": reply})
+        self.speak_text = reply
+
+        if self.auto_read_aloud:
+            return self.speak_bot_text(reply)
+
+    def handle_chat_submit(self, form_data: dict):
+        """Single-enter and single-click native form submission handler."""
+        msg = form_data.get("message", "")
+        if not msg:
+            msg = self.bot_input
+        return self._process_bot_message(msg)
+
+    def send_bot_message(self):
+        """Button or script triggered submission."""
+        return self._process_bot_message(self.bot_input)
+
+    def submit_voice_message(self, spoken_text: str):
+        """Receives spoken transcript from browser Web Speech API and processes it."""
+        if spoken_text and spoken_text.strip():
+            return self._process_bot_message(spoken_text.strip())
+
+    def send_quick_prompt(self, prompt: str):
+        return self._process_bot_message(prompt)
+
+    def speak_bot_text(self, text: str):
+        import json
+        clean_text = text.replace("*", "").replace("#", "").replace("`", "").replace(">", "").replace("\n", " ")
+        return rx.call_script(f"window.cyberBotTTS.speak({json.dumps(clean_text)}, '{self.bot_language}');")
+
+    def stop_bot_speech(self):
+        return rx.call_script("window.cyberBotTTS.stopSpeaking();")
 
     def set_active_tab(self, tab: str):
         self.active_tab = tab
@@ -175,6 +286,10 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
             
         self.is_analyzing = False
         self.analysis_done = True
+
+    def analyze_text_scam(self):
+        """Alias for run_text_scan."""
+        return self.run_text_scan()
 
     def run_suspect_text_sample(self, sample: str):
         """Runs text_agent analysis on pre-configured suspect text sample."""

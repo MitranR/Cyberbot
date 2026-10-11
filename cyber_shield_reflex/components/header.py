@@ -3,28 +3,27 @@ import reflex as rx
 
 def custom_shield_logo():
     """
-    Original inline SVG Shield Logo Mark for Cyber Fraud Shield.
-    Designed with institutional trust aesthetic without using official government seals.
+    Inline SVG Shield Logo Mark for Cyber Fraud Shield (Dark Mode - Black & Dark Blue Theme).
     """
     return rx.html(
         """
         <svg width="36" height="40" viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 2L3 8V18C3 27.5 9.5 35.8 18 38C26.5 35.8 33 27.5 33 18V8L18 2Z" fill="#0A1F2E" stroke="#1B6E5B" stroke-width="2.5" stroke-linejoin="round"/>
-            <path d="M18 9L27 13.5V19.5C27 24.8 23.2 29.8 18 31.5C12.8 29.8 9 24.8 9 19.5V13.5L18 9Z" fill="#1B6E5B" opacity="0.85"/>
-            <path d="M14 19.5L17 22.5L23 16.5" stroke="#F0F4F3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 2L3 8V18C3 27.5 9.5 35.8 18 38C26.5 35.8 33 27.5 33 18V8L18 2Z" fill="#0F172A" stroke="#38BDF8" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M18 9L27 13.5V19.5C27 24.8 23.2 29.8 18 31.5C12.8 29.8 9 24.8 9 19.5V13.5L18 9Z" fill="#1E3A8A" opacity="0.9"/>
+            <path d="M14 19.5L17 22.5L23 16.5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         """
     )
 
 
 def nav_link(label: str, href: str) -> rx.Component:
-    """Helper for clean full-page navigation link."""
+    """Helper for clean dark-theme navigation link."""
     return rx.link(
         rx.text(
             label,
             font_size="14px",
             font_weight="600",
-            color="#0D1B1E",
+            color="#E2E8F0",
             font_family="'Outfit', sans-serif",
             user_select="none",
         ),
@@ -32,17 +31,17 @@ def nav_link(label: str, href: str) -> rx.Component:
         padding_x="14px",
         padding_y="8px",
         border_radius="6px",
-        _hover={"background": "#F0F4F3", "color": "#1B6E5B"},
+        _hover={"background": "#1E293B", "color": "#38BDF8"},
         text_decoration="none",
     )
 
 
 def header() -> rx.Component:
     """
-    Header Component with full-width responsive ribbon layout and clean navigation links.
+    Header Component with Black & Dark Blue theme styling and white text/accents.
     """
     return rx.box(
-        # Tier 1: Utility Strip (Deep Green background)
+        # Tier 1: Utility Strip (Pure Black background with Dark Blue accent border)
         rx.box(
             rx.box(
                 rx.hstack(
@@ -58,7 +57,7 @@ def header() -> rx.Component:
                             font_size="11px",
                             font_weight="700",
                             letter_spacing="0.08em",
-                            color="#F0F4F3",
+                            color="#38BDF8",
                             font_family="'IBM Plex Mono', monospace",
                             user_select="none",
                         ),
@@ -72,12 +71,12 @@ def header() -> rx.Component:
                 width="100%",
                 padding_x="32px",
             ),
-            background="#0B3D2E",
-            border_bottom="1px solid #145C46",
+            background="#030712",
+            border_bottom="1px solid #1E293B",
             width="100%",
         ),
         
-        # Tier 2: Main Navigation Bar (White background, Sticky)
+        # Tier 2: Main Navigation Bar (Dark Blue & Black background, Sticky)
         rx.box(
             rx.box(
                 rx.hstack(
@@ -90,7 +89,7 @@ def header() -> rx.Component:
                                     "Cyber Fraud Shield",
                                     font_size="20px",
                                     font_weight="800",
-                                    color="#0A1F2E",
+                                    color="#FFFFFF",
                                     font_family="'Space Grotesk', sans-serif",
                                     line_height="1.1",
                                 ),
@@ -98,7 +97,7 @@ def header() -> rx.Component:
                                     "Voice & Fraud Intelligence Platform",
                                     font_size="11px",
                                     font_weight="600",
-                                    color="#1B6E5B",
+                                    color="#38BDF8",
                                     font_family="'Outfit', sans-serif",
                                     letter_spacing="0.02em",
                                 ),
@@ -130,9 +129,9 @@ def header() -> rx.Component:
                 width="100%",
                 padding_x="32px",
             ),
-            background="#FFFFFF",
-            border_bottom="1px solid rgba(13, 27, 30, 0.08)",
-            box_shadow="0 2px 8px rgba(10, 31, 46, 0.04)",
+            background="#0B132B",
+            border_bottom="1px solid #1E293B",
+            box_shadow="0 4px 20px rgba(0, 0, 0, 0.5)",
             width="100%",
         ),
         position="sticky",

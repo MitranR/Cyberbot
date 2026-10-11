@@ -10,11 +10,13 @@ from cyber_shield_reflex.components.footer import footer
 from cyber_shield_reflex.components.bot_agent import bot_agent
 from cyber_shield_reflex.components.suspect_intelligence import suspect_intelligence
 from cyber_shield_reflex.components.faq import faq
+from cyber_shield_reflex.components.animated_hero import animated_hero
 from cyber_shield_reflex.components.user_modal import user_modal
 
 __all__ = [
     "header",
     "hero",
+    "animated_hero",
     "agent_ecosystem",
     "how_it_works",
     "pricing_tiers",
