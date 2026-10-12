@@ -13,6 +13,10 @@ text_agent = TextScamDetectorAgent(db_manager=db_mgr)
 cyber_bot = CyberShieldBotAgent(db_manager=db_mgr)
 
 
+# Module-level audio cache to store raw bytes in memory without frontend serialization
+_uploaded_audio_cache: Dict[str, bytes] = {}
+
+
 class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descriptor type error
     """
     Reflex Reactive Application State.
@@ -26,6 +30,10 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     is_analyzing: bool = False
     analysis_done: bool = False
     uploaded_filename: str = ""
+    uploaded_file_size: str = ""
+    is_file_ready: bool = False
+    show_upload_toast: bool = False
+    upload_toast_message: str = ""
     text_input: str = ""
     
     # Verdict output variables
@@ -208,21 +216,84 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     def set_text_input(self, val: str):
         self.text_input = val
 
-    async def handle_upload(self, files: List[rx.UploadFile]):
+    async def handle_file_upload(self, files: List[rx.UploadFile]):
         """
-        Reflex Event Handler for audio file uploads.
-        Reads raw audio bytes and passes directly to speech_agent.analyze_audio.
+        Triggered immediately when an audio file is selected from the device dialog or dropped.
+        Reads file bytes into local cache, calculates size, sets visual ready state,
+        and displays a pop-up confirmation message for 2.5 to 3 seconds.
         """
         if not files:
             return
-        
-        self.is_analyzing = True
-        yield
         
         upload_file = files[0]
         fname = upload_file.filename or "uploaded_audio.wav"
         self.uploaded_filename = fname
         upload_bytes = await upload_file.read()
+        _uploaded_audio_cache[fname] = upload_bytes
+        
+        # Calculate human-friendly file size
+        size_bytes = len(upload_bytes)
+        if size_bytes >= 1024 * 1024:
+            self.uploaded_file_size = f"{size_bytes / (1024 * 1024):.2f} MB"
+        else:
+            self.uploaded_file_size = f"{max(size_bytes / 1024, 0.1):.1f} KB"
+            
+        self.is_file_ready = True
+        self.show_upload_toast = True
+        self.upload_toast_message = f"Audio '{fname}' ({self.uploaded_file_size}) is ready for AI analysis."
+        
+        # Trigger native toast notification
+        yield rx.toast.success(f"File uploaded successfully! ({fname})", duration=3000)
+        
+        # Keep floating pop-up visible for 3 seconds then auto-dismiss
+        await asyncio.sleep(3)
+        self.show_upload_toast = False
+
+    def dismiss_upload_toast(self):
+        """Dismisses the floating upload success toast."""
+        self.show_upload_toast = False
+
+    def clear_uploaded_file(self):
+        """Clears current selected file and resets upload component."""
+        if self.uploaded_filename in _uploaded_audio_cache:
+            del _uploaded_audio_cache[self.uploaded_filename]
+        self.uploaded_filename = ""
+        self.uploaded_file_size = ""
+        self.is_file_ready = False
+        self.show_upload_toast = False
+        return rx.clear_selected_files("audio_upload")
+
+    async def handle_upload(self, files: List[rx.UploadFile] = []):
+        """
+        Reflex Event Handler triggered when clicking 'Analyze Uploaded File'.
+        Processes the previously uploaded audio or newly provided files.
+        """
+        upload_bytes = None
+        fname = self.uploaded_filename
+        
+        # Check if files were passed via the button directly
+        if files:
+            upload_file = files[0]
+            fname = upload_file.filename or "uploaded_audio.wav"
+            self.uploaded_filename = fname
+            upload_bytes = await upload_file.read()
+            _uploaded_audio_cache[fname] = upload_bytes
+            
+            size_bytes = len(upload_bytes)
+            if size_bytes >= 1024 * 1024:
+                self.uploaded_file_size = f"{size_bytes / (1024 * 1024):.2f} MB"
+            else:
+                self.uploaded_file_size = f"{max(size_bytes / 1024, 0.1):.1f} KB"
+            self.is_file_ready = True
+        elif fname and fname in _uploaded_audio_cache:
+            upload_bytes = _uploaded_audio_cache[fname]
+
+        if not upload_bytes:
+            yield rx.toast.warning("Please upload an audio file first before analyzing!", duration=3000)
+            return
+        
+        self.is_analyzing = True
+        yield
         
         # Invoke backend speech agent
         result = speech_agent.analyze_audio(upload_bytes, filename=fname)
