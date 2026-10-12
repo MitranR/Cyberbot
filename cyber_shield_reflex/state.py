@@ -46,12 +46,21 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     spoof_engine: str = "Hugging Face (Mitran14/speach-agent)"
     overall_voice_risk_score: int = 15
     threat_level: str = "Safe"
-    scam_type: str = "Legitimate / Clean"
+    scam_type: str = "Legitimate / Non-Threat Call"
+    
+    # Cross-Attention Transformer & LwF Methodology Variables
+    analysis_method: str = "Cross-Attention Transformer & LwF"
+    threat_verdict: str = "SAFE / NON-THREAT"
+    threat_probability: int = 12
+    cross_attention_alignment: float = 85.0
+    urgency_score: int = 25
+    detected_triggers: List[str] = []
+    
     matched_tactics: List[str] = ["Standard acoustic check completed"]
     warning_signs: List[str] = ["No obvious threat patterns detected."]
     actionable_advice: str = "Always verify unknown callers through official bank channels."
     artifacts_detected: List[str] = ["Natural background noise", "Human breath pauses"]
-    engine_used: str = "Hugging Face (Mitran14/speach-agent)"
+    engine_used: str = "Cross-Attention Transformer & LwF"
     idempotent_hit: bool = False
 
     # Complaint Prerequisites & Disclaimer Dialog State
@@ -388,6 +397,17 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.spoof_engine = result.get("voice_spoof_engine", "")
         self.idempotent_hit = result.get("idempotent_hit", False)
         
+        # Cross-Attention Transformer & LwF continual learning attributes
+        self.analysis_method = result.get("model_method", "Cross-Attention Transformer & LwF")
+        self.threat_verdict = result.get("threat_verdict", "SAFE / NON-THREAT")
+        self.threat_probability = int(result.get("threat_probability", 15))
+        self.scam_type = result.get("scam_type", "Legitimate / Non-Threat Call")
+        self.cross_attention_alignment = float(result.get("cross_attention_alignment", 85.0))
+        self.urgency_score = int(result.get("urgency_score", 50))
+        self.detected_triggers = result.get("detected_triggers", [])
+        self.actionable_advice = result.get("actionable_advice", "")
+        self.engine_used = self.analysis_method
+        
         voice_metrics = result.get("voice_spoof_metrics", {})
         is_synthetic = voice_metrics.get("is_synthetic", False)
         self.synthetic_confidence = voice_metrics.get("synthetic_confidence", 0)
@@ -396,16 +416,13 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.artifacts_detected = voice_metrics.get("artifacts_detected", [])
         
         content_res = result.get("content_analysis", {})
-        self.scam_type = content_res.get("scam_type", "None")
         self.matched_tactics = content_res.get("matched_tactics", [])
         self.warning_signs = content_res.get("key_warning_signs", [])
-        self.actionable_advice = content_res.get("actionable_advice", "")
-        self.engine_used = result.get("voice_spoof_engine", "Hugging Face Engine")
         
-        if is_synthetic or self.synthetic_confidence > 60:
-            self.verdict = "SPOOFED"
-        elif self.synthetic_confidence > 35 or self.overall_voice_risk_score > 50:
-            self.verdict = "UNCERTAIN"
+        if self.threat_verdict == "THREAT DETECTED" or self.overall_voice_risk_score > 60:
+            self.verdict = "SPOOFED"  # High Risk Threat
+        elif self.overall_voice_risk_score > 35 or self.synthetic_confidence > 35:
+            self.verdict = "UNCERTAIN"  # Caution / Moderate Risk
         else:
-            self.verdict = "GENUINE"
+            self.verdict = "GENUINE"  # Safe / Clean Voice
             

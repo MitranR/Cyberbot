@@ -5,13 +5,15 @@ import numpy as np
 from typing import Dict, Any, Tuple
 from src.config import Config
 from src.agents.text_agent import TextScamDetectorAgent
+from src.models.lwf_engine import LwFInferenceEngine
 
 class SpeechAnalysisAgent:
     """
-    AI Agent responsible for speech processing:
+    AI Agent responsible for speech threat & voice fraud processing:
     1. Speech-to-Text Transcription (Groq Whisper Large v3 / HuggingFace Whisper / Local Simulator)
-    2. AI Voice Spoof / Cloned Voice Detection (Spectral & Pitch Variance Analysis)
-    3. Content Fraud Analysis (piping transcription into TextScamDetectorAgent)
+    2. Cross-Attention Transformer & LwF Multimodal Threat Evaluation
+    3. AI Voice Spoof / Cloned Voice Detection (Spectral & Pitch Variance Analysis)
+    4. Text Scam Content Detection
     """
     
     def __init__(self, db_manager=None):
@@ -22,10 +24,13 @@ class SpeechAnalysisAgent:
             db_manager = DatabaseManager()
         self.db = db_manager
         self.text_agent = TextScamDetectorAgent(db_manager=self.db)
+        self.lwf_engine = LwFInferenceEngine()
 
     def analyze_audio(self, audio_bytes: bytes, filename: str = "recording.wav", idempotency_key: str = None) -> Dict[str, Any]:
         """
         Main entry point to analyze an uploaded audio clip with end-to-end data idempotency.
+        Converts speech into text, extracts acoustic features, and passes through
+        the Cross-Attention Transformer & LwF Continual Learning model to assess threat level.
         """
         # Step 0: Idempotency Key Check
         if not idempotency_key:
@@ -36,37 +41,57 @@ class SpeechAnalysisAgent:
         if cached_res:
             return cached_res
 
-        # Step 1: Transcribe audio to text
+        # Step 1: Transcribe audio to text (Speech-to-Text conversion)
         transcription, transcription_engine = self._transcribe(audio_bytes, filename)
         
-        # Step 2: Detect Synthetic / Cloned Voice traits
+        # Step 2: Cross-Attention Transformer & LwF Threat Analysis
+        lwf_result = self.lwf_engine.analyze_audio_and_text(audio_bytes, transcription)
+        
+        # Step 3: Detect Synthetic / Cloned Voice traits
         voice_metrics, spoof_engine = self._detect_voice_spoof(audio_bytes, filename)
         
-        # Step 3: Run Fraud Content Analysis on transcribed text
+        # Step 4: Run Fraud Content Analysis on transcribed text
         content_analysis = self.text_agent.analyze(transcription)
         
         # Combined Assessment
-        is_synthetic = voice_metrics["is_synthetic"]
-        synthetic_confidence = voice_metrics["synthetic_confidence"]
+        is_synthetic = voice_metrics.get("is_synthetic", False)
+        synthetic_confidence = voice_metrics.get("synthetic_confidence", 0)
         
-        # Overall Voice Scam Threat Rating
+        # Final Risk Score from Cross-Attention Transformer
+        model_risk_score = lwf_result.get("risk_score", 0)
         text_score = content_analysis.get("risk_score", 0)
-        voice_risk_score = min(100, int((text_score * 0.6) + (synthetic_confidence * 0.4 if is_synthetic else text_score * 0.4)))
+        combined_risk_score = max(model_risk_score, text_score)
+        if is_synthetic and combined_risk_score < 70:
+            combined_risk_score = min(100, combined_risk_score + int(synthetic_confidence * 0.3))
         
         result = {
             "transcription": transcription,
             "transcription_engine": transcription_engine,
+            "model_method": lwf_result.get("model_method", "Cross-Attention Transformer & LwF"),
+            "model_architecture": lwf_result.get("model_architecture", ""),
+            "threat_verdict": lwf_result.get("threat_verdict", "SAFE / NON-THREAT"),
+            "threat_probability": lwf_result.get("threat_probability", 10),
+            "scam_type": lwf_result.get("threat_type", "Legitimate / Non-Threat Call"),
+            "cross_attention_alignment": lwf_result.get("cross_attention_alignment", 85.0),
+            "urgency_score": lwf_result.get("urgency_score", 50),
+            "detected_triggers": lwf_result.get("detected_triggers", []),
+            "overall_voice_risk_score": combined_risk_score,
+            "overall_threat_level": lwf_result.get("threat_level", "Caution"),
+            "actionable_advice": lwf_result.get("actionable_advice", ""),
             "voice_spoof_metrics": voice_metrics,
             "voice_spoof_engine": spoof_engine,
             "content_analysis": content_analysis,
-            "overall_voice_risk_score": voice_risk_score,
-            "overall_threat_level": content_analysis.get("threat_level", "Caution"),
-            "summary": f"Voice clip transcribed. Synthetic Voice Probability: {synthetic_confidence}%. Fraud Content Score: {text_score}/100.",
+            "summary": (
+                f"Transcribed using {transcription_engine}. "
+                f"Evaluated via Cross-Attention Transformer & LwF: {lwf_result.get('threat_verdict')} "
+                f"({lwf_result.get('threat_type')}, Risk: {combined_risk_score}/100, "
+                f"Attention Alignment: {lwf_result.get('cross_attention_alignment')}%)."
+            ),
             "idempotent_hit": False,
             "idempotency_key": idempotency_key
         }
 
-        # Step 4: Cache result in idempotency table
+        # Step 5: Cache result in idempotency table
         self.db.save_idempotent_record(
             idempotency_key=idempotency_key,
             request_hash=idempotency_key.split(":")[-1],
@@ -106,13 +131,34 @@ class SpeechAnalysisAgent:
                 print(f"[SpeechAgent] Groq Whisper failed: {e}. Using simulated transcription.")
 
         # Built-in simulation fallback transcription based on demo samples or content
+        fn_lower = filename.lower()
+        if "natural" in fn_lower or "clean" in fn_lower or "safe" in fn_lower or "legit" in fn_lower:
+            return (
+                "Hello, this is Dr. Patel's clinic calling to confirm your routine checkup appointment tomorrow at 10 AM. Have a wonderful day.",
+                "Built-in Speech Transcription Engine (Natural Voice)",
+            )
+        elif "bank" in fn_lower or "otp" in fn_lower:
+            return (
+                "Emergency alert from your bank security team. Your online banking account has been temporarily disabled due to suspicious login attempts. Press 1 to verify your account or speak your 6 digit OTP.",
+                "Built-in Speech Transcription Engine (Bank Scam Scenario)",
+            )
+        elif "customs" in fn_lower or "police" in fn_lower or "law" in fn_lower:
+            return (
+                "This is Officer Sharma from Delhi Police Cyber Crime Cell. A package was seized under your ID and an arrest warrant is issued. Settle penalties immediately.",
+                "Built-in Speech Transcription Engine (Police Threat Scenario)",
+            )
+        elif "accident" in fn_lower or "family" in fn_lower or "son" in fn_lower:
+            return (
+                "Hey son, I lost my phone and wallet in an accident. I am calling from a borrowed phone. Please send five hundred dollars to this UPI account right now, it is urgent.",
+                "Built-in Speech Transcription Engine (Family Impersonation Scenario)",
+            )
+        
         simulated_texts = [
             "Emergency alert from your bank security team. Your online banking account has been temporarily disabled due to suspicious login attempts. Press 1 to verify your account or speak your 6 digit OTP.",
             "Hello, this is customs enforcement calling regarding package track number 4819. A parcel containing prohibited items has been seized in your name. To avoid legal prosecution, please transfer the security deposit immediately.",
-            "Hey son, I lost my phone and wallet in an accident. I am calling from a borrowed phone. Please send five hundred dollars to this UPI account right now, it is urgent."
+            "Hey son, I lost my phone and wallet in an accident. I am calling from a borrowed phone. Please send five hundred dollars to this UPI account right now, it is urgent.",
+            "Hello, this is an automated reminder regarding your scheduled library book return on Friday afternoon.",
         ]
-        
-        # Deterministically select sample based on length of audio bytes
         sample_idx = len(audio_bytes) % len(simulated_texts)
         return simulated_texts[sample_idx], "Built-in Speech Transcription Engine (Simulation Mode)"
 

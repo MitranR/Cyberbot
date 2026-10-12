@@ -3,15 +3,20 @@ from cyber_shield_reflex.state import State
 
 
 def verdict_badge():
-    """Renders the executive verdict card banner based on State.verdict."""
+    """Renders the executive verdict card banner based on Cross-Attention Transformer & LwF threat verdict."""
     return rx.cond(
-        State.verdict == "SPOOFED",
+        (State.threat_verdict == "THREAT DETECTED") | (State.verdict == "SPOOFED"),
         rx.box(
             rx.hstack(
                 rx.icon("triangle-alert", size=28, color="#FFFFFF"),
                 rx.vstack(
-                    rx.heading("HIGH RISK: AI CLONED / SYNTHETIC VOICE DETECTED", font_size="18px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
-                    rx.text(f"Synthetic Voice Confidence: {State.synthetic_confidence}% | Threat Level: {State.threat_level}", font_size="13px", color="rgba(255,255,255,0.9)", font_family="'IBM Plex Mono', monospace"),
+                    rx.hstack(
+                        rx.heading("HIGH RISK: VOICE THREAT DETECTED", font_size="18px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
+                        rx.badge("Cross-Attention Transformer & LwF", color_scheme="red", variant="solid", size="1"),
+                        spacing="2",
+                        align="center",
+                    ),
+                    rx.text(f"Threat Probability: {State.threat_probability}% | Type: {State.scam_type} | Threat Level: {State.threat_level}", font_size="13px", color="rgba(255,255,255,0.9)", font_family="'IBM Plex Mono', monospace"),
                     spacing="0",
                     align="start",
                 ),
@@ -31,8 +36,13 @@ def verdict_badge():
                 rx.hstack(
                     rx.icon("circle-alert", size=28, color="#FFFFFF"),
                     rx.vstack(
-                        rx.heading("CAUTION: SUSPICIOUS ACOUSTIC PATTERN", font_size="18px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
-                        rx.text(f"Synthetic Voice Confidence: {State.synthetic_confidence}% | Threat Level: {State.threat_level}", font_size="13px", color="rgba(255,255,255,0.9)", font_family="'IBM Plex Mono', monospace"),
+                        rx.hstack(
+                            rx.heading("CAUTION: SUSPICIOUS ACOUSTIC & CONTENT PATTERN", font_size="18px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
+                            rx.badge("Cross-Attention Transformer", color_scheme="orange", variant="solid", size="1"),
+                            spacing="2",
+                            align="center",
+                        ),
+                        rx.text(f"Threat Probability: {State.threat_probability}% | Threat Level: {State.threat_level} | Alignment: {State.cross_attention_alignment}%", font_size="13px", color="rgba(255,255,255,0.9)", font_family="'IBM Plex Mono', monospace"),
                         spacing="0",
                         align="start",
                     ),
@@ -46,13 +56,18 @@ def verdict_badge():
                 margin_bottom="20px",
                 width="100%",
             ),
-            # Default / GENUINE
+            # Default / SAFE / GENUINE
             rx.box(
                 rx.hstack(
                     rx.icon("shield-check", size=28, color="#FFFFFF"),
                     rx.vstack(
-                        rx.heading("SAFE: NATURAL VOICE ACOUSTICS VERIFIED", font_size="18px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
-                        rx.text(f"Synthetic Voice Confidence: {State.synthetic_confidence}% | Threat Level: {State.threat_level}", font_size="13px", color="rgba(255,255,255,0.9)", font_family="'IBM Plex Mono', monospace"),
+                        rx.hstack(
+                            rx.heading("SAFE: NO THREAT DETECTED (LEGITIMATE CALL)", font_size="18px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
+                            rx.badge("Verified by LwF Model", color_scheme="green", variant="solid", size="1"),
+                            spacing="2",
+                            align="center",
+                        ),
+                        rx.text(f"Threat Probability: {State.threat_probability}% | Classification: {State.scam_type} | Threat Level: {State.threat_level}", font_size="13px", color="rgba(255,255,255,0.9)", font_family="'IBM Plex Mono', monospace"),
                         spacing="0",
                         align="start",
                     ),
@@ -415,18 +430,35 @@ def analysis_panel() -> rx.Component:
                             
                             # Col 2: Fraud Evaluation & Advisory
                             rx.vstack(
-                                rx.heading("AI Fraud Intelligence Report", font_size="16px", font_weight="700", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
+                                rx.hstack(
+                                    rx.heading("AI Threat Intelligence Report", font_size="16px", font_weight="700", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
+                                    rx.badge("Cross-Attention Transformer & LwF", color_scheme="blue", variant="surface", size="1"),
+                                    spacing="2",
+                                    align="center",
+                                ),
                                 rx.box(
                                     rx.vstack(
                                         rx.hstack(
                                             rx.text("Threat Classification:", font_size="13px", font_weight="600", color="#94A3B8"),
-                                            rx.text(State.scam_type, font_size="13px", font_weight="700", color="#F87171"),
+                                            rx.text(State.scam_type, font_size="13px", font_weight="700", color=rx.cond(State.threat_verdict == "THREAT DETECTED", "#F87171", "#34D399")),
+                                            justify="between",
+                                            width="100%",
+                                        ),
+                                        rx.hstack(
+                                            rx.text("Threat Probability:", font_size="13px", font_weight="600", color="#94A3B8"),
+                                            rx.text(f"{State.threat_probability}%", font_size="14px", font_weight="800", color=rx.cond(State.threat_probability > 50, "#F87171", "#34D399"), font_family="'IBM Plex Mono', monospace"),
+                                            justify="between",
+                                            width="100%",
+                                        ),
+                                        rx.hstack(
+                                            rx.text("Cross-Attention Alignment:", font_size="13px", font_weight="600", color="#94A3B8"),
+                                            rx.text(f"{State.cross_attention_alignment}%", font_size="13px", font_weight="700", color="#38BDF8", font_family="'IBM Plex Mono', monospace"),
                                             justify="between",
                                             width="100%",
                                         ),
                                         rx.hstack(
                                             rx.text("Combined Risk Score:", font_size="13px", font_weight="600", color="#94A3B8"),
-                                            rx.text(f"{State.overall_voice_risk_score} / 100", font_size="14px", font_weight="800", color="#F87171", font_family="'IBM Plex Mono', monospace"),
+                                            rx.text(f"{State.overall_voice_risk_score} / 100", font_size="14px", font_weight="800", color=rx.cond(State.overall_voice_risk_score > 50, "#F87171", "#34D399"), font_family="'IBM Plex Mono', monospace"),
                                             justify="between",
                                             width="100%",
                                         ),
