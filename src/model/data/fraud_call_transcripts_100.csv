@@ -1,0 +1,101 @@
+﻿sample_id,fraud_type,transcript_text,label,language
+1,Bank account blocked,Your bank account will be blocked today. Share your OTP to reactivate it immediately.,fraud,English
+2,KYC update,Your KYC has expired. Click the link I sent and enter your bank details to avoid account suspension.,fraud,English
+3,Card cancellation,I am calling from your bank. Read out the full card number and CVV so I can stop the cancellation.,fraud,English
+4,UPI refund,Your UPI refund is pending. Approve the collect request on your phone to receive the money.,fraud,English
+5,Wrong UPI transfer,I sent money to you by mistake. Please scan this QR code and pay it back.,fraud,English
+6,Fake bank reward,You have won a bank reward. Pay a small processing fee to claim it.,fraud,English
+7,Credit card limit,We can increase your credit card limit instantly. Tell me the OTP you just received.,fraud,English
+8,Loan approval fee,Your loan is approved. Transfer the file-opening fee before we release the amount.,fraud,English
+9,Fake bank investigation,Your account is under investigation. Move your funds to this safe account while we verify them.,fraud,English
+10,ATM card replacement,Your ATM card is blocked. Tell me your PIN so I can issue a replacement.,fraud,English
+11,Insurance maturity,Your insurance policy has matured. Pay the tax fee first to receive the payout.,fraud,English
+12,Fake policy bonus,You are eligible for a policy bonus. Share your policy number and OTP to process it.,fraud,English
+13,Investment guarantee,Our investment plan guarantees double returns in one month. Send the deposit today.,fraud,English
+14,Stock market tip,I have an insider stock tip. Pay me now and I will tell you which share will rise tomorrow.,fraud,English
+15,Crypto doubling,Send one cryptocurrency coin to this wallet and I will return two within an hour.,fraud,English
+16,Crypto account verification,Your crypto wallet will be frozen. Share your recovery phrase to verify ownership.,fraud,English
+17,Fake exchange support,I am from exchange support. Install this remote-access app so I can fix your wallet.,fraud,English
+18,Trading account fee,Your trading profits are ready. Pay a withdrawal tax to unlock them.,fraud,English
+19,Lottery prize,Your phone number won a lottery. Pay the courier fee to receive your prize.,fraud,English
+20,Lucky draw winner,You have been selected in a lucky draw you never entered. Send your identity documents to claim it.,fraud,English
+21,Government grant,You qualify for a government grant. Pay a registration charge before the money is sent.,fraud,English
+22,Tax refund,Your tax refund failed. Share your bank login and OTP to correct the account.,fraud,English
+23,Fake tax officer,I am a tax officer. Pay the penalty immediately or you will be arrested.,fraud,English
+24,Electricity disconnection,Your electricity will be disconnected in thirty minutes. Pay through this personal UPI ID.,fraud,English
+25,Gas subsidy,Your gas subsidy is ready. Send your Aadhaar number and bank OTP to receive it.,fraud,English
+26,Parcel customs fee,A parcel addressed to you is held at customs. Pay this fee using the link I texted.,fraud,English
+27,Courier address correction,Your delivery failed. Tell me your card details to pay a small address correction fee.,fraud,English
+28,Fake police parcel case,A parcel in your name contains illegal items. Transfer money to settle the case privately.,fraud,English
+29,Digital arrest threat,You are under digital arrest. Stay on video call and transfer money to prove your innocence.,fraud,English
+30,Fake court warrant,A court warrant has been issued against you. Pay now to cancel it.,fraud,English
+31,Police impersonation,I am a police officer. Do not tell anyone and send money for confidential verification.,fraud,English
+32,Fake CBI officer,This is the CBI. Your account is linked to a crime; move the balance to our verification account.,fraud,English
+33,Customs impersonation,I am calling from customs. Pay a penalty to release your seized parcel.,fraud,English
+34,Fake lawyer settlement,I represent a court. Pay this settlement amount today or face immediate arrest.,fraud,English
+35,Job offer registration,You have been selected for a job. Pay the registration fee before the interview.,fraud,English
+36,Work-from-home task,Earn thousands daily by liking posts. Deposit money to unlock higher-paying tasks.,fraud,English
+37,Fake recruiter equipment,Your remote job is confirmed. Buy equipment from our vendor and we will reimburse you.,fraud,English
+38,Overseas job visa,Your overseas job visa is ready. Pay a refundable visa processing fee to this personal account.,fraud,English
+39,Training certificate fee,You passed our interview. Pay for a mandatory certificate before joining.,fraud,English
+40,Fake internship stipend,Your internship stipend is waiting. Pay a verification fee to release it.,fraud,English
+41,Scholarship fee,You have won a scholarship. Pay a document processing charge first.,fraud,English
+42,Student loan approval,Your student loan is approved. Send an OTP to complete the disbursement.,fraud,English
+43,Exam result correction,Your exam result can be improved. Pay me privately and I will change the marks.,fraud,English
+44,Fake university admission,You are guaranteed admission. Transfer the seat-confirmation fee to my personal account.,fraud,English
+45,Rental deposit,"The flat is yours, but I am abroad. Send the deposit before viewing the property.",fraud,English
+46,Fake landlord identity,I own the property. Pay a booking advance now; I cannot show it in person.,fraud,English
+47,Property title clearance,Your property registration is blocked. Pay a government clearance fee to my agent.,fraud,English
+48,Used car advance,The car is below market price. Send a refundable token before you inspect it.,fraud,English
+49,Vehicle challan link,You have an unpaid traffic fine. Open this link and enter card details to avoid arrest.,fraud,English
+50,Fake vehicle seizure,Your vehicle will be seized today. Transfer the fine to my personal account.,fraud,English
+51,SIM deactivation,Your SIM will stop working in two hours. Share the OTP to keep your number active.,fraud,English
+52,Mobile tower prize,Your number won a tower-installation reward. Pay a release charge to claim it.,fraud,English
+53,Fake telecom KYC,Your mobile KYC is incomplete. Install this app and provide your identity details.,fraud,English
+54,Porting fraud,I can give you a free premium phone plan. Tell me the porting OTP you received.,fraud,English
+55,WhatsApp account takeover,I accidentally sent a verification code to your number. Please read it back to me.,fraud,English
+56,Social media recovery,Your social media account is hacked. Give me the login code so I can recover it.,fraud,English
+57,Fake platform support,I work for platform support. Share your password to remove a warning from your account.,fraud,English
+58,Celebrity investment group,A famous investor is doubling money for followers. Send a deposit to join the private group.,fraud,English
+59,Romance emergency,I love you and need urgent money for a medical emergency. Please do not tell anyone.,fraud,English
+60,Friend in trouble,I am using a new number. I lost my wallet and need money immediately.,fraud,English
+61,Family emergency impersonation,Your relative has been arrested. Transfer bail money now and keep this confidential.,fraud,English
+62,Fake medical fundraiser,A child needs urgent surgery. Donate through my personal account; there is no time to verify.,fraud,English
+63,Hospital bill scam,Your hospital bill is overdue. Pay through this link or treatment will stop.,fraud,English
+64,Fake charity appeal,Donate to disaster victims by sending money to this private wallet.,fraud,English
+65,Religious donation scam,A blessing is guaranteed if you send a donation to this personal account today.,fraud,English
+66,Fake disaster relief,You are eligible for relief funds. Pay a registration fee to receive assistance.,fraud,English
+67,Courier OTP request,"I am the delivery agent. Tell me the OTP to confirm delivery, even though no parcel is expected.",fraud,English
+68,Fake customer refund,We overcharged you. Share your screen and bank OTP so I can refund the difference.,fraud,English
+69,Remote access refund,Install this remote support app and keep your banking app open while I process the refund.,fraud,English
+70,QR code payment trick,Scan this QR code to receive your payment; it will actually authorize a payment from your account.,fraud,English
+71,Screen-sharing trick,Turn on screen sharing and open your banking app so I can help with a failed transaction.,fraud,English
+72,Fake tech support virus,Your computer has a virus. Call this number and pay for urgent security support.,fraud,English
+73,Fake internet provider,Your internet will be disconnected unless you pay this overdue bill to my personal account.,fraud,English
+74,Computer repair overcharge,"Your device is badly damaged. Pay in advance before I return it, or your files will be deleted.",fraud,English
+75,Fake antivirus renewal,Your antivirus subscription is expiring. Call this number and provide card details to renew.,fraud,English
+76,Cloud storage threat,Your cloud files will be deleted today. Sign in through this link to prevent data loss.,fraud,English
+77,Fake email account alert,Your email account will be disabled. Confirm your password and OTP through this link.,fraud,English
+78,Password reset impersonation,I am from IT support. Read your password reset code to me so I can secure your account.,fraud,English
+79,Fake data breach compensation,Your data was exposed and you qualify for compensation. Pay a claim fee first.,fraud,English
+80,Fake online shopping deal,This phone is ninety percent off. Pay by bank transfer because cash on delivery is unavailable.,fraud,English
+81,Marketplace payment proof,I have paid for your item. Scan this QR code to receive the payment confirmation.,fraud,English
+82,Fake buyer overpayment,I accidentally paid extra for the item. Refund the difference before the payment is reversed.,fraud,English
+83,Ticket resale scam,I have concert tickets at a low price. Transfer the money now; I will send tickets later.,fraud,English
+84,Travel package scam,This holiday package is available only today. Pay the full amount to my personal account.,fraud,English
+85,Fake airline refund,Your flight refund is approved. Share your card number and OTP to receive it.,fraud,English
+86,Hotel booking scam,Your hotel booking will be cancelled unless you pay again through this private link.,fraud,English
+87,Fake visa appointment,An embassy appointment is guaranteed if you pay my agent fee today.,fraud,English
+88,Immigration threat,Your visa will be cancelled unless you pay an urgent compliance charge.,fraud,English
+89,Fake pension verification,Your pension will stop unless you share your bank OTP for verification.,fraud,English
+90,Senior citizen benefit,You qualify for a senior benefit. Pay a small activation fee to release the funds.,fraud,English
+91,Fake public utility rebate,A government rebate is waiting. Provide your bank credentials through this link.,fraud,English
+92,Domestic help placement,I can arrange a worker immediately. Pay the agency deposit before any verification.,fraud,English
+93,Fake insurance claim agent,Your accident claim is approved. Pay a release fee before the insurer sends the money.,fraud,English
+94,Accident victim impersonation,I caused an accident involving your family member. Send money now to settle it quietly.,fraud,English
+95,Fake legal settlement call,Your case can disappear if you transfer money to this private account today.,fraud,English
+96,Fake loan debt collector,You will be arrested for unpaid debt unless you pay me immediately by UPI.,fraud,English
+97,Loan app blackmail,Your contacts will receive embarrassing messages unless you pay this loan app fee now.,fraud,English
+98,Fake prize delivery,Your prize is ready for delivery. Pay the insurance and handling charges first.,fraud,English
+99,Fake bank merger notice,Your bank account must be migrated. Confirm your credentials and OTP on this call.,fraud,English
+100,Fake account nominee update,Someone changed your nominee. Share the OTP to cancel the change.,fraud,English

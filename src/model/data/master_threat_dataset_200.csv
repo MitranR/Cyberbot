@@ -1,0 +1,201 @@
+text,label,fraud_type,is_fraud
+Your bank account will be blocked today. Share your OTP to reactivate it immediately.,1,Bank account blocked,True
+Your KYC has expired. Click the link I sent and enter your bank details to avoid account suspension.,1,KYC update,True
+I am calling from your bank. Read out the full card number and CVV so I can stop the cancellation.,1,Card cancellation,True
+Your UPI refund is pending. Approve the collect request on your phone to receive the money.,1,UPI refund,True
+I sent money to you by mistake. Please scan this QR code and pay it back.,1,Wrong UPI transfer,True
+You have won a bank reward. Pay a small processing fee to claim it.,1,Fake bank reward,True
+We can increase your credit card limit instantly. Tell me the OTP you just received.,1,Credit card limit,True
+Your loan is approved. Transfer the file-opening fee before we release the amount.,1,Loan approval fee,True
+Your account is under investigation. Move your funds to this safe account while we verify them.,1,Fake bank investigation,True
+Your ATM card is blocked. Tell me your PIN so I can issue a replacement.,1,ATM card replacement,True
+Your insurance policy has matured. Pay the tax fee first to receive the payout.,1,Insurance maturity,True
+You are eligible for a policy bonus. Share your policy number and OTP to process it.,1,Fake policy bonus,True
+Our investment plan guarantees double returns in one month. Send the deposit today.,1,Investment guarantee,True
+I have an insider stock tip. Pay me now and I will tell you which share will rise tomorrow.,1,Stock market tip,True
+Send one cryptocurrency coin to this wallet and I will return two within an hour.,1,Crypto doubling,True
+Your crypto wallet will be frozen. Share your recovery phrase to verify ownership.,1,Crypto account verification,True
+I am from exchange support. Install this remote-access app so I can fix your wallet.,1,Fake exchange support,True
+Your trading profits are ready. Pay a withdrawal tax to unlock them.,1,Trading account fee,True
+Your phone number won a lottery. Pay the courier fee to receive your prize.,1,Lottery prize,True
+You have been selected in a lucky draw you never entered. Send your identity documents to claim it.,1,Lucky draw winner,True
+You qualify for a government grant. Pay a registration charge before the money is sent.,1,Government grant,True
+Your tax refund failed. Share your bank login and OTP to correct the account.,1,Tax refund,True
+I am a tax officer. Pay the penalty immediately or you will be arrested.,1,Fake tax officer,True
+Your electricity will be disconnected in thirty minutes. Pay through this personal UPI ID.,1,Electricity disconnection,True
+Your gas subsidy is ready. Send your Aadhaar number and bank OTP to receive it.,1,Gas subsidy,True
+A parcel addressed to you is held at customs. Pay this fee using the link I texted.,1,Parcel customs fee,True
+Your delivery failed. Tell me your card details to pay a small address correction fee.,1,Courier address correction,True
+A parcel in your name contains illegal items. Transfer money to settle the case privately.,1,Fake police parcel case,True
+You are under digital arrest. Stay on video call and transfer money to prove your innocence.,1,Digital arrest threat,True
+A court warrant has been issued against you. Pay now to cancel it.,1,Fake court warrant,True
+I am a police officer. Do not tell anyone and send money for confidential verification.,1,Police impersonation,True
+This is the CBI. Your account is linked to a crime; move the balance to our verification account.,1,Fake CBI officer,True
+I am calling from customs. Pay a penalty to release your seized parcel.,1,Customs impersonation,True
+I represent a court. Pay this settlement amount today or face immediate arrest.,1,Fake lawyer settlement,True
+You have been selected for a job. Pay the registration fee before the interview.,1,Job offer registration,True
+Earn thousands daily by liking posts. Deposit money to unlock higher-paying tasks.,1,Work-from-home task,True
+Your remote job is confirmed. Buy equipment from our vendor and we will reimburse you.,1,Fake recruiter equipment,True
+Your overseas job visa is ready. Pay a refundable visa processing fee to this personal account.,1,Overseas job visa,True
+You passed our interview. Pay for a mandatory certificate before joining.,1,Training certificate fee,True
+Your internship stipend is waiting. Pay a verification fee to release it.,1,Fake internship stipend,True
+You have won a scholarship. Pay a document processing charge first.,1,Scholarship fee,True
+Your student loan is approved. Send an OTP to complete the disbursement.,1,Student loan approval,True
+Your exam result can be improved. Pay me privately and I will change the marks.,1,Exam result correction,True
+You are guaranteed admission. Transfer the seat-confirmation fee to my personal account.,1,Fake university admission,True
+"The flat is yours, but I am abroad. Send the deposit before viewing the property.",1,Rental deposit,True
+I own the property. Pay a booking advance now; I cannot show it in person.,1,Fake landlord identity,True
+Your property registration is blocked. Pay a government clearance fee to my agent.,1,Property title clearance,True
+The car is below market price. Send a refundable token before you inspect it.,1,Used car advance,True
+You have an unpaid traffic fine. Open this link and enter card details to avoid arrest.,1,Vehicle challan link,True
+Your vehicle will be seized today. Transfer the fine to my personal account.,1,Fake vehicle seizure,True
+Your SIM will stop working in two hours. Share the OTP to keep your number active.,1,SIM deactivation,True
+Your number won a tower-installation reward. Pay a release charge to claim it.,1,Mobile tower prize,True
+Your mobile KYC is incomplete. Install this app and provide your identity details.,1,Fake telecom KYC,True
+I can give you a free premium phone plan. Tell me the porting OTP you received.,1,Porting fraud,True
+I accidentally sent a verification code to your number. Please read it back to me.,1,WhatsApp account takeover,True
+Your social media account is hacked. Give me the login code so I can recover it.,1,Social media recovery,True
+I work for platform support. Share your password to remove a warning from your account.,1,Fake platform support,True
+A famous investor is doubling money for followers. Send a deposit to join the private group.,1,Celebrity investment group,True
+I love you and need urgent money for a medical emergency. Please do not tell anyone.,1,Romance emergency,True
+I am using a new number. I lost my wallet and need money immediately.,1,Friend in trouble,True
+Your relative has been arrested. Transfer bail money now and keep this confidential.,1,Family emergency impersonation,True
+A child needs urgent surgery. Donate through my personal account; there is no time to verify.,1,Fake medical fundraiser,True
+Your hospital bill is overdue. Pay through this link or treatment will stop.,1,Hospital bill scam,True
+Donate to disaster victims by sending money to this private wallet.,1,Fake charity appeal,True
+A blessing is guaranteed if you send a donation to this personal account today.,1,Religious donation scam,True
+You are eligible for relief funds. Pay a registration fee to receive assistance.,1,Fake disaster relief,True
+"I am the delivery agent. Tell me the OTP to confirm delivery, even though no parcel is expected.",1,Courier OTP request,True
+We overcharged you. Share your screen and bank OTP so I can refund the difference.,1,Fake customer refund,True
+Install this remote support app and keep your banking app open while I process the refund.,1,Remote access refund,True
+Scan this QR code to receive your payment; it will actually authorize a payment from your account.,1,QR code payment trick,True
+Turn on screen sharing and open your banking app so I can help with a failed transaction.,1,Screen-sharing trick,True
+Your computer has a virus. Call this number and pay for urgent security support.,1,Fake tech support virus,True
+Your internet will be disconnected unless you pay this overdue bill to my personal account.,1,Fake internet provider,True
+"Your device is badly damaged. Pay in advance before I return it, or your files will be deleted.",1,Computer repair overcharge,True
+Your antivirus subscription is expiring. Call this number and provide card details to renew.,1,Fake antivirus renewal,True
+Your cloud files will be deleted today. Sign in through this link to prevent data loss.,1,Cloud storage threat,True
+Your email account will be disabled. Confirm your password and OTP through this link.,1,Fake email account alert,True
+I am from IT support. Read your password reset code to me so I can secure your account.,1,Password reset impersonation,True
+Your data was exposed and you qualify for compensation. Pay a claim fee first.,1,Fake data breach compensation,True
+This phone is ninety percent off. Pay by bank transfer because cash on delivery is unavailable.,1,Fake online shopping deal,True
+I have paid for your item. Scan this QR code to receive the payment confirmation.,1,Marketplace payment proof,True
+I accidentally paid extra for the item. Refund the difference before the payment is reversed.,1,Fake buyer overpayment,True
+I have concert tickets at a low price. Transfer the money now; I will send tickets later.,1,Ticket resale scam,True
+This holiday package is available only today. Pay the full amount to my personal account.,1,Travel package scam,True
+Your flight refund is approved. Share your card number and OTP to receive it.,1,Fake airline refund,True
+Your hotel booking will be cancelled unless you pay again through this private link.,1,Hotel booking scam,True
+An embassy appointment is guaranteed if you pay my agent fee today.,1,Fake visa appointment,True
+Your visa will be cancelled unless you pay an urgent compliance charge.,1,Immigration threat,True
+Your pension will stop unless you share your bank OTP for verification.,1,Fake pension verification,True
+You qualify for a senior benefit. Pay a small activation fee to release the funds.,1,Senior citizen benefit,True
+A government rebate is waiting. Provide your bank credentials through this link.,1,Fake public utility rebate,True
+I can arrange a worker immediately. Pay the agency deposit before any verification.,1,Domestic help placement,True
+Your accident claim is approved. Pay a release fee before the insurer sends the money.,1,Fake insurance claim agent,True
+I caused an accident involving your family member. Send money now to settle it quietly.,1,Accident victim impersonation,True
+Your case can disappear if you transfer money to this private account today.,1,Fake legal settlement call,True
+You will be arrested for unpaid debt unless you pay me immediately by UPI.,1,Fake loan debt collector,True
+Your contacts will receive embarrassing messages unless you pay this loan app fee now.,1,Loan app blackmail,True
+Your prize is ready for delivery. Pay the insurance and handling charges first.,1,Fake prize delivery,True
+Your bank account must be migrated. Confirm your credentials and OTP on this call.,1,Fake bank merger notice,True
+Someone changed your nominee. Share the OTP to cancel the change.,1,Fake account nominee update,True
+"Hi, are we still meeting for lunch at one today?",0,Legitimate / Non-Threat Call,False
+"Hello, this is Maya. I am calling to confirm your appointment for tomorrow morning.",0,Legitimate / Non-Threat Call,False
+"Good afternoon, your order is ready for pickup. Please bring your receipt.",0,Legitimate / Non-Threat Call,False
+"Hi, I received your message. I will call you back after work.",0,Legitimate / Non-Threat Call,False
+This is the clinic calling to remind you of your scheduled checkup on Friday.,0,Legitimate / Non-Threat Call,False
+"Hello, could you please send me the meeting notes when you have time?",0,Legitimate / Non-Threat Call,False
+"Hi, the train is delayed by fifteen minutes, so I may arrive a little later.",0,Legitimate / Non-Threat Call,False
+"Good morning, I am calling to ask whether the office is open today.",0,Legitimate / Non-Threat Call,False
+Your package has been delivered to the reception desk.,0,Legitimate / Non-Threat Call,False
+"Hi, can you confirm the address for tonight's family dinner?",0,Legitimate / Non-Threat Call,False
+"Hello, this is the school office calling about tomorrow's parent meeting.",0,Legitimate / Non-Threat Call,False
+I am running late because of traffic. Please start without me if needed.,0,Legitimate / Non-Threat Call,False
+"Hi, I wanted to check whether you received the document I emailed.",0,Legitimate / Non-Threat Call,False
+"Good evening, your table reservation is confirmed for seven thirty.",0,Legitimate / Non-Threat Call,False
+"Hello, the repair technician will arrive between two and four this afternoon.",0,Legitimate / Non-Threat Call,False
+Could you please read me the grocery items we need to buy?,0,Legitimate / Non-Threat Call,False
+"Hi, I am calling to see if you are available for a quick project discussion.",0,Legitimate / Non-Threat Call,False
+Your appointment has been moved to Monday at ten in the morning.,0,Legitimate / Non-Threat Call,False
+"Hello, I found your notebook in the conference room and kept it at reception.",0,Legitimate / Non-Threat Call,False
+Thanks for calling. I will review the details and reply by email.,0,Legitimate / Non-Threat Call,False
+"Hi, would you like me to bring tea when I come over?",0,Legitimate / Non-Threat Call,False
+This is the library reminding you that your borrowed books are due next week.,0,Legitimate / Non-Threat Call,False
+"Hello, I am checking whether the team call is still scheduled for three.",0,Legitimate / Non-Threat Call,False
+The bus is arriving at the main stop in about five minutes.,0,Legitimate / Non-Threat Call,False
+"Hi, I have shared the presentation file in our team folder.",0,Legitimate / Non-Threat Call,False
+"Good morning, your routine service visit is booked for Wednesday.",0,Legitimate / Non-Threat Call,False
+Could you please tell me which room the workshop will be held in?,0,Legitimate / Non-Threat Call,False
+"Hi, I am calling to thank you for helping with the event yesterday.",0,Legitimate / Non-Threat Call,False
+Your food delivery is outside the building. Please collect it when convenient.,0,Legitimate / Non-Threat Call,False
+"Hello, I would like to reschedule my dentist appointment for next week.",0,Legitimate / Non-Threat Call,False
+"Hi, the meeting has ended early, so you can join whenever you are ready.",0,Legitimate / Non-Threat Call,False
+This is the hotel front desk confirming your checkout time is eleven.,0,Legitimate / Non-Threat Call,False
+"Hello, I am calling about the community clean-up planned for Saturday.",0,Legitimate / Non-Threat Call,False
+Can you please bring the printed forms to the office this afternoon?,0,Legitimate / Non-Threat Call,False
+"Hi, I received the photos from the trip. They look wonderful.",0,Legitimate / Non-Threat Call,False
+Your electricity maintenance visit is scheduled for Thursday morning.,0,Legitimate / Non-Threat Call,False
+"Hello, could you explain the last step of the assignment again?",0,Legitimate / Non-Threat Call,False
+"Hi, I will be at the entrance waiting for you.",0,Legitimate / Non-Threat Call,False
+The parcel could not be delivered because nobody was home. You can choose another delivery time through the official app.,0,Legitimate / Non-Threat Call,False
+"Hello, this is the restaurant confirming your takeaway order.",0,Legitimate / Non-Threat Call,False
+"Hi, do you have the notes from yesterday's lecture?",0,Legitimate / Non-Threat Call,False
+The office will close at four today because of scheduled maintenance.,0,Legitimate / Non-Threat Call,False
+"Hello, I am calling to confirm that the documents arrived safely.",0,Legitimate / Non-Threat Call,False
+Can we move our study session from Tuesday to Wednesday?,0,Legitimate / Non-Threat Call,False
+"Hi, I have booked the conference room for our team meeting.",0,Legitimate / Non-Threat Call,False
+Your service request has been received. The support team will respond during business hours.,0,Legitimate / Non-Threat Call,False
+"Hello, I am outside the building. Please let me know when you are ready.",0,Legitimate / Non-Threat Call,False
+Could you check whether the shop has the blue notebook in stock?,0,Legitimate / Non-Threat Call,False
+"Hi, I will send you the updated timetable this evening.",0,Legitimate / Non-Threat Call,False
+This is a reminder that your fitness class starts at six thirty.,0,Legitimate / Non-Threat Call,False
+"Hello, I am calling to ask about the weekend opening hours.",0,Legitimate / Non-Threat Call,False
+The teacher has uploaded the homework instructions to the class portal.,0,Legitimate / Non-Threat Call,False
+"Hi, your prescription is ready at the pharmacy. Please follow the pharmacy's usual collection process.",0,Legitimate / Non-Threat Call,False
+Can you let me know if the library study room is available tomorrow?,0,Legitimate / Non-Threat Call,False
+"Hello, I am confirming our video call for ten thirty.",0,Legitimate / Non-Threat Call,False
+The technician has completed the routine inspection and left the report at the front desk.,0,Legitimate / Non-Threat Call,False
+"Hi, I have returned the book to the shelf near the reception area.",0,Legitimate / Non-Threat Call,False
+Would you like to walk to the station together after class?,0,Legitimate / Non-Threat Call,False
+"Hello, your laundry will be ready for collection after five.",0,Legitimate / Non-Threat Call,False
+I am calling to ask whether you can cover my shift on Sunday.,0,Legitimate / Non-Threat Call,False
+"Hi, I have attached the receipt to the email for your records.",0,Legitimate / Non-Threat Call,False
+"The event begins at six, and the doors open thirty minutes earlier.",0,Legitimate / Non-Threat Call,False
+"Hello, can you confirm which bus route goes to the museum?",0,Legitimate / Non-Threat Call,False
+Your appointment reminder is available in the clinic's official patient portal.,0,Legitimate / Non-Threat Call,False
+"Hi, I am calling because I left my umbrella in your car.",0,Legitimate / Non-Threat Call,False
+Could you please tell me the deadline for submitting the project report?,0,Legitimate / Non-Threat Call,False
+"Hello, the package is being held at the local pickup point. Check the carrier's official tracking page for details.",0,Legitimate / Non-Threat Call,False
+"Hi, I will bring the signed consent form to school tomorrow.",0,Legitimate / Non-Threat Call,False
+"The office printer is working again, so you can print the reports.",0,Legitimate / Non-Threat Call,False
+"Hello, I am checking whether the swimming pool is open this afternoon.",0,Legitimate / Non-Threat Call,False
+Thanks for the update. I have added the new date to my calendar.,0,Legitimate / Non-Threat Call,False
+"Hi, can we discuss the presentation after the lecture?",0,Legitimate / Non-Threat Call,False
+This is a reminder from the dental office about your cleaning appointment next month.,0,Legitimate / Non-Threat Call,False
+"Hello, I have booked two seats for the afternoon show.",0,Legitimate / Non-Threat Call,False
+The meeting agenda is available in the shared project folder.,0,Legitimate / Non-Threat Call,False
+"Hi, I am calling to ask if you received the parcel I sent last week.",0,Legitimate / Non-Threat Call,False
+Could you please switch off the lights when you leave the classroom?,0,Legitimate / Non-Threat Call,False
+"Hello, your table is ready. Please check in with the host when you arrive.",0,Legitimate / Non-Threat Call,False
+I have updated the contact list and saved the latest version.,0,Legitimate / Non-Threat Call,False
+"Hi, the weather looks clear, so we can hold the picnic in the park.",0,Legitimate / Non-Threat Call,False
+This is the customer support team following up on your service feedback.,0,Legitimate / Non-Threat Call,False
+"Hello, I would like to know the price of a standard room for one night.",0,Legitimate / Non-Threat Call,False
+The courier tracking page shows an estimated delivery window for tomorrow.,0,Legitimate / Non-Threat Call,False
+"Hi, can you share the public transport timetable for the holiday?",0,Legitimate / Non-Threat Call,False
+Your membership renewal date is listed in your account settings.,0,Legitimate / Non-Threat Call,False
+"Hello, I am calling to confirm the venue for the graduation ceremony.",0,Legitimate / Non-Threat Call,False
+I will bring the borrowed charger back to you after class.,0,Legitimate / Non-Threat Call,False
+"Hi, the doctor asked me to remind you to arrive fifteen minutes before the appointment.",0,Legitimate / Non-Threat Call,False
+The project review has been moved to the small meeting room.,0,Legitimate / Non-Threat Call,False
+"Hello, I would like to register for the beginner computer class.",0,Legitimate / Non-Threat Call,False
+Can you tell me whether the museum offers student admission?,0,Legitimate / Non-Threat Call,False
+"Hi, I have sent the minutes from today's meeting to everyone on the team.",0,Legitimate / Non-Threat Call,False
+"Your maintenance request is in the queue, and an update will be provided through the official service channel.",0,Legitimate / Non-Threat Call,False
+"Hello, I am calling to see if you would like to join us for dinner.",0,Legitimate / Non-Threat Call,False
+The parcel is available for collection at the staffed counter during normal opening hours.,0,Legitimate / Non-Threat Call,False
+"Hi, I will be offline for an hour while I attend class.",0,Legitimate / Non-Threat Call,False
+Could you please confirm the start time for tomorrow's workshop?,0,Legitimate / Non-Threat Call,False
+"Hello, the replacement item has arrived at the store. Bring your order confirmation when collecting it.",0,Legitimate / Non-Threat Call,False
+"Hi, I have added your suggestions to the draft and shared it for review.",0,Legitimate / Non-Threat Call,False
+This is a routine reminder that the community center will be closed on Sunday.,0,Legitimate / Non-Threat Call,False

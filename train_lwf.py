@@ -123,6 +123,11 @@ class MultimodalThreatDataset(Dataset):
             # Generate acoustic speech feature simulation based on speech tone & threat urgency
             spec = self._simulate_speech_audio_features(text, is_threat=bool(label_bin))
 
+        # Modality dropout during training: 25% chance of acoustic masking to ensure strong text token learning
+        if np.random.rand() < 0.25:
+            spec = np.zeros_like(spec, dtype=np.float32)
+
+
         return {
             "text_tokens": torch.tensor(tokens, dtype=torch.long),
             "audio_features": torch.tensor(spec, dtype=torch.float32),
@@ -133,23 +138,30 @@ class MultimodalThreatDataset(Dataset):
     def _simulate_speech_audio_features(self, text: str, is_threat: bool) -> np.ndarray:
         """
         Synthesizes realistic speech PCM audio waveform with natural pitch acoustics
-        and extracts features using AudioFeatureExtractor so training and inference are 100% matched.
+        varying across natural human speaker range (120-240Hz).
         """
         rng = np.random.RandomState(abs(hash(text)) % (2**31))
         sr = 16000
         duration = 2.0
         t = np.linspace(0, duration, int(sr * duration))
+        
+        # Natural human speaker pitch variation across both classes
+        base_pitch = 140.0 + (rng.rand() * 80.0)  # 140 to 220 Hz
         if is_threat:
-            f0 = 320 + rng.randn(len(t)) * 30
+            jitter = 15.0 + rng.randn(len(t)) * 10.0
+            f0 = base_pitch + 20.0 + jitter
             phase = np.cumsum(2 * np.pi * f0 / sr)
-            signal = np.sin(phase) + 0.5 * np.sin(2 * phase) + 0.15 * rng.randn(len(t))
+            signal = np.sin(phase) + 0.4 * np.sin(2 * phase) + 0.1 * rng.randn(len(t))
         else:
-            f0 = 160 + 10 * np.sin(2 * np.pi * 2 * t)
+            vibrato = 8.0 * np.sin(2 * np.pi * 3.0 * t)
+            f0 = base_pitch + vibrato
             phase = np.cumsum(2 * np.pi * f0 / sr)
             signal = np.sin(phase) + 0.3 * np.sin(2 * phase) + 0.05 * rng.randn(len(t))
+            
         signal = signal / (np.max(np.abs(signal)) + 1e-5)
         pcm_bytes = (signal * 32000).astype(np.int16).tobytes()
         return self.audio_extractor.extract_from_bytes(pcm_bytes, max_frames=128)
+
 
 
 def train_model(
@@ -172,35 +184,145 @@ def train_model(
     device = torch.device("cpu")
     print(f"[1/5] Compute device: {device}")
 
+def categorize_text(fraud_type: str, text: str) -> int:
+    """Categorizes text into 7 target categories for multi-head classification."""
+    ft_l = str(fraud_type or "").lower()
+    t_l = str(text or "").lower()
+    
+    # 2: Customs & Parcel
+    if any(k in ft_l or k in t_l for k in ['customs', 'parcel', 'courier', 'package', 'shipment', 'prohibited items', 'contraband']):
+        return 2
+        
+    # 3: Law Enforcement & Digital Arrest
+    if any(k in ft_l or k in t_l for k in ['police', 'cbi', 'arrest', 'warrant', 'court', 'tax officer', 'challan', 'debt collector', 'legal settlement', 'seizure', 'lawsuit', 'digital arrest']):
+        return 3
+        
+    # 4: Emergency Family Impersonation & Blackmail
+    if any(k in ft_l or k in t_l for k in ['emergency', 'accident', 'hospital', 'kidnap', 'ransom', 'blackmail', 'medical', 'charity', 'fundraiser', 'disaster', 'friend in trouble', 'romance', 'son', 'daughter']):
+        return 4
+        
+    # 5: Investment, Lottery & Job Fraud
+    if any(k in ft_l or k in t_l for k in ['lottery', 'prize', 'lucky draw', 'investment', 'stock', 'crypto', 'trading', 'job', 'work-from-home', 'recruiter', 'scholarship', 'visa', 'grant', 'admission', 'ticket', 'hotel', 'marketplace', 'buyer overpayment']):
+        return 5
+        
+    # 6: Tech Support & Account Takeover
+    if any(k in ft_l or k in t_l for k in ['tech support', 'antivirus', 'remote access', 'screen-sharing', 'screen sharing', 'sim', 'porting', 'whatsapp', 'social media', 'password', 'cloud storage', 'computer repair', 'internet provider', 'data breach', 'anydesk']):
+        return 6
+        
+    # 1: Bank, KYC & Financial Phishing
+    return 1
+
+
+def load_threat_datasets(fraud_path: str = None, safe_path: str = None, master_path: str = None) -> list:
+    """
+    Loads 100 Fraud Calls and 100 Safe Calls from user paths or project paths.
+    Returns structured records with text, binary label, category label.
+    """
+    data_list = []
+    
+    # Priority 1: Direct Fraud + Safe CSV paths
+    fraud_file = fraud_path
+    if not fraud_file or not os.path.exists(fraud_file):
+        default_downloads_fraud = r"C:\Users\mitra\Downloads\fraud_call_transcripts_100.csv"
+        default_local_fraud = str(BASE_DIR / "src" / "model" / "data" / "fraud_call_transcripts_100.csv")
+        if os.path.exists(default_downloads_fraud):
+            fraud_file = default_downloads_fraud
+        elif os.path.exists(default_local_fraud):
+            fraud_file = default_local_fraud
+
+    safe_file = safe_path
+    if not safe_file or not os.path.exists(safe_file):
+        default_downloads_safe = r"C:\Users\mitra\Downloads\non_fraud_safe_calls_100.csv"
+        default_local_safe = str(BASE_DIR / "src" / "model" / "data" / "non_fraud_safe_calls_100.csv")
+        if os.path.exists(default_downloads_safe):
+            safe_file = default_downloads_safe
+        elif os.path.exists(default_local_safe):
+            safe_file = default_local_safe
+
+    # Load Fraud Calls
+    if fraud_file and os.path.exists(fraud_file):
+        df_fraud = pd.read_csv(fraud_file)
+        text_col = "transcript_text" if "transcript_text" in df_fraud.columns else ("text" if "text" in df_fraud.columns else df_fraud.columns[2])
+        type_col = "fraud_type" if "fraud_type" in df_fraud.columns else ""
+        for _, row in df_fraud.iterrows():
+            txt = str(row[text_col]).strip()
+            ft = str(row[type_col]) if type_col else ""
+            cat = categorize_text(ft, txt)
+            data_list.append({
+                "text": txt,
+                "label": 1,
+                "category": cat,
+                "fraud_type": ft
+            })
+        print(f"      Loaded {len(df_fraud)} fraud calls from: {fraud_file}")
+
+    # Load Safe Calls
+    if safe_file and os.path.exists(safe_file):
+        df_safe = pd.read_csv(safe_file)
+        text_col = "transcribed_call_text" if "transcribed_call_text" in df_safe.columns else ("text" if "text" in df_safe.columns else df_safe.columns[1])
+        for _, row in df_safe.iterrows():
+            txt = str(row[text_col]).strip()
+            data_list.append({
+                "text": txt,
+                "label": 0,
+                "category": 0,
+                "fraud_type": "Legitimate / Non-Threat Call"
+            })
+        print(f"      Loaded {len(df_safe)} safe calls from: {safe_file}")
+
+    # Fallback to master file if individual files not found
+    if not data_list and master_path and os.path.exists(master_path):
+        df_master = pd.read_csv(master_path)
+        text_col = "text" if "text" in df_master.columns else df_master.columns[0]
+        for _, row in df_master.iterrows():
+            txt = str(row[text_col]).strip()
+            is_fraud = int(row.get("label", 1 if row.get("is_fraud", False) else 0))
+            ft = str(row.get("fraud_type", ""))
+            cat = categorize_text(ft, txt) if is_fraud else 0
+            data_list.append({
+                "text": txt,
+                "label": is_fraud,
+                "category": cat,
+                "fraud_type": ft
+            })
+        print(f"      Loaded {len(df_master)} records from master dataset: {master_path}")
+
+    return data_list
+
+
+def train_model(
+    data_path: str = None,
+    fraud_data: str = None,
+    safe_data: str = None,
+    audio_dir: str = None,
+    epochs: int = 15,
+    batch_size: int = 8,
+    lr: float = 0.001,
+    lambda_distill: float = 1.0,
+    temp: float = 2.0,
+):
+    """
+    Executes Cross-Attention Transformer & LwF Training Loop.
+    """
+    print("\n" + "=" * 70)
+    print("  CYBER FRAUD SHIELD: CROSS-ATTENTION TRANSFORMER & LwF TRAINER")
+    print("=" * 70)
+
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+    device = torch.device("cpu")
+    print(f"[1/5] Compute device: {device}")
+
     # 1. Prepare Dataset
-    if data_path and os.path.exists(data_path):
-        print(f"[2/5] Loading user dataset from: {data_path}")
-        if data_path.endswith(".csv"):
-            df = pd.read_csv(data_path)
-            data_list = []
-            text_col = "text" if "text" in df.columns else df.columns[0]
-            label_col = "label" if "label" in df.columns else ("threat" if "threat" in df.columns else None)
-            for _, row in df.iterrows():
-                lbl = 0
-                if label_col:
-                    val = str(row[label_col]).strip().lower()
-                    lbl = 1 if (val in ["1", "threat", "spam", "fraud", "scam", "true", "yes"]) else 0
-                data_list.append({
-                    "text": str(row[text_col]),
-                    "label": lbl,
-                    "category": lbl,
-                    "audio_path": row.get("audio_path") if "audio_path" in df.columns else None
-                })
-        elif data_path.endswith(".json"):
-            with open(data_path, "r", encoding="utf-8") as f:
-                data_list = json.load(f)
-        else:
-            raise ValueError(f"Unsupported format: {data_path}. Use CSV or JSON.")
-        print(f"      Loaded {len(data_list)} custom training records.")
+    print("[2/5] Loading fraud and safe call datasets...")
+    data_list = load_threat_datasets(fraud_path=fraud_data, safe_path=safe_data, master_path=data_path)
+    
+    if not data_list:
+        print("      No external datasets found. Using built-in cybersecurity benchmark dataset.")
+        data_list = BENCHMARK_SAMPLES * 6
     else:
-        print("[2/5] No external dataset specified. Using benchmark cybersecurity threat dataset.")
-        data_list = BENCHMARK_SAMPLES * 6  # Multiply to provide 108 high-quality training instances
-        print(f"      Benchmark instances: {len(data_list)} threat/non-threat speech scenarios.")
+        # Augment with benchmark samples to enrich acoustic diversity
+        data_list.extend(BENCHMARK_SAMPLES)
+        print(f"      Total training instances (including benchmark anchors): {len(data_list)}")
 
     # 2. Vocabulary Preparation
     vocab = SimpleVocabulary()
@@ -336,9 +458,11 @@ def train_model(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train Cross-Attention Transformer with LwF")
-    parser.add_argument("--data", type=str, default=None, help="Path to CSV or JSON dataset")
+    parser.add_argument("--data", type=str, default=None, help="Path to master CSV or JSON dataset")
+    parser.add_argument("--fraud_data", type=str, default=None, help="Path to fraud calls CSV dataset")
+    parser.add_argument("--safe_data", type=str, default=None, help="Path to safe calls CSV dataset")
     parser.add_argument("--audio_dir", type=str, default=None, help="Path to audio clips directory")
-    parser.add_argument("--epochs", type=int, default=12, help="Number of epochs (default: 12)")
+    parser.add_argument("--epochs", type=int, default=15, help="Number of epochs (default: 15)")
     parser.add_argument("--batch_size", type=int, default=8, help="Batch size (default: 8)")
     parser.add_argument("--lr", type=float, default=0.001, help="Learning rate (default: 0.001)")
     parser.add_argument("--lambda_distill", type=float, default=1.0, help="LwF Distillation weight (default: 1.0)")
@@ -347,6 +471,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     train_model(
         data_path=args.data,
+        fraud_data=args.fraud_data,
+        safe_data=args.safe_data,
         audio_dir=args.audio_dir,
         epochs=args.epochs,
         batch_size=args.batch_size,
@@ -354,3 +480,4 @@ if __name__ == "__main__":
         lambda_distill=args.lambda_distill,
         temp=args.temp,
     )
+

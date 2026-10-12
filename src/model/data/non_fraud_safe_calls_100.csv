@@ -1,0 +1,101 @@
+sample_id,transcribed_call_text,label
+SAFE001,"Hi, are we still meeting for lunch at one today?",non_fraud
+SAFE002,"Hello, this is Maya. I am calling to confirm your appointment for tomorrow morning.",non_fraud
+SAFE003,"Good afternoon, your order is ready for pickup. Please bring your receipt.",non_fraud
+SAFE004,"Hi, I received your message. I will call you back after work.",non_fraud
+SAFE005,This is the clinic calling to remind you of your scheduled checkup on Friday.,non_fraud
+SAFE006,"Hello, could you please send me the meeting notes when you have time?",non_fraud
+SAFE007,"Hi, the train is delayed by fifteen minutes, so I may arrive a little later.",non_fraud
+SAFE008,"Good morning, I am calling to ask whether the office is open today.",non_fraud
+SAFE009,Your package has been delivered to the reception desk.,non_fraud
+SAFE010,"Hi, can you confirm the address for tonight's family dinner?",non_fraud
+SAFE011,"Hello, this is the school office calling about tomorrow's parent meeting.",non_fraud
+SAFE012,I am running late because of traffic. Please start without me if needed.,non_fraud
+SAFE013,"Hi, I wanted to check whether you received the document I emailed.",non_fraud
+SAFE014,"Good evening, your table reservation is confirmed for seven thirty.",non_fraud
+SAFE015,"Hello, the repair technician will arrive between two and four this afternoon.",non_fraud
+SAFE016,Could you please read me the grocery items we need to buy?,non_fraud
+SAFE017,"Hi, I am calling to see if you are available for a quick project discussion.",non_fraud
+SAFE018,Your appointment has been moved to Monday at ten in the morning.,non_fraud
+SAFE019,"Hello, I found your notebook in the conference room and kept it at reception.",non_fraud
+SAFE020,Thanks for calling. I will review the details and reply by email.,non_fraud
+SAFE021,"Hi, would you like me to bring tea when I come over?",non_fraud
+SAFE022,This is the library reminding you that your borrowed books are due next week.,non_fraud
+SAFE023,"Hello, I am checking whether the team call is still scheduled for three.",non_fraud
+SAFE024,The bus is arriving at the main stop in about five minutes.,non_fraud
+SAFE025,"Hi, I have shared the presentation file in our team folder.",non_fraud
+SAFE026,"Good morning, your routine service visit is booked for Wednesday.",non_fraud
+SAFE027,Could you please tell me which room the workshop will be held in?,non_fraud
+SAFE028,"Hi, I am calling to thank you for helping with the event yesterday.",non_fraud
+SAFE029,Your food delivery is outside the building. Please collect it when convenient.,non_fraud
+SAFE030,"Hello, I would like to reschedule my dentist appointment for next week.",non_fraud
+SAFE031,"Hi, the meeting has ended early, so you can join whenever you are ready.",non_fraud
+SAFE032,This is the hotel front desk confirming your checkout time is eleven.,non_fraud
+SAFE033,"Hello, I am calling about the community clean-up planned for Saturday.",non_fraud
+SAFE034,Can you please bring the printed forms to the office this afternoon?,non_fraud
+SAFE035,"Hi, I received the photos from the trip. They look wonderful.",non_fraud
+SAFE036,Your electricity maintenance visit is scheduled for Thursday morning.,non_fraud
+SAFE037,"Hello, could you explain the last step of the assignment again?",non_fraud
+SAFE038,"Hi, I will be at the entrance waiting for you.",non_fraud
+SAFE039,The parcel could not be delivered because nobody was home. You can choose another delivery time through the official app.,non_fraud
+SAFE040,"Hello, this is the restaurant confirming your takeaway order.",non_fraud
+SAFE041,"Hi, do you have the notes from yesterday's lecture?",non_fraud
+SAFE042,The office will close at four today because of scheduled maintenance.,non_fraud
+SAFE043,"Hello, I am calling to confirm that the documents arrived safely.",non_fraud
+SAFE044,Can we move our study session from Tuesday to Wednesday?,non_fraud
+SAFE045,"Hi, I have booked the conference room for our team meeting.",non_fraud
+SAFE046,Your service request has been received. The support team will respond during business hours.,non_fraud
+SAFE047,"Hello, I am outside the building. Please let me know when you are ready.",non_fraud
+SAFE048,Could you check whether the shop has the blue notebook in stock?,non_fraud
+SAFE049,"Hi, I will send you the updated timetable this evening.",non_fraud
+SAFE050,This is a reminder that your fitness class starts at six thirty.,non_fraud
+SAFE051,"Hello, I am calling to ask about the weekend opening hours.",non_fraud
+SAFE052,The teacher has uploaded the homework instructions to the class portal.,non_fraud
+SAFE053,"Hi, your prescription is ready at the pharmacy. Please follow the pharmacy's usual collection process.",non_fraud
+SAFE054,Can you let me know if the library study room is available tomorrow?,non_fraud
+SAFE055,"Hello, I am confirming our video call for ten thirty.",non_fraud
+SAFE056,The technician has completed the routine inspection and left the report at the front desk.,non_fraud
+SAFE057,"Hi, I have returned the book to the shelf near the reception area.",non_fraud
+SAFE058,Would you like to walk to the station together after class?,non_fraud
+SAFE059,"Hello, your laundry will be ready for collection after five.",non_fraud
+SAFE060,I am calling to ask whether you can cover my shift on Sunday.,non_fraud
+SAFE061,"Hi, I have attached the receipt to the email for your records.",non_fraud
+SAFE062,"The event begins at six, and the doors open thirty minutes earlier.",non_fraud
+SAFE063,"Hello, can you confirm which bus route goes to the museum?",non_fraud
+SAFE064,Your appointment reminder is available in the clinic's official patient portal.,non_fraud
+SAFE065,"Hi, I am calling because I left my umbrella in your car.",non_fraud
+SAFE066,Could you please tell me the deadline for submitting the project report?,non_fraud
+SAFE067,"Hello, the package is being held at the local pickup point. Check the carrier's official tracking page for details.",non_fraud
+SAFE068,"Hi, I will bring the signed consent form to school tomorrow.",non_fraud
+SAFE069,"The office printer is working again, so you can print the reports.",non_fraud
+SAFE070,"Hello, I am checking whether the swimming pool is open this afternoon.",non_fraud
+SAFE071,Thanks for the update. I have added the new date to my calendar.,non_fraud
+SAFE072,"Hi, can we discuss the presentation after the lecture?",non_fraud
+SAFE073,This is a reminder from the dental office about your cleaning appointment next month.,non_fraud
+SAFE074,"Hello, I have booked two seats for the afternoon show.",non_fraud
+SAFE075,The meeting agenda is available in the shared project folder.,non_fraud
+SAFE076,"Hi, I am calling to ask if you received the parcel I sent last week.",non_fraud
+SAFE077,Could you please switch off the lights when you leave the classroom?,non_fraud
+SAFE078,"Hello, your table is ready. Please check in with the host when you arrive.",non_fraud
+SAFE079,I have updated the contact list and saved the latest version.,non_fraud
+SAFE080,"Hi, the weather looks clear, so we can hold the picnic in the park.",non_fraud
+SAFE081,This is the customer support team following up on your service feedback.,non_fraud
+SAFE082,"Hello, I would like to know the price of a standard room for one night.",non_fraud
+SAFE083,The courier tracking page shows an estimated delivery window for tomorrow.,non_fraud
+SAFE084,"Hi, can you share the public transport timetable for the holiday?",non_fraud
+SAFE085,Your membership renewal date is listed in your account settings.,non_fraud
+SAFE086,"Hello, I am calling to confirm the venue for the graduation ceremony.",non_fraud
+SAFE087,I will bring the borrowed charger back to you after class.,non_fraud
+SAFE088,"Hi, the doctor asked me to remind you to arrive fifteen minutes before the appointment.",non_fraud
+SAFE089,The project review has been moved to the small meeting room.,non_fraud
+SAFE090,"Hello, I would like to register for the beginner computer class.",non_fraud
+SAFE091,Can you tell me whether the museum offers student admission?,non_fraud
+SAFE092,"Hi, I have sent the minutes from today's meeting to everyone on the team.",non_fraud
+SAFE093,"Your maintenance request is in the queue, and an update will be provided through the official service channel.",non_fraud
+SAFE094,"Hello, I am calling to see if you would like to join us for dinner.",non_fraud
+SAFE095,The parcel is available for collection at the staffed counter during normal opening hours.,non_fraud
+SAFE096,"Hi, I will be offline for an hour while I attend class.",non_fraud
+SAFE097,Could you please confirm the start time for tomorrow's workshop?,non_fraud
+SAFE098,"Hello, the replacement item has arrived at the store. Bring your order confirmation when collecting it.",non_fraud
+SAFE099,"Hi, I have added your suggestions to the draft and shared it for review.",non_fraud
+SAFE100,This is a routine reminder that the community center will be closed on Sunday.,non_fraud

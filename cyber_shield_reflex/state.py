@@ -419,10 +419,11 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.matched_tactics = content_res.get("matched_tactics", [])
         self.warning_signs = content_res.get("key_warning_signs", [])
         
-        if self.threat_verdict == "THREAT DETECTED" or self.overall_voice_risk_score > 60:
-            self.verdict = "SPOOFED"  # High Risk Threat
-        elif self.overall_voice_risk_score > 35 or self.synthetic_confidence > 35:
-            self.verdict = "UNCERTAIN"  # Caution / Moderate Risk
+        if self.threat_verdict == "THREAT DETECTED":
+            self.verdict = "SPOOFED"  # High Risk Threat (Red Banner)
+        elif self.threat_verdict == "UNCERTAIN" or (self.overall_voice_risk_score > 35 and self.threat_verdict != "SAFE / NON-THREAT"):
+            self.verdict = "UNCERTAIN"  # Caution / Moderate Risk (Amber Banner)
         else:
-            self.verdict = "GENUINE"  # Safe / Clean Voice
+            self.verdict = "GENUINE"  # Safe / Clean Voice (Green Banner)
+
             

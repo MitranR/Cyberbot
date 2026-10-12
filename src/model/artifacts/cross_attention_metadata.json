@@ -3,15 +3,17 @@
   "vocab_size": 1000,
   "d_model": 128,
   "n_heads": 4,
-  "num_classes": 5,
+  "num_classes": 7,
   "categories": [
     "Legitimate / Non-Threat Call",
-    "Financial Extortion & Blackmail",
-    "Emergency Family Impersonation Scam",
-    "Bank / KYC OTP Phishing",
-    "Law Enforcement & Customs Intimidation"
+    "Bank, KYC & Financial Phishing",
+    "Customs & Parcel Seizure Scam",
+    "Law Enforcement & Digital Arrest",
+    "Emergency Family Impersonation & Blackmail",
+    "Investment, Lottery & Job Fraud",
+    "Tech Support & Account Takeover"
   ],
-  "epochs_trained": 12,
+  "epochs_trained": 15,
   "final_accuracy": 100.0,
   "lwf_distillation_enabled": false
 }

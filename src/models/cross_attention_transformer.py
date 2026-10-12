@@ -275,9 +275,10 @@ class CrossAttentionTransformerModel(nn.Module):
         # 3. Cross-Attention: Text queries attend to Audio keys & values
         cross_out, attn_weights = self.cross_attn(t_emb, a_emb)
         
-        # 4. Self-Attention refinement
+        # 4. Self-Attention refinement + Text Residual Skip Connection
         self_out, _ = self.self_attn(cross_out, cross_out, cross_out)
-        fused = self.self_norm(cross_out + self_out)
+        fused = self.self_norm(cross_out + self_out + t_emb)
+
         
         # 5. Global representation (mean pooling over non-padded tokens)
         mask = (text_tokens != 0).unsqueeze(-1).float()
