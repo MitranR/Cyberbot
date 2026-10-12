@@ -2,11 +2,11 @@ import reflex as rx
 from cyber_shield_reflex.state import State
 
 
-def analysis_report_card() -> rx.Component:
+def voice_analysis_report_card() -> rx.Component:
     """
-    Unified Executive Threat Intelligence Report Card.
-    Streamlined single-card design with clear alignment, dedicated transcript note callout,
-    aligned 4-metric strip, and prominent actionable advisory.
+    Unified Executive Voice Threat Intelligence Report Card.
+    Streamlined single-card design with executive header banner, aligned 4-metric strip,
+    actionable advisory, and the transcribed call script note positioned directly BELOW the report.
     """
     return rx.box(
         # 1. Executive Status Header Banner
@@ -53,6 +53,21 @@ def analysis_report_card() -> rx.Component:
                     spacing="1",
                     align="start",
                 ),
+                rx.spacer(),
+                # Dismiss / Clear Report Button
+                rx.button(
+                    rx.hstack(
+                        rx.icon("x", size=14),
+                        rx.text("Clear Report", font_size="12px", font_weight="600"),
+                        spacing="1",
+                    ),
+                    size="1",
+                    variant="surface",
+                    color_scheme="gray",
+                    cursor="pointer",
+                    on_click=State.clear_uploaded_file,
+                    _hover={"background": "rgba(255,255,255,0.2)"},
+                ),
                 spacing="3",
                 align="center",
                 width="100%",
@@ -77,44 +92,7 @@ def analysis_report_card() -> rx.Component:
             margin_bottom="16px",
         ),
         
-        # 2. Dedicated Small Note Box for Transcribed Script (as requested)
-        rx.box(
-            rx.hstack(
-                rx.hstack(
-                    rx.icon("notebook-pen", size=15, color="#38BDF8"),
-                    rx.text("Transcribed Call Audio Note", font_size="12.5px", font_weight="700", color="#38BDF8", font_family="'Space Grotesk', sans-serif"),
-                    spacing="2",
-                    align="center",
-                ),
-                rx.spacer(),
-                rx.badge(
-                    rx.cond(State.transcription_engine != "", State.transcription_engine, "Speech-to-Text"),
-                    color_scheme="blue",
-                    variant="surface",
-                    size="1"
-                ),
-                width="100%",
-                align="center",
-                margin_bottom="8px",
-            ),
-            rx.text(
-                f'"{State.transcription}"',
-                font_size="13.5px",
-                color="#F1F5F9",
-                font_style="italic",
-                line_height="1.6",
-                font_family="'Outfit', sans-serif"
-            ),
-            padding="12px 16px",
-            background="rgba(15, 23, 42, 0.85)",
-            border_left="4px solid #38BDF8",
-            border="1px solid rgba(56, 189, 248, 0.25)",
-            border_radius="8px",
-            margin_bottom="16px",
-            width="100%",
-        ),
-        
-        # 3. Clean Aligned Intelligence Metrics Grid (4 Aligned Metric Cards)
+        # 2. Clean Aligned Intelligence Metrics Grid (4 Aligned Metric Cards)
         rx.grid(
             # Metric 1: Threat Classification
             rx.box(
@@ -158,7 +136,7 @@ def analysis_report_card() -> rx.Component:
             margin_bottom="16px",
         ),
         
-        # 4. Actionable Advisory Card
+        # 3. Actionable Advisory Card
         rx.box(
             rx.hstack(
                 rx.icon(
@@ -182,6 +160,59 @@ def analysis_report_card() -> rx.Component:
             border=rx.cond(State.threat_verdict == "THREAT DETECTED", "1px solid rgba(239, 68, 68, 0.35)", "1px solid rgba(16, 185, 129, 0.35)"),
             border_radius="8px",
             width="100%",
+            margin_bottom="16px",
+        ),
+
+        # 4. Transcribed Call Audio Note (Displayed BELOW the report as requested)
+        rx.box(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("notebook-pen", size=16, color="#38BDF8"),
+                    rx.text("Transcribed Call Audio Note (Audio-to-Text Converted Script)", font_size="13px", font_weight="700", color="#38BDF8", font_family="'Space Grotesk', sans-serif"),
+                    spacing="2",
+                    align="center",
+                ),
+                rx.spacer(),
+                rx.badge(
+                    rx.cond(State.transcription_engine != "", State.transcription_engine, "Speech-to-Text Engine"),
+                    color_scheme="blue",
+                    variant="surface",
+                    size="1"
+                ),
+                width="100%",
+                align="center",
+                margin_bottom="10px",
+            ),
+            rx.text(
+                f'"{State.transcription}"',
+                font_size="14px",
+                color="#F1F5F9",
+                font_style="italic",
+                line_height="1.6",
+                font_family="'Outfit', sans-serif"
+            ),
+            rx.box(
+                rx.hstack(
+                    rx.icon("info", size=13, color="#94A3B8"),
+                    rx.text(
+                        "Note: This audio recording was converted into text above and evaluated against the Cross-Attention Transformer & LwF continual learning model to produce the analysis report.",
+                        font_size="11.5px",
+                        color="#94A3B8",
+                        font_family="'IBM Plex Mono', monospace"
+                    ),
+                    spacing="2",
+                    align="center",
+                ),
+                margin_top="10px",
+                padding_top="8px",
+                border_top="1px solid rgba(56, 189, 248, 0.15)",
+            ),
+            padding="14px 18px",
+            background="rgba(15, 23, 42, 0.9)",
+            border_left="4px solid #38BDF8",
+            border="1px solid rgba(56, 189, 248, 0.25)",
+            border_radius="8px",
+            width="100%",
         ),
         
         padding="22px 24px",
@@ -193,6 +224,206 @@ def analysis_report_card() -> rx.Component:
         width="100%",
     )
 
+
+def text_analysis_report_card() -> rx.Component:
+    """
+    Unified Executive SMS & Text Scam Intelligence Report Card.
+    Strictly isolated for SMS & Message Scan tab.
+    """
+    return rx.box(
+        # 1. Executive Status Header Banner
+        rx.box(
+            rx.hstack(
+                rx.icon(
+                    rx.cond(
+                        State.text_risk_score > 60,
+                        "triangle-alert",
+                        rx.cond(State.text_risk_score > 35, "circle-alert", "shield-check")
+                    ),
+                    size=26,
+                    color="#FFFFFF"
+                ),
+                rx.vstack(
+                    rx.hstack(
+                        rx.heading(
+                            rx.cond(
+                                State.text_risk_score > 60,
+                                "HIGH RISK: MALICIOUS SMS / MESSAGE THREAT",
+                                rx.cond(State.text_risk_score > 35, "CAUTION: SUSPICIOUS MESSAGE PATTERN", "SAFE: NO PHISHING THREAT DETECTED (LEGITIMATE)")
+                            ),
+                            font_size="17px",
+                            font_weight="800",
+                            color="#FFFFFF",
+                            font_family="'Space Grotesk', sans-serif"
+                        ),
+                        rx.badge(
+                            "NLP Scam Classifier",
+                            color_scheme=rx.cond(State.text_risk_score > 60, "red", rx.cond(State.text_risk_score > 35, "orange", "green")),
+                            variant="solid",
+                            size="1",
+                        ),
+                        spacing="2",
+                        align="center",
+                        wrap="wrap",
+                    ),
+                    rx.text(
+                        f"Threat Probability: {State.text_threat_probability}%  •  Classification: {State.text_scam_type}  •  Severity: {State.text_threat_level}",
+                        font_size="12.5px",
+                        color="rgba(255,255,255,0.92)",
+                        font_family="'IBM Plex Mono', monospace"
+                    ),
+                    spacing="1",
+                    align="start",
+                ),
+                rx.spacer(),
+                # Dismiss / Clear Report Button
+                rx.button(
+                    rx.hstack(
+                        rx.icon("x", size=14),
+                        rx.text("Clear Report", font_size="12px", font_weight="600"),
+                        spacing="1",
+                    ),
+                    size="1",
+                    variant="surface",
+                    color_scheme="gray",
+                    cursor="pointer",
+                    on_click=State.clear_text_scan,
+                    _hover={"background": "rgba(255,255,255,0.2)"},
+                ),
+                spacing="3",
+                align="center",
+                width="100%",
+            ),
+            padding="16px 20px",
+            background=rx.cond(
+                State.text_risk_score > 60,
+                "linear-gradient(90deg, #DC2626 0%, #B91C1C 100%)",
+                rx.cond(
+                    State.text_risk_score > 35,
+                    "linear-gradient(90deg, #D97706 0%, #B45309 100%)",
+                    "linear-gradient(90deg, #16A34A 0%, #15803D 100%)"
+                )
+            ),
+            border_radius="10px",
+            box_shadow=rx.cond(
+                State.text_risk_score > 60,
+                "0 4px 18px rgba(220, 38, 38, 0.35)",
+                "0 4px 18px rgba(22, 163, 74, 0.35)"
+            ),
+            width="100%",
+            margin_bottom="16px",
+        ),
+        
+        # 2. Clean Aligned Intelligence Metrics Grid
+        rx.grid(
+            # Metric 1: Threat Classification
+            rx.box(
+                rx.text("Threat Classification", font_size="11.5px", font_weight="600", color="#94A3B8", text_transform="uppercase", letter_spacing="0.5px"),
+                rx.text(State.text_scam_type, font_size="14px", font_weight="700", color=rx.cond(State.text_risk_score > 35, "#F87171", "#34D399"), margin_top="4px"),
+                padding="12px 14px",
+                background="#0F172A",
+                border="1px solid #1E293B",
+                border_radius="8px",
+            ),
+            # Metric 2: Threat Probability
+            rx.box(
+                rx.text("Threat Probability", font_size="11.5px", font_weight="600", color="#94A3B8", text_transform="uppercase", letter_spacing="0.5px"),
+                rx.text(f"{State.text_threat_probability}%", font_size="15px", font_weight="800", color=rx.cond(State.text_threat_probability > 35, "#F87171", "#34D399"), font_family="'IBM Plex Mono', monospace", margin_top="4px"),
+                padding="12px 14px",
+                background="#0F172A",
+                border="1px solid #1E293B",
+                border_radius="8px",
+            ),
+            # Metric 3: Severity Level
+            rx.box(
+                rx.text("Risk Severity", font_size="11.5px", font_weight="600", color="#94A3B8", text_transform="uppercase", letter_spacing="0.5px"),
+                rx.text(State.text_threat_level, font_size="15px", font_weight="800", color=rx.cond(State.text_risk_score > 60, "#EF4444", rx.cond(State.text_risk_score > 35, "#F59E0B", "#10B981")), font_family="'IBM Plex Mono', monospace", margin_top="4px"),
+                padding="12px 14px",
+                background="#0F172A",
+                border="1px solid #1E293B",
+                border_radius="8px",
+            ),
+            # Metric 4: Scam Risk Score
+            rx.box(
+                rx.text("Scam Risk Score", font_size="11.5px", font_weight="600", color="#94A3B8", text_transform="uppercase", letter_spacing="0.5px"),
+                rx.text(f"{State.text_risk_score} / 100", font_size="15px", font_weight="800", color=rx.cond(State.text_risk_score > 35, "#F87171", "#34D399"), font_family="'IBM Plex Mono', monospace", margin_top="4px"),
+                padding="12px 14px",
+                background="#0F172A",
+                border="1px solid #1E293B",
+                border_radius="8px",
+            ),
+            columns=rx.breakpoints(initial="1", sm="2", md="4"),
+            spacing="3",
+            width="100%",
+            margin_bottom="16px",
+        ),
+        
+        # 3. Actionable Advisory Card
+        rx.box(
+            rx.hstack(
+                rx.icon(
+                    rx.cond(State.text_risk_score > 35, "shield-alert", "shield-check"),
+                    size=22,
+                    color=rx.cond(State.text_risk_score > 35, "#EF4444", "#10B981")
+                ),
+                rx.vstack(
+                    rx.text("Actionable Advisory & Protective Measures", font_size="12.5px", font_weight="700", color=rx.cond(State.text_risk_score > 35, "#FCA5A5", "#6EE7B7"), font_family="'Space Grotesk', sans-serif"),
+                    rx.text(State.text_actionable_advice, font_size="13.5px", color="#E2E8F0", line_height="1.5", font_family="'Outfit', sans-serif"),
+                    spacing="1",
+                    align="start",
+                    width="100%",
+                ),
+                spacing="3",
+                align="start",
+                width="100%",
+            ),
+            padding="14px 18px",
+            background=rx.cond(State.text_risk_score > 35, "rgba(239, 68, 68, 0.08)", "rgba(16, 185, 129, 0.08)"),
+            border=rx.cond(State.text_risk_score > 35, "1px solid rgba(239, 68, 68, 0.35)", "1px solid rgba(16, 185, 129, 0.35)"),
+            border_radius="8px",
+            width="100%",
+            margin_bottom="16px",
+        ),
+        
+        # 4. Scanned Message Content Note
+        rx.box(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("file-text", size=15, color="#38BDF8"),
+                    rx.text("Scanned Message Content Note", font_size="12.5px", font_weight="700", color="#38BDF8", font_family="'Space Grotesk', sans-serif"),
+                    spacing="2",
+                    align="center",
+                ),
+                rx.spacer(),
+                rx.badge("SMS & Text Scam Agent", color_scheme="blue", variant="surface", size="1"),
+                width="100%",
+                align="center",
+                margin_bottom="8px",
+            ),
+            rx.text(
+                f'"{State.text_scanned_content}"',
+                font_size="13.5px",
+                color="#F1F5F9",
+                font_style="italic",
+                line_height="1.6",
+                font_family="'Outfit', sans-serif"
+            ),
+            padding="12px 16px",
+            background="rgba(15, 23, 42, 0.85)",
+            border_left="4px solid #38BDF8",
+            border="1px solid rgba(56, 189, 248, 0.25)",
+            border_radius="8px",
+            width="100%",
+        ),
+        
+        padding="22px 24px",
+        background="#090E1A",
+        border="1px solid #1E293B",
+        border_radius="12px",
+        box_shadow="0 10px 30px rgba(0,0,0,0.5)",
+        margin_top="24px",
+        width="100%",
+    )
 
 
 def upload_success_toast() -> rx.Component:
@@ -232,7 +463,7 @@ def upload_success_toast() -> rx.Component:
                 align="center",
                 width="100%",
             ),
-            # Keyframes animation progress bar indicator
+            # Progress bar indicator
             rx.box(
                 height="3px",
                 width="100%",
@@ -258,7 +489,8 @@ def upload_success_toast() -> rx.Component:
 
 def analysis_panel() -> rx.Component:
     """
-    Live Voice & Content Fraud Scanner Component (Dark Theme - Black, Dark Blue, White).
+    Live Voice & Content Fraud Scanner Component.
+    Features strict separation between Voice & Audio Upload and SMS & Message Text tabs.
     """
     return rx.box(
         upload_success_toast(),
@@ -308,7 +540,9 @@ def analysis_panel() -> rx.Component:
                 # Main Widget Body (Conditionally rendered by tab)
                 rx.cond(
                     State.active_tab == "speech",
-                    # Tab 1: Voice Upload Widget
+                    # ==========================================
+                    # TAB 1: VOICE & AUDIO UPLOAD WIDGET
+                    # ==========================================
                     rx.vstack(
                         rx.box(
                             rx.upload(
@@ -368,7 +602,7 @@ def analysis_panel() -> rx.Component:
                             width="100%",
                         ),
                         
-                        # Uploaded File Status Confirmation Card (Visible when file is uploaded)
+                        # Uploaded File Status Confirmation Card (With Remove button that clears audio & report)
                         rx.cond(
                             State.uploaded_filename != "",
                             rx.hstack(
@@ -427,7 +661,7 @@ def analysis_panel() -> rx.Component:
                             ),
                         ),
                         
-                        # Upload Trigger Button
+                        # Upload Trigger Button & Status Indicators
                         rx.hstack(
                             rx.button(
                                 rx.hstack(
@@ -454,7 +688,7 @@ def analysis_panel() -> rx.Component:
                                 State.is_analyzing,
                                 rx.hstack(
                                     rx.spinner(size="2", color="#38BDF8"),
-                                    rx.text("Extracting acoustic features & querying Hugging Face model...", font_size="13px", color="#38BDF8", font_family="'IBM Plex Mono', monospace"),
+                                    rx.text("Transcribing speech & analyzing via Cross-Attention Transformer & LwF...", font_size="13px", color="#38BDF8", font_family="'IBM Plex Mono', monospace"),
                                     spacing="2",
                                     align="center",
                                 ),
@@ -473,10 +707,51 @@ def analysis_panel() -> rx.Component:
                             width="100%",
                             margin_top="16px",
                         ),
+                        
+                        # Quick Demonstration Test Buttons
+                        rx.hstack(
+                            rx.text("Test Scenarios:", font_size="12px", color="#94A3B8", font_weight="600"),
+                            rx.button(
+                                "Bank Scam Call",
+                                size="1",
+                                variant="surface",
+                                color_scheme="red",
+                                cursor="pointer",
+                                on_click=State.run_sample_scan("bank_scam"),
+                            ),
+                            rx.button(
+                                "AI Cloned Voice",
+                                size="1",
+                                variant="surface",
+                                color_scheme="orange",
+                                cursor="pointer",
+                                on_click=State.run_sample_scan("cloned_voice"),
+                            ),
+                            rx.button(
+                                "Legitimate Call",
+                                size="1",
+                                variant="surface",
+                                color_scheme="green",
+                                cursor="pointer",
+                                on_click=State.run_sample_scan("natural_voice"),
+                            ),
+                            spacing="2",
+                            align="center",
+                            wrap="wrap",
+                            margin_top="10px",
+                        ),
+                        
+                        # Voice Analysis Report Card (Strictly nested inside Tab 1)
+                        rx.cond(
+                            State.voice_analysis_done,
+                            voice_analysis_report_card(),
+                        ),
                         width="100%",
                     ),
                     
-                    # Tab 2: Text Scam Analyzer
+                    # ==========================================
+                    # TAB 2: SMS & MESSAGE TEXT SCAN WIDGET
+                    # ==========================================
                     rx.vstack(
                         rx.text_area(
                             placeholder="Paste suspicious SMS, email, or WhatsApp message text here...",
@@ -509,18 +784,66 @@ def analysis_panel() -> rx.Component:
                                 cursor="pointer",
                                 _hover={"background": "#1E40AF"},
                             ),
+                            rx.button(
+                                rx.hstack(
+                                    rx.icon("trash-2", size=14),
+                                    rx.text("Clear Message & Report"),
+                                    spacing="1",
+                                ),
+                                size="2",
+                                variant="surface",
+                                color_scheme="red",
+                                cursor="pointer",
+                                on_click=State.clear_text_scan,
+                            ),
+                            spacing="3",
+                            align="center",
                             width="100%",
                             margin_top="12px",
+                        ),
+                        
+                        # Pre-configured sample test scenarios for SMS & Text
+                        rx.hstack(
+                            rx.text("Quick Test Scenarios:", font_size="12px", color="#94A3B8", font_weight="600"),
+                            rx.button(
+                                "Bank OTP Fraud",
+                                size="1",
+                                variant="surface",
+                                color_scheme="red",
+                                cursor="pointer",
+                                on_click=State.run_suspect_text_sample("bank_otp"),
+                            ),
+                            rx.button(
+                                "Customs Package Seizure",
+                                size="1",
+                                variant="surface",
+                                color_scheme="orange",
+                                cursor="pointer",
+                                on_click=State.run_suspect_text_sample("delivery"),
+                            ),
+                            rx.button(
+                                "Tech Support Scam",
+                                size="1",
+                                variant="surface",
+                                color_scheme="yellow",
+                                cursor="pointer",
+                                on_click=State.run_suspect_text_sample("tech_support"),
+                            ),
+                            spacing="2",
+                            align="center",
+                            wrap="wrap",
+                            margin_top="10px",
+                        ),
+                        
+                        # Text Analysis Report Card (Strictly nested inside Tab 2)
+                        rx.cond(
+                            State.text_analysis_done,
+                            text_analysis_report_card(),
                         ),
                         width="100%",
                     ),
                 ),
                 
-                # Analysis Output Panel (Rendered if analysis_done is True)
-                rx.cond(
-                    State.analysis_done,
-                    analysis_report_card(),
-                ),
                 spacing="4",
                 align="start",
                 padding_y="40px",

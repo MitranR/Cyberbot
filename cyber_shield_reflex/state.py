@@ -28,7 +28,9 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     
     # Processing states
     is_analyzing: bool = False
-    analysis_done: bool = False
+    voice_analysis_done: bool = False  # Dedicated for Voice & Audio Scan
+    text_analysis_done: bool = False   # Dedicated for SMS & WhatsApp Scan
+    analysis_done: bool = False        # General compatibility flag
     uploaded_filename: str = ""
     uploaded_file_size: str = ""
     is_file_ready: bool = False
@@ -36,7 +38,7 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     upload_toast_message: str = ""
     text_input: str = ""
     
-    # Verdict output variables
+    # Verdict output variables (Voice & Audio Scan)
     verdict: str = "GENUINE"  # "GENUINE", "SPOOFED", "UNCERTAIN"
     synthetic_confidence: int = 12
     voice_nature: str = "✅ Natural Human Voice Signature"
@@ -44,14 +46,14 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     transcription: str = "No audio uploaded yet. Click 'Analyze a Call' or upload a voice file below."
     transcription_engine: str = "Groq Whisper Large v3"
     spoof_engine: str = "Hugging Face (Mitran14/speach-agent)"
-    overall_voice_risk_score: int = 15
+    overall_voice_risk_score: int = 0
     threat_level: str = "Safe"
     scam_type: str = "Legitimate / Non-Threat Call"
     
-    # Cross-Attention Transformer & LwF Methodology Variables
+    # Cross-Attention Transformer & LwF Methodology Variables (Voice)
     analysis_method: str = "Cross-Attention Transformer & LwF"
     threat_verdict: str = "SAFE / NON-THREAT"
-    threat_probability: int = 12
+    threat_probability: int = 0
     cross_attention_alignment: float = 85.0
     urgency_score: int = 25
     detected_triggers: List[str] = []
@@ -62,6 +64,19 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     artifacts_detected: List[str] = ["Natural background noise", "Human breath pauses"]
     engine_used: str = "Cross-Attention Transformer & LwF"
     idempotent_hit: bool = False
+
+    # SMS & WhatsApp Message Phishing State (Completely Separate from Voice)
+    text_verdict: str = "GENUINE"  # "GENUINE", "SPOOFED", "UNCERTAIN"
+    text_scanned_content: str = ""
+    text_risk_score: int = 0
+    text_threat_probability: int = 0
+    text_threat_level: str = "Safe"
+    text_scam_type: str = "Legitimate Message"
+    text_actionable_advice: str = "No malicious links or coercive phishing indicators detected."
+    text_matched_tactics: List[str] = []
+    text_warning_signs: List[str] = []
+    text_engine_used: str = "NLP Scam Classifier"
+
 
     # Complaint Prerequisites & Disclaimer Dialog State
     complaint_modal_open: bool = False
@@ -248,6 +263,8 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
             self.uploaded_file_size = f"{max(size_bytes / 1024, 0.1):.1f} KB"
             
         self.is_file_ready = True
+        self.voice_analysis_done = False
+        self.analysis_done = False
         self.show_upload_toast = True
         self.upload_toast_message = f"Audio '{fname}' ({self.uploaded_file_size}) is ready for AI analysis."
         
@@ -263,14 +280,37 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.show_upload_toast = False
 
     def clear_uploaded_file(self):
-        """Clears current selected file and resets upload component."""
+        """Clears current selected file and completely resets/dismisses the voice analysis report."""
         if self.uploaded_filename in _uploaded_audio_cache:
             del _uploaded_audio_cache[self.uploaded_filename]
         self.uploaded_filename = ""
         self.uploaded_file_size = ""
         self.is_file_ready = False
         self.show_upload_toast = False
+        self.voice_analysis_done = False  # Immediately dismisses voice analysis report!
+        self.analysis_done = False
+        self.transcription = ""
+        self.transcription_engine = ""
+        self.overall_voice_risk_score = 0
+        self.threat_probability = 0
+        self.threat_verdict = "SAFE / NON-THREAT"
+        self.scam_type = "Legitimate / Non-Threat Call"
+        self.actionable_advice = ""
         return rx.clear_selected_files("audio_upload")
+
+    def clear_voice_report(self):
+        """Explicitly dismisses the voice threat analysis report and clears uploaded file."""
+        return self.clear_uploaded_file()
+
+    def clear_text_scan(self):
+        """Clears the text input and completely dismisses the SMS/text analysis report."""
+        self.text_input = ""
+        self.text_scanned_content = ""
+        self.text_analysis_done = False
+        self.text_risk_score = 0
+        self.text_threat_probability = 0
+        self.text_scam_type = "Legitimate Message"
+        self.text_actionable_advice = ""
 
     async def handle_upload(self, files: List[rx.UploadFile] = []):
         """
@@ -309,6 +349,7 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self._apply_analysis_result(result)
         
         self.is_analyzing = False
+        self.voice_analysis_done = True
         self.analysis_done = True
 
     def run_sample_scan(self, sample_type: str):
@@ -335,11 +376,13 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self._apply_analysis_result(result)
         
         self.is_analyzing = False
+        self.voice_analysis_done = True
         self.analysis_done = True
 
     def run_text_scan(self):
         """
-        Runs text-based scam scanning using text_agent.
+        Runs text-based scam scanning using text_agent into dedicated SMS/text state.
+        Never overwrites or interferes with voice analysis report!
         """
         if not self.text_input.strip():
             return
@@ -348,24 +391,26 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         
         content_res = text_agent.analyze(self.text_input)
         
-        self.overall_voice_risk_score = content_res.get("risk_score", 0)
-        self.threat_level = content_res.get("threat_level", "Caution")
-        self.scam_type = content_res.get("scam_type", "Suspicious Communication")
-        self.matched_tactics = content_res.get("matched_tactics", [])
-        self.warning_signs = content_res.get("key_warning_signs", [])
-        self.actionable_advice = content_res.get("actionable_advice", "")
-        self.engine_used = content_res.get("engine_used", "Text Scam Agent")
+        self.text_scanned_content = self.text_input.strip()
+        self.text_risk_score = content_res.get("risk_score", 0)
+        self.text_threat_probability = self.text_risk_score
+        self.text_threat_level = content_res.get("threat_level", "Caution")
+        self.text_scam_type = content_res.get("scam_type", "Suspicious Communication")
+        self.text_matched_tactics = content_res.get("matched_tactics", [])
+        self.text_warning_signs = content_res.get("key_warning_signs", [])
+        self.text_actionable_advice = content_res.get("actionable_advice", "")
+        self.text_engine_used = content_res.get("engine_used", "Text Scam Agent")
         
-        risk = self.overall_voice_risk_score
+        risk = self.text_risk_score
         if risk > 60:
-            self.verdict = "SPOOFED"
+            self.text_verdict = "SPOOFED"  # High Risk Threat
         elif risk > 35:
-            self.verdict = "UNCERTAIN"
+            self.text_verdict = "UNCERTAIN"  # Caution
         else:
-            self.verdict = "GENUINE"
+            self.text_verdict = "GENUINE"  # Clean Message
             
         self.is_analyzing = False
-        self.analysis_done = True
+        self.text_analysis_done = True
 
     def analyze_text_scam(self):
         """Alias for run_text_scan."""
@@ -384,9 +429,12 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.run_text_scan()
 
     def reset_results(self):
+        self.voice_analysis_done = False
+        self.text_analysis_done = False
         self.analysis_done = False
         self.uploaded_filename = ""
         self.text_input = ""
+
 
     def _apply_analysis_result(self, result: Dict[str, Any]):
         """Applies speech_agent analysis result dictionary to state attributes."""
@@ -425,5 +473,9 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
             self.verdict = "UNCERTAIN"  # Caution / Moderate Risk (Amber Banner)
         else:
             self.verdict = "GENUINE"  # Safe / Clean Voice (Green Banner)
+            
+        self.voice_analysis_done = True
+        self.analysis_done = True
+
 
             
