@@ -74,7 +74,7 @@ def saas_terminal_mockup():
                     </div>
 
                     <div class="term-line" style="color: #38BDF8; margin-top: 4px;">
-                        <span style="color: #10B981;">✔</span> [SUSPECT-DB]: SQLite Idempotent Engine -> <span style="color: #EF4444; font-weight: 700;">UPI Flagged (Risk Score: 92/100)</span>
+                        <span style="color: #10B981;">✔</span> [THREAT-REGISTRY]: SQLite Idempotent Engine -> <span style="color: #EF4444; font-weight: 700;">UPI Flagged (Risk Score: 92/100)</span>
                     </div>
 
                     <div class="term-line" style="background: rgba(239, 68, 68, 0.12); border-left: 3px solid #EF4444; padding: 8px 12px; margin-top: 10px; border-radius: 4px;">
@@ -151,7 +151,7 @@ def hero() -> rx.Component:
                     user_select="none",
                 ),
                 rx.text(
-                    "Protecting citizens and institutions with real-time cloned voice detection, Llama 3.3 SMS phishing dissection, and suspect registry risk scoring.",
+                    "Protecting citizens and institutions with real-time cloned voice detection, Llama 3.3 SMS phishing dissection, and multi-agent risk scoring.",
                     font_size={"initial": "16px", "sm": "18px", "md": "20px"},
                     color="#475569",
                     font_family="'Outfit', sans-serif",

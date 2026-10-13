@@ -167,7 +167,7 @@ def pricing_tiers() -> rx.Component:
                         [
                             "Unlimited Voice Call Deepfake Audits",
                             "SMS Phishing & WhatsApp Link Scanner",
-                            "Suspect UPI & Phone Number Lookup",
+                            "Threat URL & Phishing Link Scanner",
                             "24/7 AI Emergency Guidance Assistant",
                         ],
                         "Start Free Audit",
@@ -183,7 +183,7 @@ def pricing_tiers() -> rx.Component:
                             "All Citizen Shield Features Included",
                             "High-Speed Parallel Multi-Agent Pipeline",
                             "Bulk Batch Call Recording Ingestion",
-                            "Central Suspect Database Deduplication",
+                            "Central Threat Database Deduplication",
                             "Automated National Portal Case Reports",
                         ],
                         "Launch Pro Scanner",

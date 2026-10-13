@@ -19,7 +19,7 @@ def cta_banner() -> rx.Component:
                         line_height="1.15",
                     ),
                     rx.text(
-                        "Analyze suspicious call recordings, scan text phishing links, or query suspect threat registries in sub-second real-time.",
+                        "Analyze suspicious call recordings, scan text phishing links, and evaluate fraud threats in sub-second real-time.",
                         font_size={"initial": "15px", "sm": "16px", "md": "18px"},
                         color="rgba(240, 244, 243, 0.85)",
                         font_family="'Outfit', sans-serif",

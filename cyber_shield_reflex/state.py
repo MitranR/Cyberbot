@@ -416,8 +416,8 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         """Alias for run_text_scan."""
         return self.run_text_scan()
 
-    def run_suspect_text_sample(self, sample: str):
-        """Runs text_agent analysis on pre-configured suspect text sample."""
+    def run_sample_text_scan(self, sample: str):
+        """Runs text_agent analysis on pre-configured test sample scenarios."""
         if sample == "bank_otp":
             self.text_input = "URGENT: Your HDFC bank account is blocked due to unverified KYC. Click http://hdfc-verify-login.net immediately or share OTP 849201 to avoid closure."
         elif sample == "delivery":
@@ -427,6 +427,9 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         else:
             self.text_input = sample
         self.run_text_scan()
+
+    def run_suspect_text_sample(self, sample: str):
+        return self.run_sample_text_scan(sample)
 
     def reset_results(self):
         self.voice_analysis_done = False

@@ -70,7 +70,7 @@ class TextScamDetectorAgent:
                 "scam_type": "None",
                 "indicators": [],
                 "explanation": "No text content was submitted for evaluation.",
-                "recommendation": "Paste suspect text to run cyber fraud analysis.",
+                "recommendation": "Paste suspicious message text to run cyber fraud analysis.",
                 "idempotent_hit": False
             }
 

@@ -179,7 +179,7 @@ def disclaimer_modal() -> rx.Component:
             ),
             rx.vstack(
                 rx.text(
-                    "This Website is designed, developed, and maintained by the Cyber Fraud Shield AI Engineering & Platform Administration Team. The contents of this website are for information, voice fraud intelligence, and educational cybercrime prevention purposes, enabling the public to have quick access to AI voice analysis tools and suspect reporting features.",
+                    "This Website is designed, developed, and maintained by the Cyber Fraud Shield AI Engineering & Platform Administration Team. The contents of this website are for information, voice fraud intelligence, and educational cybercrime prevention purposes, enabling the public to have quick access to AI voice analysis tools and cyber fraud reporting features.",
                     font_size="13px",
                     color="#334155",
                     font_family="'Outfit', sans-serif",

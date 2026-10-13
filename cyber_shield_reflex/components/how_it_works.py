@@ -61,7 +61,7 @@ def step_card(num: str, title: str, subtitle: str, icon_name: str, color_accent:
 def how_it_works() -> rx.Component:
     """
     End-to-End Multi-Modal Verification Pipeline Component.
-    Explains the sub-second workflow across Voice, Text, and Suspect Database analysis.
+    Explains the sub-second workflow across Voice and Text scam analysis.
     """
     return rx.box(
         rx.box(
@@ -99,7 +99,7 @@ def how_it_works() -> rx.Component:
                         margin_top="10px",
                     ),
                     rx.text(
-                        "From audio sample uploads to SMS phishing text analysis and suspect UPI lookups — our sub-second pipeline evaluates every incident thoroughly.",
+                        "From audio sample uploads to SMS phishing text analysis — our sub-second pipeline evaluates every incident thoroughly.",
                         font_size={"initial": "15px", "sm": "16px", "md": "17px"},
                         color="#5A6E72",
                         font_family="'Outfit', sans-serif",
@@ -114,7 +114,7 @@ def how_it_works() -> rx.Component:
                     step_card(
                         "1",
                         "Multi-Modal Ingestion",
-                        "Accepts call audio files (.mp3, .wav), SMS phishing text clips, or suspect UPI IDs and mobile numbers into the execution queue.",
+                        "Accepts call audio files (.mp3, .wav) and SMS phishing text clips into the execution queue.",
                         "cloud-upload",
                         color_accent="#0088FF",
                     ),

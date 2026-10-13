@@ -811,7 +811,7 @@ def analysis_panel() -> rx.Component:
                                 variant="surface",
                                 color_scheme="red",
                                 cursor="pointer",
-                                on_click=State.run_suspect_text_sample("bank_otp"),
+                                on_click=State.run_sample_text_scan("bank_otp"),
                             ),
                             rx.button(
                                 "Customs Package Seizure",
@@ -819,7 +819,7 @@ def analysis_panel() -> rx.Component:
                                 variant="surface",
                                 color_scheme="orange",
                                 cursor="pointer",
-                                on_click=State.run_suspect_text_sample("delivery"),
+                                on_click=State.run_sample_text_scan("delivery"),
                             ),
                             rx.button(
                                 "Tech Support Scam",
@@ -827,7 +827,7 @@ def analysis_panel() -> rx.Component:
                                 variant="surface",
                                 color_scheme="yellow",
                                 cursor="pointer",
-                                on_click=State.run_suspect_text_sample("tech_support"),
+                                on_click=State.run_sample_text_scan("tech_support"),
                             ),
                             spacing="2",
                             align="center",
