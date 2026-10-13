@@ -115,7 +115,6 @@ def header() -> rx.Component:
                     rx.hstack(
                         nav_link("Home", "/"),
                         nav_link("Report Voice Fraud", "/scan"),
-                        nav_link("Suspect Intelligence", "/suspect-intelligence"),
                         nav_link("Volunteers", "/volunteers"),
                         nav_link("Help & Docs / FAQs", "/docs"),
                         spacing="2",

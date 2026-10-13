@@ -11,7 +11,6 @@ from cyber_shield_reflex.components import (
     architecture,
     footer,
     bot_agent,
-    suspect_intelligence,
     faq,
 )
 
@@ -50,20 +49,6 @@ def scan_page() -> rx.Component:
     )
 
 
-def suspect_intelligence_page() -> rx.Component:
-    """Suspect Intelligence Database & Text Agent Scanner Page."""
-    return rx.box(
-        header(),
-        suspect_intelligence(),
-        footer(show_helpline_ribbon=False),
-        bot_agent(),
-        background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
-        min_height="100vh",
-        width="100%",
-        overflow_x="hidden",
-        font_family="'Outfit', sans-serif",
-        color="#FFFFFF",
-    )
 
 
 def volunteers_page() -> rx.Component:
@@ -158,6 +143,5 @@ app = rx.App(
 # Clean Page Routes
 app.add_page(index, route="/", title="Cyber Fraud Shield | Home")
 app.add_page(scan_page, route="/scan", title="Cyber Fraud Shield | Report & Scan")
-app.add_page(suspect_intelligence_page, route="/suspect-intelligence", title="Cyber Fraud Shield | Suspect Intelligence")
 app.add_page(volunteers_page, route="/volunteers", title="Cyber Fraud Shield | Volunteers")
 app.add_page(docs_page, route="/docs", title="Cyber Fraud Shield | Help & FAQs")

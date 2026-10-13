@@ -171,7 +171,7 @@ def agent_ecosystem() -> rx.Component:
                         margin_top="10px",
                     ),
                     rx.text(
-                        "Five specialized AI agents run in parallel to detect voice cloning, dissect SMS phishing, query suspect database registries, and guide citizens in real-time.",
+                        "Five specialized AI agents run in parallel to detect voice cloning, dissect SMS phishing, query threat database registries, and guide citizens in real-time.",
                         font_size={"initial": "15px", "sm": "16px", "md": "17px"},
                         color="#5A6E72",
                         font_family="'Outfit', sans-serif",
@@ -221,10 +221,10 @@ def agent_ecosystem() -> rx.Component:
                         badge_color="rgba(16, 185, 129, 0.08)",
                     ),
                     
-                    # Agent 3: Suspect Intelligence Agent
+                    # Agent 3: Threat Registry Agent
                     agent_card(
                         "AGENT 03",
-                        "Suspect Intelligence Agent",
+                        "Threat Registry Agent",
                         "Threat Registry & Idempotency Database",
                         "Thread-Safe Idempotent Engine",
                         "Queries central cybercrime database records for flagged UPI IDs, mobile numbers, and bank account handles to return instant risk scores.",
@@ -232,7 +232,7 @@ def agent_ecosystem() -> rx.Component:
                             "UPI ID, phone number & bank account lookup",
                             "Multi-factor threat score calculation (0 - 100)",
                             "Idempotent hash caching for instant responses",
-                            "Incident deduplication & suspect fraud history",
+                            "Incident deduplication & threat fraud history",
                         ],
                         "shield-alert",
                         accent_color="#F59E0B",

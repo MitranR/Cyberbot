@@ -277,29 +277,7 @@ def animated_hero() -> rx.Component:
                         href="/scan",
                         text_decoration="none",
                     ),
-                    rx.link(
-                        rx.button(
-                            rx.hstack(
-                                rx.icon("shield-alert", size=18, color="#38BDF8"),
-                                rx.text("Suspect Intelligence", font_weight="700"),
-                                spacing="2",
-                                align="center",
-                            ),
-                            background="rgba(15, 23, 42, 0.8)",
-                            border="1px solid rgba(56, 189, 248, 0.4)",
-                            color="#FFFFFF",
-                            font_size="14px",
-                            padding_x="22px",
-                            padding_y="12px",
-                            border_radius="10px",
-                            backdrop_filter="blur(10px)",
-                            cursor="pointer",
-                            _hover={"background": "rgba(30, 41, 59, 0.9)", "border_color": "#38BDF8", "transform": "translateY(-2px)"},
-                            transition="all 0.2s ease-in-out",
-                        ),
-                        href="/suspect-intelligence",
-                        text_decoration="none",
-                    ),
+
                     rx.button(
                         rx.hstack(
                             rx.icon("bot", size=18, color="#FFFFFF"),
