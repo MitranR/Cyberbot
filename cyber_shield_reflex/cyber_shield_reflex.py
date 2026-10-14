@@ -10,6 +10,7 @@ from cyber_shield_reflex.components import (
     analysis_panel,
     architecture,
     footer,
+    helpline_ribbon,
     bot_agent,
     faq,
 )
@@ -67,6 +68,7 @@ def volunteers_page() -> rx.Component:
             padding_x={"initial": "16px", "md": "48px"},
             flex="1",
         ),
+        helpline_ribbon(),
         footer(show_helpline_ribbon=False),
         bot_agent(),
         background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
@@ -86,7 +88,7 @@ def docs_page() -> rx.Component:
     return rx.box(
         header(),
         faq(),
-        footer(show_helpline_ribbon=True),
+        footer(show_helpline_ribbon=False),
         bot_agent(),
         background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
         min_height="100vh",
