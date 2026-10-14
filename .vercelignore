@@ -5,3 +5,4 @@ MinGit/
 .venv/
 Dockerfile
 render.yaml
+requirements.txt
