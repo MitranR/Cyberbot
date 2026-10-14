@@ -1,0 +1,101 @@
+message_id,sms_text,label
+FRAUD001,Your bank account will be blocked today. Verify your details immediately using this link: example.invalid/a1,fraud
+FRAUD002,Congratulations! You won a cash prize. Pay a small processing fee to claim it: example.invalid/a2,fraud
+FRAUD003,Your parcel is on hold due to an unpaid fee. Update delivery details here: example.invalid/a3,fraud
+FRAUD004,URGENT: Your debit card is suspended. Confirm your PIN to reactivate it: example.invalid/a4,fraud
+FRAUD005,Your electricity connection will be disconnected tonight. Pay now through this link: example.invalid/a5,fraud
+FRAUD006,You have been selected for a guaranteed job. Pay the registration charge today: example.invalid/a6,fraud
+FRAUD007,Your mobile number has won a lucky draw. Send your bank details to receive the reward.,fraud
+FRAUD008,Unusual activity detected on your account. Share the one-time password with our agent to secure it.,fraud
+FRAUD009,Your KYC has expired. Submit your identity documents through this unofficial link: example.invalid/a9,fraud
+FRAUD010,Final warning: Your tax refund is waiting. Enter your card details to receive it: example.invalid/a10,fraud
+FRAUD011,Your subscription will be cancelled unless you pay the reactivation fee immediately.,fraud
+FRAUD012,Earn huge daily income from home with no work. Pay a joining deposit to start.,fraud
+FRAUD013,Your bank reward points expire today. Sign in through this link to redeem them: example.invalid/a13,fraud
+FRAUD014,Your loan is approved instantly. Pay an advance fee before funds can be released.,fraud
+FRAUD015,Police case registered against your name. Pay the fine immediately to avoid arrest.,fraud
+FRAUD016,Your parcel could not be delivered. Pay a redelivery charge through this unfamiliar link.,fraud
+FRAUD017,Your account has been compromised. Send your password and OTP to our security team.,fraud
+FRAUD018,You are eligible for a government grant. Pay a verification fee to unlock the funds.,fraud
+FRAUD019,Your SIM will be deactivated in one hour. Confirm your identity using this link: example.invalid/a19,fraud
+FRAUD020,Your credit card cashback is ready. Enter the full card number and CVV to claim it.,fraud
+FRAUD021,"Dear customer, your bank account will be frozen unless you install this security app.",fraud
+FRAUD022,Your package is waiting at customs. Transfer the clearance fee to this personal account.,fraud
+FRAUD023,Your digital wallet is locked. Share your recovery code with support to restore access.,fraud
+FRAUD024,Exclusive investment opportunity: guaranteed 40% returns every week. Deposit today.,fraud
+FRAUD025,You have been chosen for a secret shopping reward. Pay courier insurance before delivery.,fraud
+FRAUD026,Your pension payment is delayed. Send your bank login details to release it.,fraud
+FRAUD027,Your online account will be deleted. Confirm your password at this link: example.invalid/a26,fraud
+FRAUD028,"Congratulations, you are our millionth visitor. Pay a tiny fee to receive a new phone.",fraud
+FRAUD029,Your toll payment failed. Pay the penalty immediately using this shortened link: example.invalid/a28,fraud
+FRAUD030,Your bank representative needs your OTP to reverse an unauthorised transaction.,fraud
+FRAUD031,Your insurance claim is approved. Pay a release charge before the compensation is sent.,fraud
+FRAUD032,Your electricity subsidy is ready. Enter your bank PIN on this page to receive payment.,fraud
+FRAUD033,Your social media account is verified for free. Send your login code to activate the badge.,fraud
+FRAUD034,Your friend has sent you money. Open this link and enter your UPI PIN to accept it.,fraud
+FRAUD035,Your payment failed. Install this APK file to fix your banking app.,fraud
+FRAUD036,Your tax filing has a penalty. Pay now using this link or face legal action: example.invalid/a35,fraud
+FRAUD037,Your bank account has received a large transfer. Pay a security fee to withdraw it.,fraud
+FRAUD038,Your parcel contains a restricted item. Pay a fine now to avoid immediate prosecution.,fraud
+FRAUD039,Your mobile recharge prize is waiting. Share your OTP to confirm your identity.,fraud
+FRAUD040,Your account will be upgraded automatically. Reply with your password to continue.,fraud
+FRAUD041,Work abroad with a guaranteed visa. Send a deposit to reserve your place.,fraud
+FRAUD042,Your online order refund is approved. Enter your card PIN to receive the refund.,fraud
+FRAUD043,Your bank has detected fraud. Move your money to this safe account immediately.,fraud
+FRAUD044,Your credit score can be fixed overnight. Pay upfront and we guarantee a higher score.,fraud
+FRAUD045,Your lottery ticket has won a huge amount. Send an ID scan and fee to claim it.,fraud
+FRAUD046,Your account is under investigation. Keep this message secret and transfer funds now.,fraud
+FRAUD047,Your mobile service will stop today. Install this attached update to prevent disconnection.,fraud
+FRAUD048,Your scholarship has been approved. Pay an administration fee before the deadline.,fraud
+FRAUD049,Your bank needs you to confirm your account by replying with your full card details.,fraud
+FRAUD050,Your parcel delivery requires an urgent address correction. Use this link: example.invalid/a49,fraud
+FRAUD051,Your digital payment is pending. Share your screen with our agent to complete verification.,fraud
+FRAUD052,Your fixed deposit has matured. Pay a tax release fee to transfer the money.,fraud
+FRAUD053,Your account has been selected for a premium upgrade. Confirm your OTP to activate it.,fraud
+FRAUD054,Your phone has a virus. Download this unknown cleaner app immediately: example.invalid/a53,fraud
+FRAUD055,Your refund will expire in 10 minutes. Enter your banking password to avoid losing it.,fraud
+FRAUD056,Your bank card is blocked. Call this unofficial number and provide your PIN to unblock it.,fraud
+FRAUD057,Your electricity bill has a final notice. Scan this QR code and pay immediately to avoid disconnection.,fraud
+FRAUD058,Your delivery driver needs a small fee. Transfer it to this personal wallet before arrival.,fraud
+FRAUD059,Your work-from-home salary is guaranteed. Pay for mandatory training materials first.,fraud
+FRAUD060,Your investment account is frozen. Deposit more funds to unlock your existing balance.,fraud
+FRAUD061,Your account has won a smartphone. Pay insurance and shipping charges to receive it.,fraud
+FRAUD062,Your bank account will be closed for inactivity. Click here and enter your login details: example.invalid/a61,fraud
+FRAUD063,Your UPI ID will expire. Share your PIN with our representative to renew it.,fraud
+FRAUD064,Your refund is blocked because your account is not verified. Send your OTP now.,fraud
+FRAUD065,Your passport application is approved. Pay an urgent handling fee through this link.,fraud
+FRAUD066,Your health insurance bonus is ready. Enter your card CVV to receive the benefit.,fraud
+FRAUD067,Your child has been shortlisted for a prize. Pay a confirmation fee today.,fraud
+FRAUD068,Your payment account has a security issue. Give remote access to our technician.,fraud
+FRAUD069,Your loan repayment is overdue. Pay through this unfamiliar link to avoid arrest: example.invalid/a68,fraud
+FRAUD070,Your bank has a special offer. Transfer a refundable deposit to activate it.,fraud
+FRAUD071,Your online marketplace sale is confirmed. Enter your card details to receive payment.,fraud
+FRAUD072,Your account has suspicious activity. Disable security settings and follow our instructions.,fraud
+FRAUD073,Your mobile number is linked to a criminal case. Pay a settlement amount immediately.,fraud
+FRAUD074,Your reward points will be forfeited. Enter your password and OTP to redeem them.,fraud
+FRAUD075,Your courier is held at the depot. Pay a storage fee to release the package.,fraud
+FRAUD076,Your bank refund requires a verification payment. Send money first to receive money.,fraud
+FRAUD077,Your government benefit is ready. Share your Aadhaar and bank OTP in this chat.,fraud
+FRAUD078,Your email account is full and will be closed. Sign in here to keep it active: example.invalid/a77,fraud
+FRAUD079,Your computer support case is open. Buy gift cards and share the codes to fix it.,fraud
+FRAUD080,Your bank account has earned bonus interest. Pay a processing charge to receive it.,fraud
+FRAUD081,Your SIM replacement is pending. Send your OTP and ID photo to this number.,fraud
+FRAUD082,Your crypto wallet has a bonus waiting. Enter your recovery phrase to unlock it.,fraud
+FRAUD083,Your online exam result is withheld. Pay a release fee to view your marks.,fraud
+FRAUD084,Your bank has reversed a transaction. Click here and enter your PIN to confirm: example.invalid/a83,fraud
+FRAUD085,Your parcel has a customs fine. Pay with gift cards to prevent legal action.,fraud
+FRAUD086,Your new job offer is confirmed. Send your passport copy and deposit to receive the contract.,fraud
+FRAUD087,Your account is eligible for a cash advance. Pay an activation fee before withdrawal.,fraud
+FRAUD088,Your social account will be permanently suspended. Send the login code to appeal.,fraud
+FRAUD089,Your electricity meter shows a final warning. Install this app to prevent cutoff.,fraud
+FRAUD090,Your refund agent is ready. Tell us the OTP sent to your phone to complete the refund.,fraud
+FRAUD091,Your bank security team needs you to transfer funds to a temporary protection account.,fraud
+FRAUD092,"Your prize money is waiting. Reply with your date of birth, card number, and CVV.",fraud
+FRAUD093,Your payment was received incorrectly. Send the amount back to this different account immediately.,fraud
+FRAUD094,Your account verification failed. Upload your ID and bank statement using this link: example.invalid/a92,fraud
+FRAUD095,Your mobile provider offers a free upgrade. Pay a refundable deposit to receive the phone.,fraud
+FRAUD096,Your tax refund has been stopped. Send your bank password so we can release it.,fraud
+FRAUD097,Your package is delayed due to an address issue. Pay a correction fee through this link: example.invalid/a95,fraud
+FRAUD098,Your account has been chosen for a secret investment group. Send money now for guaranteed profit.,fraud
+FRAUD099,Your bank card will expire today. Confirm the CVV and OTP to renew it.,fraud
+FRAUD100,Your court summons is pending. Pay a fine by gift card within one hour.,fraud

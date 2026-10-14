@@ -311,6 +311,8 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.text_threat_probability = 0
         self.text_scam_type = "Legitimate Message"
         self.text_actionable_advice = ""
+        self.text_matched_tactics = []
+        self.text_warning_signs = []
 
     async def handle_upload(self, files: List[rx.UploadFile] = []):
         """

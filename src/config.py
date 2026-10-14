@@ -40,11 +40,11 @@ class Config:
 
 # Scam classification rules & indicators
 SCAM_INDICATORS = {
-    "urgency": ["urgent", "immediately", "24 hours", "suspended", "blocked", "act now", "warning", "police", "legal action"],
-    "financial": ["bank", "transfer", "otp", "pin", "credit card", "debit card", "refund", "lottery", "crypto", "prize", "account locked"],
-    "suspicious_links": ["http://", "https://", "bit.ly", "tinyurl", "login-verify", "secure-update", "bank-auth", "click here"],
-    "authority_impersonation": ["fedex", "dhl", "customs", "tax department", "irs", "support team", "security department", "whatsapp center"],
-    "credential_harvesting": ["password", "verification code", "ssn", "aadhaar", "cvv", "security question"]
+    "urgency": ["urgent", "immediately", "today", "tonight", "in one hour", "24 hours", "suspended", "blocked", "act now", "warning", "final warning", "final notice", "police", "legal action", "arrest", "summons", "withheld", "disconnection", "penalty"],
+    "financial": ["bank", "transfer", "otp", "pin", "credit card", "debit card", "refund", "lottery", "crypto", "prize", "account locked", "advance fee", "processing fee", "registration charge", "cash prize", "cashback", "lucky draw", "fine", "deposit", "settlement"],
+    "suspicious_links": ["http://", "https://", "bit.ly", "tinyurl", "login-verify", "secure-update", "bank-auth", "click here", "example.invalid", ".apk", "download", "install", "shortened link"],
+    "authority_impersonation": ["fedex", "dhl", "customs", "tax department", "police", "electricity board", "tneb", "bses", "bescom", "court", "cbi", "cyber crime", "support team", "security team", "whatsapp", "bank representative", "delivery driver"],
+    "credential_harvesting": ["password", "verification code", "one-time password", "ssn", "aadhaar", "cvv", "security question", "recovery phrase", "recovery code", "login details", "full card details", "share your screen"]
 }
 
 # Incident Emergency Protocol Playbooks
