@@ -4,12 +4,14 @@ from typing import List, Dict, Any, Optional
 from src.config import Config
 from src.agents.rag_engine import CyberKnowledgeRAGEngine
 from src.agents.cyber_scenarios import get_scenario_response
+from src.agents.qa_dataset_engine import CybercrimeQADatasetEngine
 
 
 class CyberShieldBotAgent:
     """
     Advanced Multilingual Cyber Shield AI Assistant & Problem Solver.
-    Powered by Groq Free API (Llama 3.3 70B) with zero-dependency Local RAG Simulation fallback.
+    Trained on the authoritative 100 Q&A cybercrime reporting dataset with high-precision
+    TF-IDF semantic matching, zero-delay local engine, and Groq LLM integration.
     Capable of answering general queries, solving complex cybersecurity problems,
     and responding naturally in English, Tamil (தமிழ்), German (Deutsch), and Japanese (日本語).
     """
@@ -18,6 +20,8 @@ class CyberShieldBotAgent:
         self.name = "Cyber Shield Bot"
         self.role = "Comprehensive AI Cybersecurity & Technical Assistant"
         self.rag_engine = CyberKnowledgeRAGEngine()
+        self.qa_engine = CybercrimeQADatasetEngine()
+        self._chat_cache: Dict[str, str] = {}
         if db_manager is None:
             from src.database.db_manager import DatabaseManager
             db_manager = DatabaseManager()
@@ -73,21 +77,22 @@ GUIDELINES:
         if chat_history is None:
             chat_history = []
 
-        # Check Idempotency Cache
-        if not idempotency_key:
-            payload_str = f"{language}_{message.strip().lower()}_ctx:{json.dumps(chat_history[-2:] if chat_history else [])}"
-            idempotency_key = self.db.generate_idempotency_key(payload_str, prefix="bot_response")
+        cache_key = f"{language}_{message.strip().lower()}"
+        if cache_key in self._chat_cache:
+            return self._chat_cache[cache_key]
 
-        cached_rec = self.db.get_idempotent_record(idempotency_key, scope="bot_response")
-        if cached_rec and "response_text" in cached_rec:
-            prefix_badge = "⚡ *(Cached)*\n\n" if not cached_rec["response_text"].startswith("⚡") else ""
-            return f"{prefix_badge}{cached_rec['response_text']}"
+        # 1. Authoritative 100 Q&A Dataset Engine match (First & Highest Priority)
+        qa_match = self.qa_engine.query(message, language=language)
+        if qa_match and qa_match.get("answer"):
+            reply = qa_match["answer"]
+            self._chat_cache[cache_key] = reply
+            return reply
 
-        # Retrieve relevant playbooks via RAG semantic search
+        # 2. Retrieve relevant playbooks via RAG semantic search
         rag_results = self.rag_engine.search(message, top_k=2)
         rag_context = self.rag_engine.format_rag_context(rag_results)
 
-        # Try Groq Free API (Llama 3.3 70B) first
+        # 3. Try Groq Free API (Llama 3.3 70B) first
         bot_reply = None
         if Config.is_groq_available():
             try:
@@ -95,18 +100,11 @@ GUIDELINES:
             except Exception as e:
                 print(f"[BotAgent] Groq API call failed: {e}. Falling back to local multilingual engine.")
 
-        # Fallback to rich local multilingual knowledge & heuristic generator
+        # 4. Fallback to rich local multilingual knowledge & heuristic generator
         if not bot_reply:
             bot_reply = self._respond_with_local_engine(message, rag_results, language)
 
-        # Cache generated response
-        self.db.save_idempotent_record(
-            idempotency_key=idempotency_key,
-            request_hash=idempotency_key.split(":")[-1],
-            scope="bot_response",
-            response_data={"response_text": bot_reply},
-        )
-
+        self._chat_cache[cache_key] = bot_reply
         return bot_reply
 
     def _respond_with_groq(

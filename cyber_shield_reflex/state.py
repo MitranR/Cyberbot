@@ -190,7 +190,7 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         if not cleaned:
             return
         
-        self.bot_messages.append({"sender": "user", "text": cleaned})
+        self.bot_messages = [*self.bot_messages, {"sender": "user", "text": cleaned}]
         self.bot_input = ""
         
         # Format conversation history
@@ -201,7 +201,7 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         
         # Invoke enhanced multilingual CyberShieldBotAgent
         reply = cyber_bot.respond(cleaned, chat_history=history, language=self.bot_language)
-        self.bot_messages.append({"sender": "bot", "text": reply})
+        self.bot_messages = [*self.bot_messages, {"sender": "bot", "text": reply}]
         self.speak_text = reply
 
         if self.auto_read_aloud:

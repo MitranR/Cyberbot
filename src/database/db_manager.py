@@ -16,8 +16,11 @@ class DatabaseManager:
 
     def __init__(self, db_path: str | None = None):
         if db_path is None:
-            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            db_path = os.path.join(base_dir, "cyber_shield.db")
+            # Place database in project-level data/ folder outside watched source code packages
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            data_dir = os.path.join(project_root, "data")
+            os.makedirs(data_dir, exist_ok=True)
+            db_path = os.path.join(data_dir, "cyber_shield.db")
         
         self.db_path = db_path
         self.init_db()

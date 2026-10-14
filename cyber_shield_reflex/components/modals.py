@@ -312,12 +312,21 @@ def complaint_prerequisites_modal() -> rx.Component:
                 # Bottom Action Buttons
                 rx.hstack(
                     rx.button(
-                        "I Understand / Close",
-                        variant="surface",
-                        color_scheme="gray",
-                        size="2",
+                        rx.hstack(
+                            rx.icon("x", size=15),
+                            rx.text("I Understand / Close", font_weight="700", font_size="13px"),
+                            spacing="1",
+                            align="center",
+                        ),
+                        background="#DC2626",
+                        color="#FFFFFF",
+                        padding_x="18px",
+                        padding_y="10px",
+                        border_radius="6px",
+                        box_shadow="0 2px 8px rgba(220, 38, 38, 0.35)",
                         on_click=State.toggle_complaint_modal,  # type: ignore
                         cursor="pointer",
+                        _hover={"background": "#B91C1C", "transform": "translateY(-1px)"},
                     ),
                     rx.link(
                         rx.button(
