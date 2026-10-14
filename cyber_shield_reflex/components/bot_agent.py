@@ -5,150 +5,9 @@ from cyber_shield_reflex.state import State
 def voice_speech_scripts() -> rx.Component:
     """
     Client-side Web Speech Recognition (Voice Input) & Speech Synthesis (Voice Read Aloud) Engine.
-    100% Free, runs natively in all modern browsers without any paid external speech APIs.
-    Supports English, Tamil (ta-IN), German (de-DE), and Japanese (ja-JP).
+    Loads assets/cyberbot_voice.js directly via rx.script to guarantee browser execution in Head.
     """
-    return rx.html(
-        r"""
-        <script>
-        window.cyberBotTTS = {
-            recognition: null,
-            isRecording: false,
-            
-            getLangCode: function(lang) {
-                switch(lang) {
-                    case 'Tamil': return 'ta-IN';
-                    case 'German': return 'de-DE';
-                    case 'Japanese': return 'ja-JP';
-                    default: return 'en-US';
-                }
-            },
-
-            startVoiceInput: function() {
-                const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRec) {
-                    alert("Speech recognition is supported in Google Chrome, Microsoft Edge, and Safari. Please use one of these browsers.");
-                    return;
-                }
-
-                const statusEl = document.getElementById('voiceMicStatus');
-                const micIcon = document.getElementById('micButtonIcon');
-
-                if (window.cyberBotTTS.isRecording) {
-                    if (window.cyberBotTTS.recognition) {
-                        try { window.cyberBotTTS.recognition.stop(); } catch(e) {}
-                    }
-                    window.cyberBotTTS.isRecording = false;
-                    if (statusEl) statusEl.style.display = 'none';
-                    if (micIcon) micIcon.style.color = '#38BDF8';
-                    return;
-                }
-
-                const currentLang = window.currentBotLang || 'English';
-                const langCode = window.cyberBotTTS.getLangCode(currentLang);
-
-                const rec = new SpeechRec();
-                rec.lang = langCode;
-                rec.interimResults = false;
-                rec.continuous = false;
-                rec.maxAlternatives = 1;
-
-                if (statusEl) {
-                    statusEl.innerHTML = '🎙️ <b>Listening in ' + currentLang + '...</b> Speak now';
-                    statusEl.style.display = 'block';
-                }
-
-                rec.onstart = function() {
-                    window.cyberBotTTS.isRecording = true;
-                    if (micIcon) micIcon.style.color = '#EF4444';
-                };
-
-                rec.onresult = function(event) {
-                    if (event.results && event.results.length > 0) {
-                        const transcript = event.results[0][0].transcript;
-                        const inputEl = document.getElementById('botChatInput');
-                        if (inputEl) {
-                            const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-                            if (nativeSetter) {
-                                nativeSetter.call(inputEl, transcript);
-                            } else {
-                                inputEl.value = transcript;
-                            }
-                            inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-                            inputEl.dispatchEvent(new Event('change', { bubbles: true }));
-                        }
-                        
-                        if (statusEl) {
-                            statusEl.innerHTML = '✅ <i>"' + transcript + '"</i>';
-                        }
-
-                        setTimeout(() => {
-                            const formEl = document.getElementById('botChatForm');
-                            if (formEl && formEl.requestSubmit) {
-                                formEl.requestSubmit();
-                            } else {
-                                const sendBtn = document.getElementById('botSendBtn');
-                                if (sendBtn) sendBtn.click();
-                            }
-                            setTimeout(() => {
-                                if (statusEl) statusEl.style.display = 'none';
-                            }, 1200);
-                        }, 350);
-                    }
-                };
-
-                rec.onerror = function(event) {
-                    console.log("Voice speech recognition error:", event.error);
-                    if (statusEl) {
-                        statusEl.innerHTML = '⚠️ Voice input: ' + event.error;
-                        setTimeout(() => { if (statusEl) statusEl.style.display = 'none'; }, 2000);
-                    }
-                    window.cyberBotTTS.isRecording = false;
-                    if (micIcon) micIcon.style.color = '#38BDF8';
-                };
-
-                rec.onend = function() {
-                    window.cyberBotTTS.isRecording = false;
-                    if (micIcon) micIcon.style.color = '#38BDF8';
-                };
-
-                window.cyberBotTTS.recognition = rec;
-                try {
-                    rec.start();
-                } catch(e) {
-                    console.log("Speech recognition start exception:", e);
-                }
-            },
-
-            speak: function(text, lang) {
-                if (!('speechSynthesis' in window)) return;
-                window.speechSynthesis.cancel(); // Stop any previous speech
-
-                // Strip markdown formatting symbols for clean vocal speech
-                const plainText = text.replace(/[*#_`>]/g, '').replace(/https?:\/\/\S+/g, 'link');
-                const utterance = new SpeechSynthesisUtterance(plainText);
-                const langCode = window.cyberBotTTS.getLangCode(lang || window.currentBotLang || 'English');
-                utterance.lang = langCode;
-                utterance.rate = 1.0;
-                utterance.pitch = 1.0;
-
-                // Pick best localized voice if available
-                const voices = window.speechSynthesis.getVoices();
-                const matchedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(langCode.substring(0, 2).toLowerCase()));
-                if (matchedVoice) utterance.voice = matchedVoice;
-
-                window.speechSynthesis.speak(utterance);
-            },
-
-            stopSpeaking: function() {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                }
-            }
-        };
-        </script>
-        """
-    )
+    return rx.script(src="/cyberbot_voice.js")
 
 
 def lang_pill(label: str, lang_key: str, flag: str) -> rx.Component:
@@ -486,15 +345,17 @@ def bot_agent() -> rx.Component:
                         # Voice Microphone Control Button (type="button" so it does not submit form)
                         rx.button(
                             rx.html("""<span id="micButtonIcon" style="color: #38BDF8; font-size: 16px;">🎙️</span>"""),
+                            id="micButton",
                             type="button",
                             cursor="pointer",
                             background="#0F172A",
                             border="1px solid #38BDF8",
                             border_radius="8px",
-                            padding_x="10px",
+                            padding_x="11px",
+                            padding_y="8px",
                             title="Click to speak using your microphone",
-                            on_click=rx.call_script("window.cyberBotTTS.startVoiceInput();"),
-                            _hover={"background": "#1E293B", "box-shadow": "0 0 10px rgba(56, 189, 248, 0.5)"},
+                            on_click=rx.call_script("window.startCyberBotVoiceInput();"),
+                            _hover={"background": "#1E293B", "box-shadow": "0 0 12px rgba(56, 189, 248, 0.6)"},
                         ),
                         # Send Button (type="submit" to natively submit form)
                         rx.button(

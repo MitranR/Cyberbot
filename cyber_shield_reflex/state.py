@@ -244,7 +244,9 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
 
     def handle_chat_submit(self, form_data: dict):
         """Single-enter and single-click native form submission handler."""
-        msg = form_data.get("message", "")
+        msg = ""
+        if form_data:
+            msg = form_data.get("message", "") or form_data.get("botChatInput", "")
         if not msg:
             msg = self.bot_input
         return self._process_bot_message(msg)
