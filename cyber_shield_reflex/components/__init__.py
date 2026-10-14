@@ -11,6 +11,7 @@ from cyber_shield_reflex.components.bot_agent import bot_agent
 from cyber_shield_reflex.components.faq import faq
 from cyber_shield_reflex.components.animated_hero import animated_hero
 from cyber_shield_reflex.components.user_modal import user_modal
+from cyber_shield_reflex.components.volunteers import volunteers_content
 
 __all__ = [
     "header",
@@ -27,4 +28,5 @@ __all__ = [
     "bot_agent",
     "faq",
     "user_modal",
+    "volunteers_content",
 ]

@@ -13,6 +13,7 @@ from cyber_shield_reflex.components import (
     helpline_ribbon,
     bot_agent,
     faq,
+    volunteers_content,
 )
 
 
@@ -57,15 +58,10 @@ def volunteers_page() -> rx.Component:
     return rx.box(
         header(),
         rx.box(
-            rx.vstack(
-                rx.heading("Volunteers & Contributor Community", font_size="32px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
-                rx.text("Join security researchers, data scientists, and developers building open-source AI fraud defense.", font_size="16px", color="#94A3B8"),
-                padding_y="60px",
-                align="start",
-                width="100%",
-            ),
+            volunteers_content(),
             width="100%",
             padding_x={"initial": "16px", "md": "48px"},
+            padding_y="24px",
             flex="1",
         ),
         helpline_ribbon(),
