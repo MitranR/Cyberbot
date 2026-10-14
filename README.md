@@ -1,3 +1,13 @@
+---
+title: Cyber Fraud Shield
+emoji: 🛡️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 🛡️ Cyber Fraud Shield: AI-Powered Fraud Defense & Assistant
 
 An interactive web application and multi-agent AI system designed to protect users against cyber fraud, voice cloning, phishing messages, and social engineering attacks.

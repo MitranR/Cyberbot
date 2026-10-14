@@ -34,6 +34,9 @@ RUN reflex export --frontend-only --no-zip
 # Production Runner Image
 FROM python:3.12-slim
 
+# Create standard non-root user for Hugging Face Spaces and container security
+RUN useradd -m -u 1000 user
+
 WORKDIR /app
 
 # Install runtime curl for health checks
@@ -44,11 +47,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy installed Python packages & application artifacts from builder
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
-COPY --from=builder /app /app
+COPY --from=builder --chown=user:user /app /app
 
-# Expose standard production port
-ENV PORT=8000
-EXPOSE 8000
+# Default port: 7860 for Hugging Face Spaces (Render and other hosts override via $PORT)
+ENV PORT=7860
+EXPOSE 7860
+
+USER user
 
 # Start Reflex in production single-port mode
-CMD ["sh", "-c", "reflex run --env prod --single-port --frontend-port $PORT --backend-port $PORT"]
+CMD ["sh", "-c", "reflex run --env prod --single-port --frontend-port ${PORT:-7860} --backend-port ${PORT:-7860}"]
+
