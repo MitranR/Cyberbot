@@ -75,14 +75,15 @@ def render_faq_item(q_a: tuple) -> rx.Component:
     return rx.accordion.item(
         header=rx.text(
             question,
-            font_size="15px",
+            font_size={"initial": "14px", "sm": "15px"},
             font_weight="600",
             color="#FFFFFF",
             font_family="'Outfit', sans-serif",
+            text_align="left",
         ),
         content=rx.text(
             answer,
-            font_size="14px",
+            font_size={"initial": "13px", "sm": "14px"},
             color="#CBD5E1",
             font_family="'Outfit', sans-serif",
             line_height="1.6",
@@ -99,27 +100,32 @@ def faq() -> rx.Component:
             rx.vstack(
                 rx.vstack(
                     rx.text("FREQUENTLY ASKED QUESTIONS", font_size="11px", font_weight="700", color="#38BDF8", font_family="'IBM Plex Mono', monospace", letter_spacing="0.1em"),
-                    rx.heading("Official Cyber Crime Reporting Guidance & FAQs", font_size="28px", font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif"),
-                    rx.text("Authoritative answers to common questions regarding cybercrime reporting, evidence handling, and legal action.", font_size="15px", color="#94A3B8", font_family="'Outfit', sans-serif"),
+                    rx.heading("Official Cyber Crime Reporting Guidance & FAQs", font_size={"initial": "22px", "sm": "26px", "md": "28px"}, font_weight="800", color="#FFFFFF", font_family="'Space Grotesk', sans-serif", text_align="center"),
+                    rx.text("Authoritative answers to common questions regarding cybercrime reporting, evidence handling, and legal action.", font_size={"initial": "13px", "sm": "14px", "md": "15px"}, color="#94A3B8", font_family="'Outfit', sans-serif", text_align="center", max_width="720px"),
                     spacing="1",
                     align="center",
                     text_align="center",
                     margin_bottom="24px",
                 ),
                 
-                rx.accordion.root(
-                    *[render_faq_item(item) for item in FAQS_DATA],
-                    collapsible=True,
+                rx.box(
+                    rx.accordion.root(
+                        *[render_faq_item(item) for item in FAQS_DATA],
+                        collapsible=True,
+                        width="100%",
+                        variant="outline",
+                    ),
                     width="100%",
-                    variant="outline",
+                    max_width="1000px",
+                    margin_x="auto",
                 ),
                 spacing="4",
                 align="center",
-                padding_y="48px",
+                padding_y={"initial": "32px", "sm": "48px"},
                 width="100%",
             ),
             width="100%",
-            padding_x={"initial": "16px", "md": "48px"},
+            padding_x={"initial": "12px", "sm": "24px", "md": "48px"},
         ),
         width="100%",
         background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",

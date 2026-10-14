@@ -21,3 +21,4 @@ cyber_shield_flutter/.flutter-plugins-dependencies
 .venv/
 MinGit/
 uploaded_files/
+*.exe

@@ -310,7 +310,7 @@ def complaint_prerequisites_modal() -> rx.Component:
                 ),
                 
                 # Bottom Action Buttons
-                rx.hstack(
+                rx.flex(
                     rx.button(
                         rx.hstack(
                             rx.icon("x", size=15),
@@ -327,6 +327,7 @@ def complaint_prerequisites_modal() -> rx.Component:
                         on_click=State.toggle_complaint_modal,  # type: ignore
                         cursor="pointer",
                         _hover={"background": "#B91C1C", "transform": "translateY(-1px)"},
+                        width={"initial": "100%", "sm": "auto"},
                     ),
                     rx.link(
                         rx.button(
@@ -344,23 +345,28 @@ def complaint_prerequisites_modal() -> rx.Component:
                             border_radius="6px",
                             cursor="pointer",
                             _hover={"opacity": 0.95, "transform": "translateY(-1px)"},
+                            width={"initial": "100%", "sm": "auto"},
                         ),
                         href="https://cybercrime.gov.in/",
                         is_external=True,
+                        width={"initial": "100%", "sm": "auto"},
                     ),
+                    direction={"initial": "column", "sm": "row"},
                     justify="between",
+                    align={"initial": "stretch", "sm": "center"},
                     width="100%",
                     margin_top="20px",
                     padding_top="14px",
                     border_top="1px solid #E2E8F0",
+                    gap="2",
                 ),
-                padding="20px",
+                padding={"initial": "14px", "sm": "20px"},
                 width="100%",
                 max_height="78vh",
                 overflow_y="auto",
             ),
             padding="0",
-            max_width="760px",
+            max_width={"initial": "95vw", "sm": "90vw", "md": "760px"},
             border_radius="8px",
             background="#F8FAFC",
             box_shadow="0 10px 25px rgba(0, 0, 0, 0.2)",
@@ -424,8 +430,8 @@ def disclaimer_modal() -> rx.Component:
                 margin_top="16px",
                 width="100%",
             ),
-            padding="24px",
-            max_width="560px",
+            padding={"initial": "16px", "sm": "24px"},
+            max_width={"initial": "95vw", "sm": "90vw", "md": "560px"},
             border_radius="10px",
             background="#FFFFFF",
         ),

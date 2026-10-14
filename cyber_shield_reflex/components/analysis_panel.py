@@ -295,49 +295,53 @@ def voice_analysis_report_card() -> rx.Component:
     return rx.box(
         # 1. Executive Status Header Banner
         rx.box(
-            rx.hstack(
-                rx.icon(
-                    rx.cond(
-                        State.threat_verdict == "THREAT DETECTED",
-                        "triangle-alert",
-                        rx.cond(State.verdict == "UNCERTAIN", "circle-alert", "shield-check")
+            rx.flex(
+                rx.hstack(
+                    rx.icon(
+                        rx.cond(
+                            State.threat_verdict == "THREAT DETECTED",
+                            "triangle-alert",
+                            rx.cond(State.verdict == "UNCERTAIN", "circle-alert", "shield-check")
+                        ),
+                        size=26,
+                        color="#FFFFFF",
+                        flex_shrink="0",
                     ),
-                    size=26,
-                    color="#FFFFFF"
-                ),
-                rx.vstack(
-                    rx.hstack(
-                        rx.heading(
-                            rx.cond(
-                                State.threat_verdict == "THREAT DETECTED",
-                                "HIGH RISK: VOICE THREAT DETECTED",
-                                rx.cond(State.verdict == "UNCERTAIN", "CAUTION: SUSPICIOUS CALL PATTERN", "SAFE: NO THREAT DETECTED (LEGITIMATE CALL)")
+                    rx.vstack(
+                        rx.hstack(
+                            rx.heading(
+                                rx.cond(
+                                    State.threat_verdict == "THREAT DETECTED",
+                                    "HIGH RISK: VOICE THREAT DETECTED",
+                                    rx.cond(State.verdict == "UNCERTAIN", "CAUTION: SUSPICIOUS CALL PATTERN", "SAFE: NO THREAT DETECTED (LEGITIMATE CALL)")
+                                ),
+                                font_size={"initial": "15px", "sm": "17px"},
+                                font_weight="800",
+                                color="#FFFFFF",
+                                font_family="'Space Grotesk', sans-serif"
                             ),
-                            font_size="17px",
-                            font_weight="800",
-                            color="#FFFFFF",
-                            font_family="'Space Grotesk', sans-serif"
+                            rx.badge(
+                                "Cross-Attention Transformer & LwF",
+                                color_scheme=rx.cond(State.threat_verdict == "THREAT DETECTED", "red", rx.cond(State.verdict == "UNCERTAIN", "orange", "green")),
+                                variant="solid",
+                                size="1",
+                            ),
+                            spacing="2",
+                            align="center",
+                            wrap="wrap",
                         ),
-                        rx.badge(
-                            "Cross-Attention Transformer & LwF",
-                            color_scheme=rx.cond(State.threat_verdict == "THREAT DETECTED", "red", rx.cond(State.verdict == "UNCERTAIN", "orange", "green")),
-                            variant="solid",
-                            size="1",
+                        rx.text(
+                            f"Threat Probability: {State.threat_probability}%  •  Classification: {State.scam_type}  •  Severity: {State.threat_level}",
+                            font_size="12px",
+                            color="rgba(255,255,255,0.92)",
+                            font_family="'IBM Plex Mono', monospace"
                         ),
-                        spacing="2",
-                        align="center",
-                        wrap="wrap",
+                        spacing="1",
+                        align="start",
                     ),
-                    rx.text(
-                        f"Threat Probability: {State.threat_probability}%  •  Classification: {State.scam_type}  •  Severity: {State.threat_level}",
-                        font_size="12.5px",
-                        color="rgba(255,255,255,0.92)",
-                        font_family="'IBM Plex Mono', monospace"
-                    ),
-                    spacing="1",
-                    align="start",
+                    spacing="3",
+                    align="center",
                 ),
-                rx.spacer(),
                 # Dismiss / Clear Report Button
                 rx.button(
                     rx.hstack(
@@ -351,12 +355,15 @@ def voice_analysis_report_card() -> rx.Component:
                     cursor="pointer",
                     on_click=State.clear_uploaded_file,
                     _hover={"background": "rgba(255,255,255,0.2)"},
+                    width={"initial": "100%", "sm": "auto"},
                 ),
-                spacing="3",
-                align="center",
+                direction={"initial": "column", "sm": "row"},
+                justify="between",
+                align={"initial": "stretch", "sm": "center"},
+                gap="3",
                 width="100%",
             ),
-            padding="16px 20px",
+            padding={"initial": "12px 14px", "sm": "16px 20px"},
             background=rx.cond(
                 State.threat_verdict == "THREAT DETECTED",
                 "linear-gradient(90deg, #DC2626 0%, #B91C1C 100%)",
@@ -790,49 +797,53 @@ def text_analysis_report_card() -> rx.Component:
     return rx.box(
         # 1. Executive Status Header Banner
         rx.box(
-            rx.hstack(
-                rx.icon(
-                    rx.cond(
-                        State.text_risk_score > 60,
-                        "triangle-alert",
-                        rx.cond(State.text_risk_score > 35, "circle-alert", "shield-check")
+            rx.flex(
+                rx.hstack(
+                    rx.icon(
+                        rx.cond(
+                            State.text_risk_score > 60,
+                            "triangle-alert",
+                            rx.cond(State.text_risk_score > 35, "circle-alert", "shield-check")
+                        ),
+                        size=26,
+                        color="#FFFFFF",
+                        flex_shrink="0",
                     ),
-                    size=26,
-                    color="#FFFFFF"
-                ),
-                rx.vstack(
-                    rx.hstack(
-                        rx.heading(
-                            rx.cond(
-                                State.text_risk_score > 60,
-                                "HIGH RISK: MALICIOUS SMS / MESSAGE THREAT",
-                                rx.cond(State.text_risk_score > 35, "CAUTION: SUSPICIOUS MESSAGE PATTERN", "SAFE: NO PHISHING THREAT DETECTED (LEGITIMATE)")
+                    rx.vstack(
+                        rx.hstack(
+                            rx.heading(
+                                rx.cond(
+                                    State.text_risk_score > 60,
+                                    "HIGH RISK: MALICIOUS SMS / MESSAGE THREAT",
+                                    rx.cond(State.text_risk_score > 35, "CAUTION: SUSPICIOUS MESSAGE PATTERN", "SAFE: NO PHISHING THREAT DETECTED (LEGITIMATE)")
+                                ),
+                                font_size={"initial": "15px", "sm": "17px"},
+                                font_weight="800",
+                                color="#FFFFFF",
+                                font_family="'Space Grotesk', sans-serif"
                             ),
-                            font_size="17px",
-                            font_weight="800",
-                            color="#FFFFFF",
-                            font_family="'Space Grotesk', sans-serif"
+                            rx.badge(
+                                "Trained on Modern Fraud SMS Dataset",
+                                color_scheme=rx.cond(State.text_risk_score > 60, "red", rx.cond(State.text_risk_score > 35, "orange", "green")),
+                                variant="solid",
+                                size="1",
+                            ),
+                            spacing="2",
+                            align="center",
+                            wrap="wrap",
                         ),
-                        rx.badge(
-                            "Trained on Modern Fraud SMS Dataset",
-                            color_scheme=rx.cond(State.text_risk_score > 60, "red", rx.cond(State.text_risk_score > 35, "orange", "green")),
-                            variant="solid",
-                            size="1",
+                        rx.text(
+                            f"Threat Probability: {State.text_threat_probability}%  •  Classification: {State.text_scam_type}  •  Severity: {State.text_threat_level}",
+                            font_size="12px",
+                            color="rgba(255,255,255,0.92)",
+                            font_family="'IBM Plex Mono', monospace"
                         ),
-                        spacing="2",
-                        align="center",
-                        wrap="wrap",
+                        spacing="1",
+                        align="start",
                     ),
-                    rx.text(
-                        f"Threat Probability: {State.text_threat_probability}%  •  Classification: {State.text_scam_type}  •  Severity: {State.text_threat_level}",
-                        font_size="12.5px",
-                        color="rgba(255,255,255,0.92)",
-                        font_family="'IBM Plex Mono', monospace"
-                    ),
-                    spacing="1",
-                    align="start",
+                    spacing="3",
+                    align="center",
                 ),
-                rx.spacer(),
                 # Dismiss / Clear Report Button
                 rx.button(
                     rx.hstack(
@@ -846,12 +857,15 @@ def text_analysis_report_card() -> rx.Component:
                     cursor="pointer",
                     on_click=State.clear_text_scan,
                     _hover={"background": "rgba(255,255,255,0.2)"},
+                    width={"initial": "100%", "sm": "auto"},
                 ),
-                spacing="3",
-                align="center",
+                direction={"initial": "column", "sm": "row"},
+                justify="between",
+                align={"initial": "stretch", "sm": "center"},
+                gap="3",
                 width="100%",
             ),
-            padding="16px 20px",
+            padding={"initial": "12px 14px", "sm": "16px 20px"},
             background=rx.cond(
                 State.text_risk_score > 60,
                 "linear-gradient(90deg, #DC2626 0%, #B91C1C 100%)",
@@ -1064,6 +1078,7 @@ def upload_success_toast() -> rx.Component:
                     background="rgba(16, 185, 129, 0.15)",
                     border_radius="50%",
                     border="1px solid rgba(16, 185, 129, 0.4)",
+                    flex_shrink="0",
                 ),
                 rx.vstack(
                     rx.hstack(
@@ -1071,6 +1086,7 @@ def upload_success_toast() -> rx.Component:
                         rx.badge("✓ Ready", color_scheme="green", variant="solid", size="1"),
                         spacing="2",
                         align="center",
+                        wrap="wrap",
                     ),
                     rx.text(State.upload_toast_message, font_size="12px", color="#94A3B8", font_family="'IBM Plex Mono', monospace"),
                     spacing="1",
@@ -1084,6 +1100,7 @@ def upload_success_toast() -> rx.Component:
                     cursor="pointer",
                     _hover={"color": "#FFFFFF"},
                     on_click=State.dismiss_upload_toast,
+                    flex_shrink="0",
                 ),
                 spacing="3",
                 align="center",
@@ -1098,16 +1115,17 @@ def upload_success_toast() -> rx.Component:
                 margin_top="10px",
             ),
             position="fixed",
-            top="32px",
-            right="32px",
+            top={"initial": "16px", "sm": "24px", "md": "32px"},
+            right={"initial": "12px", "sm": "24px", "md": "32px"},
+            left={"initial": "12px", "sm": "auto"},
             z_index="9999",
             background="#0F172A",
             border="1px solid #10B981",
             box_shadow="0 10px 30px -5px rgba(16, 185, 129, 0.4), 0 0 20px rgba(16, 185, 129, 0.25)",
             border_radius="12px",
-            padding="16px 20px",
-            min_width="340px",
-            max_width="480px",
+            padding={"initial": "12px 14px", "sm": "16px 20px"},
+            min_width={"initial": "0px", "sm": "340px"},
+            max_width={"initial": "calc(100vw - 24px)", "sm": "480px"},
             transition="all 0.3s ease-in-out",
         ),
     )
@@ -1138,7 +1156,7 @@ def analysis_panel() -> rx.Component:
                 ),
                 
                 # Tab Switcher: Voice Upload vs Text Input
-                rx.hstack(
+                rx.flex(
                     rx.button(
                         rx.hstack(rx.icon("mic", size=16), rx.text("Voice & Audio Upload"), spacing="2"),
                         size="2",
@@ -1148,6 +1166,7 @@ def analysis_panel() -> rx.Component:
                         on_click=State.set_active_tab("speech"),  # type: ignore
                         cursor="pointer",
                         border_radius="6px",
+                        flex={"initial": "1", "sm": "initial"},
                     ),
                     rx.button(
                         rx.hstack(rx.icon("file-text", size=16), rx.text("SMS & Message Text"), spacing="2"),
@@ -1158,8 +1177,11 @@ def analysis_panel() -> rx.Component:
                         on_click=State.set_active_tab("text"),  # type: ignore
                         cursor="pointer",
                         border_radius="6px",
+                        flex={"initial": "1", "sm": "initial"},
                     ),
-                    spacing="3",
+                    direction={"initial": "column", "xs": "row"},
+                    gap="3",
+                    width={"initial": "100%", "sm": "auto"},
                     margin_bottom="20px",
                 ),
                 
@@ -1231,7 +1253,7 @@ def analysis_panel() -> rx.Component:
                         # Uploaded File Status Confirmation Card (With Remove button that clears audio & report)
                         rx.cond(
                             State.uploaded_filename != "",
-                            rx.hstack(
+                            rx.flex(
                                 rx.hstack(
                                     rx.box(
                                         rx.icon("music", size=22, color="#10B981"),
@@ -1239,16 +1261,17 @@ def analysis_panel() -> rx.Component:
                                         background="rgba(16, 185, 129, 0.15)",
                                         border_radius="8px",
                                         border="1px solid rgba(16, 185, 129, 0.3)",
+                                        flex_shrink="0",
                                     ),
                                     rx.vstack(
                                         rx.hstack(
-                                            rx.text(State.uploaded_filename, font_size="15px", font_weight="700", color="#FFFFFF"),
+                                            rx.text(State.uploaded_filename, font_size="15px", font_weight="700", color="#FFFFFF", word_break="break-all"),
                                             rx.badge("✓ Upload Verified", color_scheme="green", variant="surface", font_weight="600"),
                                             spacing="2",
                                             align="center",
                                             wrap="wrap",
                                         ),
-                                        rx.hstack(
+                                        rx.flex(
                                             rx.text(
                                                 rx.cond(State.uploaded_file_size != "", f"Size: {State.uploaded_file_size}", "Audio File"),
                                                 font_size="12px",
@@ -1256,7 +1279,8 @@ def analysis_panel() -> rx.Component:
                                                 font_family="'IBM Plex Mono', monospace",
                                             ),
                                             rx.text("• Ready for Deep Acoustic & Content Analysis", font_size="12px", color="#38BDF8", font_family="'IBM Plex Mono', monospace"),
-                                            spacing="3",
+                                            direction={"initial": "column", "sm": "row"},
+                                            gap={"initial": "1", "sm": "3"},
                                         ),
                                         spacing="1",
                                         align="start",
@@ -1264,7 +1288,6 @@ def analysis_panel() -> rx.Component:
                                     spacing="3",
                                     align="center",
                                 ),
-                                rx.spacer(),
                                 rx.button(
                                     rx.hstack(
                                         rx.icon("trash-2", size=14),
@@ -1276,19 +1299,23 @@ def analysis_panel() -> rx.Component:
                                     color_scheme="red",
                                     cursor="pointer",
                                     on_click=State.clear_uploaded_file,
+                                    width={"initial": "100%", "sm": "auto"},
                                 ),
+                                direction={"initial": "column", "sm": "row"},
+                                justify="between",
+                                align={"initial": "stretch", "sm": "center"},
+                                gap="3",
                                 width="100%",
-                                padding="14px 18px",
+                                padding={"initial": "12px 14px", "sm": "14px 18px"},
                                 background="linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%)",
                                 border="1px solid rgba(16, 185, 129, 0.4)",
                                 border_radius="10px",
-                                align="center",
                                 margin_top="12px",
                             ),
                         ),
                         
                         # Upload Trigger Button & Status Indicators
-                        rx.hstack(
+                        rx.flex(
                             rx.button(
                                 rx.hstack(
                                     rx.icon("play", size=16),
@@ -1309,6 +1336,7 @@ def analysis_panel() -> rx.Component:
                                 cursor="pointer",
                                 _hover={"opacity": 0.95, "transform": "scale(1.02)"},
                                 transition="all 0.2s ease",
+                                width={"initial": "100%", "sm": "auto"},
                             ),
                             rx.cond(
                                 State.is_analyzing,
@@ -1328,8 +1356,9 @@ def analysis_panel() -> rx.Component:
                                     ),
                                 ),
                             ),
-                            spacing="4",
-                            align="center",
+                            direction={"initial": "column", "sm": "row"},
+                            align={"initial": "stretch", "sm": "center"},
+                            gap="4",
                             width="100%",
                             margin_top="16px",
                         ),
@@ -1393,7 +1422,7 @@ def analysis_panel() -> rx.Component:
                             font_family="'Outfit', sans-serif",
                             _focus={"border": "1px solid #38BDF8"},
                         ),
-                        rx.hstack(
+                        rx.flex(
                             rx.button(
                                 rx.hstack(
                                     rx.icon("search", size=16),
@@ -1409,6 +1438,7 @@ def analysis_panel() -> rx.Component:
                                 on_click=State.run_text_scan,  # type: ignore
                                 cursor="pointer",
                                 _hover={"background": "#1E40AF"},
+                                width={"initial": "100%", "sm": "auto"},
                             ),
                             rx.button(
                                 rx.hstack(
@@ -1421,9 +1451,11 @@ def analysis_panel() -> rx.Component:
                                 color_scheme="red",
                                 cursor="pointer",
                                 on_click=State.clear_text_scan,
+                                width={"initial": "100%", "sm": "auto"},
                             ),
-                            spacing="3",
-                            align="center",
+                            direction={"initial": "column", "sm": "row"},
+                            gap="3",
+                            align={"initial": "stretch", "sm": "center"},
                             width="100%",
                             margin_top="12px",
                         ),

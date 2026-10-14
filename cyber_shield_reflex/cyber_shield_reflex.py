@@ -27,7 +27,7 @@ def index() -> rx.Component:
         background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
         min_height="100vh",
         width="100%",
-        max_width="100%",
+        max_width="100vw",
         overflow_x="hidden",
         box_sizing="border-box",
         font_family="'Outfit', sans-serif",
@@ -45,7 +45,9 @@ def scan_page() -> rx.Component:
         background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
         min_height="100vh",
         width="100%",
+        max_width="100vw",
         overflow_x="hidden",
+        box_sizing="border-box",
         font_family="'Outfit', sans-serif",
         color="#FFFFFF",
     )
@@ -60,8 +62,8 @@ def volunteers_page() -> rx.Component:
         rx.box(
             volunteers_content(),
             width="100%",
-            padding_x={"initial": "16px", "md": "48px"},
-            padding_y="24px",
+            padding_x={"initial": "12px", "sm": "24px", "md": "48px"},
+            padding_y={"initial": "16px", "sm": "24px"},
             flex="1",
         ),
         helpline_ribbon(),
@@ -73,7 +75,9 @@ def volunteers_page() -> rx.Component:
         flex_direction="column",
         justify_content="space-between",
         width="100%",
+        max_width="100vw",
         overflow_x="hidden",
+        box_sizing="border-box",
         font_family="'Outfit', sans-serif",
         color="#FFFFFF",
     )
@@ -89,13 +93,15 @@ def docs_page() -> rx.Component:
         background="linear-gradient(180deg, #0A0F1D 0%, #030712 100%)",
         min_height="100vh",
         width="100%",
+        max_width="100vw",
         overflow_x="hidden",
+        box_sizing="border-box",
         font_family="'Outfit', sans-serif",
         color="#FFFFFF",
     )
 
 
-# App configuration with custom Google Fonts and clean global dark styles
+# App configuration with custom Google Fonts, responsive viewport, and dark styles
 app = rx.App(
     head_components=[
         rx.script(src="/cyberbot_voice.js"),
@@ -121,6 +127,7 @@ app = rx.App(
             "overflow_x": "hidden !important",
             "background_color": "#030712 !important",
             "color": "#FFFFFF !important",
+            "-webkit-text-size-adjust": "100%",
         },
         "::selection": {
             "background": "#2563EB",

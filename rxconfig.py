@@ -11,6 +11,7 @@ config = rx.Config(
                 accent_color="blue",
                 radius="medium",
             )
-        )
+        ),
+        rx.plugins.SitemapPlugin(),
     ],
 )
