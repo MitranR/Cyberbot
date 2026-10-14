@@ -1,0 +1,9 @@
+{
+  "name": "cyber-fraud-shield",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cyber Fraud Shield AI Assistant - Web Platform",
+  "scripts": {
+    "build": "echo 'Static production assets ready in dist/'"
+  }
+}

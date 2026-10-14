@@ -748,3 +748,19 @@ streamlit run src/app.py
 # Footer
 st.markdown("---")
 st.caption("🛡️ Cyber Fraud Shield • Built for HackIndia • Open-Source & Free AI Powered")
+
+# Top-level ASGI/WSGI exports for serverless platform scanners (e.g. Vercel)
+async def app(scope, receive, send):
+    if scope.get("type") == "http":
+        await send({
+            "type": "http.response.start",
+            "status": 200,
+            "headers": [[b"content-type", b"text/plain"]],
+        })
+        await send({
+            "type": "http.response.body",
+            "body": b"Cyber Fraud Shield API is active.",
+        })
+
+application = app
+handler = app

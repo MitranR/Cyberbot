@@ -1,0 +1,7 @@
+# Ignore heavy Python backend files and local tools for Vercel static build
+src/
+cyber_shield_reflex/
+MinGit/
+.venv/
+Dockerfile
+render.yaml
