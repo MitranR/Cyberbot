@@ -5,6 +5,7 @@ from src.agents.speech_agent import SpeechAnalysisAgent
 from src.agents.text_agent import TextScamDetectorAgent
 from src.agents.bot_agent import CyberShieldBotAgent
 from src.database.db_manager import DatabaseManager
+from src.utils.gov_portal_report import generate_gov_complaint_packet
 
 # Initialize backend agents
 db_mgr = DatabaseManager()
@@ -77,6 +78,40 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
     text_warning_signs: List[str] = []
     text_engine_used: str = "NLP Scam Classifier"
 
+    # Official NCRP Government Portal Complaint State (Voice & Audio Scan)
+    gov_voice_category: str = "Online Financial Fraud"
+    gov_voice_subcategory: str = "Phishing / Social Engineering Cyber Fraud"
+    gov_voice_suspect_channel: str = "Voice Call (VoIP / Cellular Audio)"
+    gov_voice_suspect_phone: str = "Caller CLI Spoofed / Hidden VoIP Number"
+    gov_voice_suspect_urls: str = "None detected"
+    gov_voice_impersonated_entity: str = "Unknown / Deceptive Impersonation"
+    gov_voice_legal_sections: List[str] = []
+    gov_voice_evidence_checklist: List[str] = []
+    gov_voice_complaint_draft: str = ""
+
+    # Official NCRP Government Portal Complaint State (SMS & Message Scan)
+    gov_text_category: str = "Online Financial Fraud"
+    gov_text_subcategory: str = "Phishing / Fraudulent SMS"
+    gov_text_suspect_channel: str = "SMS (Short Message Service)"
+    gov_text_suspect_phone: str = "Direct Cellular Sender"
+    gov_text_suspect_header: str = "Standard Header"
+    gov_text_suspect_urls: str = "None detected"
+    gov_text_impersonated_entity: str = "Unknown / Deceptive Impersonation"
+    gov_text_legal_sections: List[str] = []
+    gov_text_evidence_checklist: List[str] = []
+    gov_text_complaint_draft: str = ""
+
+    async def copy_voice_complaint_draft(self):
+        """Copies the official government complaint draft for voice scan to clipboard."""
+        if self.gov_voice_complaint_draft:
+            yield rx.set_clipboard(self.gov_voice_complaint_draft)
+            yield rx.toast.success("Official Government Portal Complaint Draft copied to clipboard! Ready to paste into cybercrime.gov.in", duration=3500)
+
+    async def copy_text_complaint_draft(self):
+        """Copies the official government complaint draft for SMS scan to clipboard."""
+        if self.gov_text_complaint_draft:
+            yield rx.set_clipboard(self.gov_text_complaint_draft)
+            yield rx.toast.success("Official Government Portal Complaint Draft copied to clipboard! Ready to paste into cybercrime.gov.in", duration=3500)
 
     # Complaint Prerequisites & Disclaimer Dialog State
     complaint_modal_open: bool = False
@@ -296,6 +331,9 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.threat_verdict = "SAFE / NON-THREAT"
         self.scam_type = "Legitimate / Non-Threat Call"
         self.actionable_advice = ""
+        self.gov_voice_complaint_draft = ""
+        self.gov_voice_legal_sections = []
+        self.gov_voice_evidence_checklist = []
         return rx.clear_selected_files("audio_upload")
 
     def clear_voice_report(self):
@@ -313,6 +351,9 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
         self.text_actionable_advice = ""
         self.text_matched_tactics = []
         self.text_warning_signs = []
+        self.gov_text_complaint_draft = ""
+        self.gov_text_legal_sections = []
+        self.gov_text_evidence_checklist = []
 
     async def handle_upload(self, files: List[rx.UploadFile] = []):
         """
@@ -410,6 +451,27 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
             self.text_verdict = "UNCERTAIN"  # Caution
         else:
             self.text_verdict = "GENUINE"  # Clean Message
+
+        # Compile official Government Cybercrime Reporting Portal packet
+        gov_packet = generate_gov_complaint_packet(
+            content_text=self.text_scanned_content,
+            channel="text",
+            threat_type=self.text_scam_type,
+            risk_score=self.text_risk_score,
+            threat_probability=self.text_threat_probability,
+            warning_signs=self.text_warning_signs,
+            filename="fraudulent_message.txt"
+        )
+        self.gov_text_category = gov_packet["category"]
+        self.gov_text_subcategory = gov_packet["subcategory"]
+        self.gov_text_suspect_channel = gov_packet["suspect_channel"]
+        self.gov_text_suspect_phone = gov_packet["suspect_phone"]
+        self.gov_text_suspect_header = gov_packet["suspect_header"]
+        self.gov_text_suspect_urls = gov_packet["suspect_urls"]
+        self.gov_text_impersonated_entity = gov_packet["impersonated_entity"]
+        self.gov_text_legal_sections = gov_packet["applicable_sections"]
+        self.gov_text_evidence_checklist = gov_packet["evidence_checklist"]
+        self.gov_text_complaint_draft = gov_packet["portal_draft_text"]
             
         self.is_analyzing = False
         self.text_analysis_done = True
@@ -478,6 +540,26 @@ class State(rx.State):  # type: ignore  # Suppress Pyright rx.State router descr
             self.verdict = "UNCERTAIN"  # Caution / Moderate Risk (Amber Banner)
         else:
             self.verdict = "GENUINE"  # Safe / Clean Voice (Green Banner)
+
+        # Compile official Government Cybercrime Reporting Portal packet
+        gov_packet = generate_gov_complaint_packet(
+            content_text=self.transcription,
+            channel="voice",
+            threat_type=self.scam_type,
+            risk_score=self.overall_voice_risk_score,
+            threat_probability=self.threat_probability,
+            warning_signs=self.warning_signs,
+            filename=self.uploaded_filename
+        )
+        self.gov_voice_category = gov_packet["category"]
+        self.gov_voice_subcategory = gov_packet["subcategory"]
+        self.gov_voice_suspect_channel = gov_packet["suspect_channel"]
+        self.gov_voice_suspect_phone = gov_packet["suspect_phone"]
+        self.gov_voice_suspect_urls = gov_packet["suspect_urls"]
+        self.gov_voice_impersonated_entity = gov_packet["impersonated_entity"]
+        self.gov_voice_legal_sections = gov_packet["applicable_sections"]
+        self.gov_voice_evidence_checklist = gov_packet["evidence_checklist"]
+        self.gov_voice_complaint_draft = gov_packet["portal_draft_text"]
             
         self.voice_analysis_done = True
         self.analysis_done = True

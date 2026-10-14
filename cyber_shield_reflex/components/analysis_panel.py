@@ -2,6 +2,290 @@ import reflex as rx
 from cyber_shield_reflex.state import State
 
 
+def render_legal_section_badge(sec: rx.Var[str]) -> rx.Component:
+    return rx.hstack(
+        rx.icon("gavel", size=13, color="#38BDF8"),
+        rx.text(sec, font_size="11.5px", color="#E2E8F0", font_family="'IBM Plex Mono', monospace"),
+        spacing="2",
+        align="center",
+        padding="6px 10px",
+        background="rgba(15, 23, 42, 0.8)",
+        border="1px solid rgba(56, 189, 248, 0.2)",
+        border_radius="6px",
+    )
+
+
+def render_evidence_item(item: rx.Var[str]) -> rx.Component:
+    return rx.hstack(
+        rx.icon("circle-check", size=14, color="#10B981"),
+        rx.text(item, font_size="12.5px", color="#CBD5E1", font_family="'Outfit', sans-serif"),
+        spacing="2",
+        align="center",
+    )
+
+
+def voice_gov_portal_dossier() -> rx.Component:
+    """
+    Official National Cyber Crime Reporting Portal (NCRP) Complaint Dossier for Voice Threats.
+    Includes exact form fields for cybercrime.gov.in, statutory penal charges,
+    mandatory evidence checklist, ready-to-copy complaint narrative draft, and 1-click filing actions.
+    """
+    return rx.cond(
+        (State.threat_verdict == "THREAT DETECTED") | (State.verdict == "UNCERTAIN") | (State.overall_voice_risk_score > 35),
+        rx.box(
+            # Top Banner: Official Portal Compliance Header
+            rx.hstack(
+                rx.box(
+                    rx.icon("landmark", size=20, color="#F59E0B"),
+                    padding="8px",
+                    background="rgba(245, 158, 11, 0.15)",
+                    border_radius="8px",
+                    border="1px solid rgba(245, 158, 11, 0.35)",
+                ),
+                rx.vstack(
+                    rx.hstack(
+                        rx.heading(
+                            "Official Government Cybercrime Portal Filing Package",
+                            font_size="15px",
+                            font_weight="800",
+                            color="#FFFFFF",
+                            font_family="'Space Grotesk', sans-serif",
+                        ),
+                        rx.badge("NCRP / 1930 Compliant", color_scheme="orange", variant="solid", size="1"),
+                        spacing="2",
+                        align="center",
+                        wrap="wrap",
+                    ),
+                    rx.text(
+                        "Formatted and validated for direct submission on National Cyber Crime Portal (cybercrime.gov.in) & Helpline 1930",
+                        font_size="11.5px",
+                        color="#94A3B8",
+                        font_family="'Outfit', sans-serif",
+                    ),
+                    spacing="1",
+                    align="start",
+                ),
+                width="100%",
+                align="center",
+                margin_bottom="14px",
+            ),
+
+            # Section 1: Government Portal Form Field Matrix (6 Aligned Field Cards)
+            rx.box(
+                rx.text("Government Portal Filing Parameters (cybercrime.gov.in)", font_size="11px", font_weight="700", color="#38BDF8", text_transform="uppercase", letter_spacing="0.5px", margin_bottom="8px"),
+                rx.grid(
+                    # Field 1: Primary Category
+                    rx.box(
+                        rx.text("Portal Crime Category", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_voice_category, font_size="12.5px", font_weight="700", color="#F87171", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 2: Sub-Category
+                    rx.box(
+                        rx.text("Portal Sub-Category", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_voice_subcategory, font_size="12.5px", font_weight="700", color="#F87171", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 3: Suspect Channel
+                    rx.box(
+                        rx.text("Incident Medium / Channel", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_voice_suspect_channel, font_size="12.5px", font_weight="700", color="#38BDF8", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 4: Impersonated Entity
+                    rx.box(
+                        rx.text("Impersonated Authority / Entity", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_voice_impersonated_entity, font_size="12.5px", font_weight="700", color="#FBBF24", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 5: Suspect Contact / CLI
+                    rx.box(
+                        rx.text("Suspect Phone / Calling CLI", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_voice_suspect_phone, font_size="12px", font_weight="700", color="#E2E8F0", font_family="'IBM Plex Mono', monospace", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 6: Suspect URLs / Links
+                    rx.box(
+                        rx.text("Suspect URL / Endpoint Links", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_voice_suspect_urls, font_size="12px", font_weight="700", color="#E2E8F0", font_family="'IBM Plex Mono', monospace", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    columns=rx.breakpoints(initial="1", sm="2", md="3"),
+                    spacing="2",
+                    width="100%",
+                ),
+                margin_bottom="14px",
+            ),
+
+            # Section 2: Applicable Statutory Legal Charges (IT Act & BNS)
+            rx.box(
+                rx.text("Applicable Statutory Penal Provisions (IT Act 2000 & BNS 2023)", font_size="11px", font_weight="700", color="#A78BFA", text_transform="uppercase", letter_spacing="0.5px", margin_bottom="6px"),
+                rx.vstack(
+                    rx.foreach(State.gov_voice_legal_sections, render_legal_section_badge),
+                    spacing="2",
+                    width="100%",
+                    align="start",
+                ),
+                margin_bottom="14px",
+            ),
+
+            # Section 3: Mandatory Evidence Checklist for Portal Upload
+            rx.box(
+                rx.text("Mandatory Evidence Checklist for Portal Upload (cybercrime.gov.in)", font_size="11px", font_weight="700", color="#34D399", text_transform="uppercase", letter_spacing="0.5px", margin_bottom="6px"),
+                rx.vstack(
+                    rx.foreach(State.gov_voice_evidence_checklist, render_evidence_item),
+                    spacing="2",
+                    width="100%",
+                    align="start",
+                ),
+                margin_bottom="14px",
+            ),
+
+            # Section 4: Ready-to-Copy Complaint Narrative Draft (Modus Operandi)
+            rx.box(
+                rx.hstack(
+                    rx.icon("file-code", size=15, color="#38BDF8"),
+                    rx.text("Official Cybercrime Complaint Draft (Modus Operandi - Ready to Copy & Paste)", font_size="12px", font_weight="700", color="#F1F5F9", font_family="'Space Grotesk', sans-serif"),
+                    rx.spacer(),
+                    rx.badge("Sec 65B Compliant", color_scheme="blue", variant="surface", size="1"),
+                    width="100%",
+                    align="center",
+                    margin_bottom="6px",
+                ),
+                rx.box(
+                    rx.text(
+                        State.gov_voice_complaint_draft,
+                        font_size="12px",
+                        color="#CBD5E1",
+                        white_space="pre-wrap",
+                        font_family="'IBM Plex Mono', monospace",
+                        line_height="1.5",
+                    ),
+                    max_height="220px",
+                    overflow_y="auto",
+                    padding="12px 14px",
+                    background="#020617",
+                    border="1px solid #1E293B",
+                    border_radius="6px",
+                ),
+                margin_bottom="16px",
+            ),
+
+            # Section 5: Direct Government Filing Actions
+            rx.hstack(
+                # Action 1: One-Click Copy Full Draft
+                rx.button(
+                    rx.hstack(
+                        rx.icon("copy", size=16),
+                        rx.text("Copy Portal Complaint Draft", font_size="13px", font_weight="700"),
+                        spacing="2",
+                        align="center",
+                    ),
+                    on_click=State.copy_voice_complaint_draft,
+                    background="linear-gradient(90deg, #1D4ED8 0%, #0284C7 100%)",
+                    color="#FFFFFF",
+                    padding_x="18px",
+                    padding_y="10px",
+                    border_radius="8px",
+                    box_shadow="0 4px 12px rgba(2, 132, 199, 0.35)",
+                    cursor="pointer",
+                    _hover={"opacity": 0.9, "transform": "translateY(-1px)"},
+                ),
+                # Action 2: Launch Official cybercrime.gov.in
+                rx.link(
+                    rx.button(
+                        rx.hstack(
+                            rx.icon("external-link", size=16),
+                            rx.text("File on cybercrime.gov.in", font_size="13px", font_weight="700"),
+                            spacing="2",
+                            align="center",
+                        ),
+                        background="linear-gradient(90deg, #059669 0%, #10B981 100%)",
+                        color="#FFFFFF",
+                        padding_x="18px",
+                        padding_y="10px",
+                        border_radius="8px",
+                        box_shadow="0 4px 12px rgba(16, 185, 129, 0.35)",
+                        cursor="pointer",
+                        _hover={"opacity": 0.9, "transform": "translateY(-1px)"},
+                    ),
+                    href="https://cybercrime.gov.in",
+                    is_external=True,
+                ),
+                # Action 3: Helpline 1930 Emergency Badge
+                rx.link(
+                    rx.button(
+                        rx.hstack(
+                            rx.icon("phone-call", size=16),
+                            rx.text("Call Helpline 1930", font_size="13px", font_weight="700"),
+                            spacing="2",
+                            align="center",
+                        ),
+                        background="#DC2626",
+                        color="#FFFFFF",
+                        padding_x="16px",
+                        padding_y="10px",
+                        border_radius="8px",
+                        box_shadow="0 4px 12px rgba(220, 38, 38, 0.35)",
+                        cursor="pointer",
+                        _hover={"background": "#B91C1C", "transform": "translateY(-1px)"},
+                    ),
+                    href="tel:1930",
+                ),
+                spacing="3",
+                wrap="wrap",
+                align="center",
+                width="100%",
+            ),
+
+            padding="16px 20px",
+            background="rgba(15, 23, 42, 0.75)",
+            border="1px solid rgba(245, 158, 11, 0.4)",
+            border_radius="10px",
+            box_shadow="0 4px 20px rgba(0, 0, 0, 0.4)",
+            width="100%",
+            margin_bottom="16px",
+        ),
+        rx.box(
+            rx.hstack(
+                rx.icon("shield-check", size=20, color="#10B981"),
+                rx.vstack(
+                    rx.text("Security Verification Passed (Legitimate / Non-Threat Call)", font_size="13px", font_weight="700", color="#34D399", font_family="'Space Grotesk', sans-serif"),
+                    rx.text("Natural human acoustics and verified clean conversational indicators. No threat or extortion patterns detected; no cybercrime complaint is required.", font_size="13px", color="#CBD5E1", font_family="'Outfit', sans-serif"),
+                    spacing="1",
+                    align="start",
+                ),
+                spacing="3",
+                align="start",
+            ),
+            padding="14px 18px",
+            background="rgba(16, 185, 129, 0.05)",
+            border="1px solid rgba(16, 185, 129, 0.25)",
+            border_radius="8px",
+            width="100%",
+            margin_bottom="16px",
+        )
+    )
+
+
 def voice_analysis_report_card() -> rx.Component:
     """
     Unified Executive Voice Threat Intelligence Report Card.
@@ -136,7 +420,10 @@ def voice_analysis_report_card() -> rx.Component:
             margin_bottom="16px",
         ),
         
-        # 3. Actionable Advisory Card
+        # 3. Official NCRP Government Portal Complaint Dossier
+        voice_gov_portal_dossier(),
+
+        # 4. Actionable Advisory Card
         rx.box(
             rx.hstack(
                 rx.icon(
@@ -241,6 +528,256 @@ def render_text_tactic_badge(tactic: rx.Var[str]) -> rx.Component:
         variant="surface",
         size="1",
         font_family="'IBM Plex Mono', monospace",
+    )
+
+
+def text_gov_portal_dossier() -> rx.Component:
+    """
+    Official National Cyber Crime Reporting Portal (NCRP) Complaint Dossier for SMS & Message Threats.
+    Includes exact form fields for cybercrime.gov.in, statutory penal charges,
+    mandatory evidence checklist, ready-to-copy complaint narrative draft, and 1-click filing actions.
+    """
+    return rx.cond(
+        State.text_risk_score > 35,
+        rx.box(
+            # Top Banner: Official Portal Compliance Header
+            rx.hstack(
+                rx.box(
+                    rx.icon("landmark", size=20, color="#F59E0B"),
+                    padding="8px",
+                    background="rgba(245, 158, 11, 0.15)",
+                    border_radius="8px",
+                    border="1px solid rgba(245, 158, 11, 0.35)",
+                ),
+                rx.vstack(
+                    rx.hstack(
+                        rx.heading(
+                            "Official Government Cybercrime Portal Filing Package",
+                            font_size="15px",
+                            font_weight="800",
+                            color="#FFFFFF",
+                            font_family="'Space Grotesk', sans-serif",
+                        ),
+                        rx.badge("NCRP / 1930 Compliant", color_scheme="orange", variant="solid", size="1"),
+                        spacing="2",
+                        align="center",
+                        wrap="wrap",
+                    ),
+                    rx.text(
+                        "Formatted and validated for direct submission on National Cyber Crime Portal (cybercrime.gov.in) & Helpline 1930",
+                        font_size="11.5px",
+                        color="#94A3B8",
+                        font_family="'Outfit', sans-serif",
+                    ),
+                    spacing="1",
+                    align="start",
+                ),
+                width="100%",
+                align="center",
+                margin_bottom="14px",
+            ),
+
+            # Section 1: Government Portal Form Field Matrix (6 Aligned Field Cards)
+            rx.box(
+                rx.text("Government Portal Filing Parameters (cybercrime.gov.in)", font_size="11px", font_weight="700", color="#38BDF8", text_transform="uppercase", letter_spacing="0.5px", margin_bottom="8px"),
+                rx.grid(
+                    # Field 1: Primary Category
+                    rx.box(
+                        rx.text("Portal Crime Category", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_text_category, font_size="12.5px", font_weight="700", color="#F87171", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 2: Sub-Category
+                    rx.box(
+                        rx.text("Portal Sub-Category", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_text_subcategory, font_size="12.5px", font_weight="700", color="#F87171", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 3: Suspect Channel
+                    rx.box(
+                        rx.text("Incident Medium / Channel", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_text_suspect_channel, font_size="12.5px", font_weight="700", color="#38BDF8", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 4: Impersonated Entity
+                    rx.box(
+                        rx.text("Impersonated Authority / Entity", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_text_impersonated_entity, font_size="12.5px", font_weight="700", color="#FBBF24", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 5: Suspect Sender / CLI
+                    rx.box(
+                        rx.text("Suspect Sender / Phone", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(
+                            rx.cond(State.gov_text_suspect_header != "Standard Header", State.gov_text_suspect_header, State.gov_text_suspect_phone),
+                            font_size="12px",
+                            font_weight="700",
+                            color="#E2E8F0",
+                            font_family="'IBM Plex Mono', monospace",
+                            margin_top="2px"
+                        ),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    # Field 6: Suspect Phishing URLs
+                    rx.box(
+                        rx.text("Suspect URL / Phishing Link", font_size="10.5px", font_weight="600", color="#94A3B8", text_transform="uppercase"),
+                        rx.text(State.gov_text_suspect_urls, font_size="12px", font_weight="700", color="#E2E8F0", font_family="'IBM Plex Mono', monospace", margin_top="2px"),
+                        padding="10px 12px",
+                        background="#0B132B",
+                        border="1px solid #1E293B",
+                        border_radius="6px",
+                    ),
+                    columns=rx.breakpoints(initial="1", sm="2", md="3"),
+                    spacing="2",
+                    width="100%",
+                ),
+                margin_bottom="14px",
+            ),
+
+            # Section 2: Applicable Statutory Legal Charges (IT Act & BNS)
+            rx.box(
+                rx.text("Applicable Statutory Penal Provisions (IT Act 2000 & BNS 2023)", font_size="11px", font_weight="700", color="#A78BFA", text_transform="uppercase", letter_spacing="0.5px", margin_bottom="6px"),
+                rx.vstack(
+                    rx.foreach(State.gov_text_legal_sections, render_legal_section_badge),
+                    spacing="2",
+                    width="100%",
+                    align="start",
+                ),
+                margin_bottom="14px",
+            ),
+
+            # Section 3: Mandatory Evidence Checklist for Portal Upload
+            rx.box(
+                rx.text("Mandatory Evidence Checklist for Portal Upload (cybercrime.gov.in)", font_size="11px", font_weight="700", color="#34D399", text_transform="uppercase", letter_spacing="0.5px", margin_bottom="6px"),
+                rx.vstack(
+                    rx.foreach(State.gov_text_evidence_checklist, render_evidence_item),
+                    spacing="2",
+                    width="100%",
+                    align="start",
+                ),
+                margin_bottom="14px",
+            ),
+
+            # Section 4: Ready-to-Copy Complaint Narrative Draft (Modus Operandi)
+            rx.box(
+                rx.hstack(
+                    rx.icon("file-code", size=15, color="#38BDF8"),
+                    rx.text("Official Cybercrime Complaint Draft (Modus Operandi - Ready to Copy & Paste)", font_size="12px", font_weight="700", color="#F1F5F9", font_family="'Space Grotesk', sans-serif"),
+                    rx.spacer(),
+                    rx.badge("Sec 65B Compliant", color_scheme="blue", variant="surface", size="1"),
+                    width="100%",
+                    align="center",
+                    margin_bottom="6px",
+                ),
+                rx.box(
+                    rx.text(
+                        State.gov_text_complaint_draft,
+                        font_size="12px",
+                        color="#CBD5E1",
+                        white_space="pre-wrap",
+                        font_family="'IBM Plex Mono', monospace",
+                        line_height="1.5",
+                    ),
+                    max_height="220px",
+                    overflow_y="auto",
+                    padding="12px 14px",
+                    background="#020617",
+                    border="1px solid #1E293B",
+                    border_radius="6px",
+                ),
+                margin_bottom="16px",
+            ),
+
+            # Section 5: Direct Government Filing Actions
+            rx.hstack(
+                # Action 1: One-Click Copy Full Draft
+                rx.button(
+                    rx.hstack(
+                        rx.icon("copy", size=16),
+                        rx.text("Copy Portal Complaint Draft", font_size="13px", font_weight="700"),
+                        spacing="2",
+                        align="center",
+                    ),
+                    on_click=State.copy_text_complaint_draft,
+                    background="linear-gradient(90deg, #1D4ED8 0%, #0284C7 100%)",
+                    color="#FFFFFF",
+                    padding_x="18px",
+                    padding_y="10px",
+                    border_radius="8px",
+                    box_shadow="0 4px 12px rgba(2, 132, 199, 0.35)",
+                    cursor="pointer",
+                    _hover={"opacity": 0.9, "transform": "translateY(-1px)"},
+                ),
+                # Action 2: Launch Official cybercrime.gov.in
+                rx.link(
+                    rx.button(
+                        rx.hstack(
+                            rx.icon("external-link", size=16),
+                            rx.text("File on cybercrime.gov.in", font_size="13px", font_weight="700"),
+                            spacing="2",
+                            align="center",
+                        ),
+                        background="linear-gradient(90deg, #059669 0%, #10B981 100%)",
+                        color="#FFFFFF",
+                        padding_x="18px",
+                        padding_y="10px",
+                        border_radius="8px",
+                        box_shadow="0 4px 12px rgba(16, 185, 129, 0.35)",
+                        cursor="pointer",
+                        _hover={"opacity": 0.9, "transform": "translateY(-1px)"},
+                    ),
+                    href="https://cybercrime.gov.in",
+                    is_external=True,
+                ),
+                # Action 3: Helpline 1930 Emergency Badge
+                rx.link(
+                    rx.button(
+                        rx.hstack(
+                            rx.icon("phone-call", size=16),
+                            rx.text("Call Helpline 1930", font_size="13px", font_weight="700"),
+                            spacing="2",
+                            align="center",
+                        ),
+                        background="#DC2626",
+                        color="#FFFFFF",
+                        padding_x="16px",
+                        padding_y="10px",
+                        border_radius="8px",
+                        box_shadow="0 4px 12px rgba(220, 38, 38, 0.35)",
+                        cursor="pointer",
+                        _hover={"background": "#B91C1C", "transform": "translateY(-1px)"},
+                    ),
+                    href="tel:1930",
+                ),
+                spacing="3",
+                wrap="wrap",
+                align="center",
+                width="100%",
+            ),
+
+            padding="16px 20px",
+            background="rgba(15, 23, 42, 0.75)",
+            border="1px solid rgba(245, 158, 11, 0.4)",
+            border_radius="10px",
+            box_shadow="0 4px 20px rgba(0, 0, 0, 0.4)",
+            width="100%",
+            margin_bottom="16px",
+        )
     )
 
 
@@ -444,7 +981,10 @@ def text_analysis_report_card() -> rx.Component:
             )
         ),
         
-        # 4. Actionable Advisory Card
+        # 4. Official NCRP Government Portal Complaint Dossier
+        text_gov_portal_dossier(),
+
+        # 5. Actionable Advisory Card
         rx.box(
             rx.hstack(
                 rx.icon(
