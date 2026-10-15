@@ -117,7 +117,7 @@ def concept_card(title: str, role: str, description: str, key_duties: list[str],
                 rx.vstack(
                     *[
                         rx.hstack(
-                            rx.icon("circle-check", size=15, color=color_accent, style={"flex_shrink": "0"}),
+                            rx.icon("check-circle-2", size=15, color=color_accent, style={"flex_shrink": "0"}),
                             rx.text(
                                 duty,
                                 font_size="12px",
@@ -143,7 +143,7 @@ def concept_card(title: str, role: str, description: str, key_duties: list[str],
             align="start",
             width="100%",
         ),
-        padding={"initial": "16px", "sm": "20px", "md": "24px"},
+        padding="24px",
         background="linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 15, 29, 0.9) 100%)",
         border="1px solid rgba(255, 255, 255, 0.08)",
         border_radius="16px",
@@ -196,7 +196,7 @@ def why_needed_card(number: str, title: str, challenge: str, resolution: str, ic
             # Core Asymmetry / Challenge
             rx.box(
                 rx.hstack(
-                    rx.icon("circle-alert", size=15, color="#F87171", style={"flex_shrink": "0"}),
+                    rx.icon("alert-circle", size=15, color="#F87171", style={"flex_shrink": "0"}),
                     rx.text(
                         "The Threat Reality:",
                         font_size="11px",
@@ -257,7 +257,7 @@ def why_needed_card(number: str, title: str, challenge: str, resolution: str, ic
             align="start",
             width="100%",
         ),
-        padding={"initial": "16px", "sm": "20px", "md": "24px"},
+        padding="24px",
         background="linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(10, 15, 29, 0.85) 100%)",
         border="1px solid rgba(255, 255, 255, 0.08)",
         border_radius="16px",
@@ -400,7 +400,7 @@ def reduction_strategy_card(
             align="start",
             width="100%",
         ),
-        padding={"initial": "16px", "sm": "20px", "md": "24px"},
+        padding="24px",
         background="linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 15, 29, 0.9) 100%)",
         border="1px solid rgba(255, 255, 255, 0.08)",
         border_radius="16px",
@@ -504,7 +504,7 @@ def code_of_conduct_card() -> rx.Component:
             align="start",
             width="100%",
         ),
-        padding={"initial": "16px", "sm": "22px", "md": "28px"},
+        padding="28px",
         background="linear-gradient(135deg, rgba(20, 24, 38, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%)",
         border="1px solid rgba(245, 158, 11, 0.25)",
         border_radius="16px",
@@ -970,7 +970,7 @@ def volunteers_content() -> rx.Component:
                     align="start",
                     width="100%",
                 ),
-                padding={"initial": "16px", "sm": "22px", "md": "28px"},
+                padding="28px",
                 background="linear-gradient(135deg, rgba(30, 58, 138, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%)",
                 border="1px solid rgba(56, 189, 248, 0.3)",
                 border_radius="16px",

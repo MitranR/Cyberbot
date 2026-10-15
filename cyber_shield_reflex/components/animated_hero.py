@@ -191,18 +191,16 @@ def animated_hero() -> rx.Component:
                         border_radius="50%",
                         background="#38BDF8",
                         box_shadow="0 0 10px #38BDF8",
-                        flex_shrink="0",
                     ),
                     rx.text(
                         "AI FRAUD DEFENSE SYSTEM ACTIVE • REAL-TIME PROTECTION",
-                        font_size={"initial": "9px", "xs": "10.5px", "sm": "12px"},
+                        font_size={"initial": "11px", "sm": "12px"},
                         font_weight="700",
-                        letter_spacing={"initial": "0.04em", "sm": "0.1em"},
+                        letter_spacing="0.1em",
                         color="#38BDF8",
                         font_family="'IBM Plex Mono', monospace",
-                        text_align="center",
                     ),
-                    padding_x={"initial": "10px", "sm": "14px"},
+                    padding_x="14px",
                     padding_y="6px",
                     background="rgba(15, 23, 42, 0.85)",
                     border="1px solid rgba(56, 189, 248, 0.35)",
@@ -211,7 +209,6 @@ def animated_hero() -> rx.Component:
                     box_shadow="0 4px 16px rgba(0, 0, 0, 0.5)",
                     align="center",
                     spacing="2",
-                    max_width="94vw",
                     margin_bottom="6px",
                 ),
 
@@ -257,7 +254,7 @@ def animated_hero() -> rx.Component:
                 ),
 
                 # Interactive Call-to-Action Buttons
-                rx.flex(
+                rx.hstack(
                     rx.link(
                         rx.button(
                             rx.hstack(
@@ -276,11 +273,9 @@ def animated_hero() -> rx.Component:
                             cursor="pointer",
                             _hover={"transform": "translateY(-2px)", "box_shadow": "0 8px 28px rgba(56, 189, 248, 0.6)"},
                             transition="all 0.2s ease-in-out",
-                            width={"initial": "100%", "sm": "auto"},
                         ),
                         href="/scan",
                         text_decoration="none",
-                        width={"initial": "100%", "sm": "auto"},
                     ),
 
                     rx.button(
@@ -301,14 +296,11 @@ def animated_hero() -> rx.Component:
                         on_click=State.toggle_bot,  # type: ignore
                         _hover={"background": "#1E293B", "color": "#FFFFFF", "transform": "translateY(-2px)"},
                         transition="all 0.2s ease-in-out",
-                        width={"initial": "100%", "sm": "auto"},
                     ),
-                    direction={"initial": "column", "sm": "row"},
+                    wrap="wrap",
                     justify="center",
-                    align="center",
-                    gap="3",
+                    spacing="3",
                     margin_top="14px",
-                    width={"initial": "100%", "sm": "auto"},
                 ),
 
                 # Live Security Telemetry Cards
@@ -382,7 +374,7 @@ def animated_hero() -> rx.Component:
             width="100%",
             max_width="1200px",
             margin_x="auto",
-            padding_x={"initial": "12px", "sm": "20px", "md": "32px"},
+            padding_x={"initial": "16px", "md": "32px"},
             display="flex",
             justify_content="center",
             align_items="center",
